@@ -1,0 +1,73 @@
+
+  /* Rodapé com mesma cor do topo */
+  .footer {
+    background-color: #243B53;
+    color: white;
+    padding: 60px 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .footer-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  
+  .footer-section {
+    min-width: 200px;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .footer-title {
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 1rem;
+  }
+  
+  .footer-text {
+    font-size: 0.875rem;
+    color: #d1d5db;
+  }
+  
+  .footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-list li {
+    margin-bottom: 8px;
+  }
+  
+  .footer-list a {
+    color: #d1d5db;
+    text-decoration: none;
+  }
+  
+  .footer-list a:hover {
+    text-decoration: underline;
+  }
+  
+.wave-divider {
+  line-height: 0;
+  overflow: hidden;
+  width: 100%; /* Garante que o container da onda ocupe toda a largura */
+}
+
+.wave-divider img {
+  display: block;
+  width: 100%; /* Garante que o SVG se estique horizontalmente */
+  height: 100px; /* Define a altura da onda. Ajuste conforme necessário */
+}
+  

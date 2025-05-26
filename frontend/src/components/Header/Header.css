@@ -1,0 +1,171 @@
+/* Container geral do header */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px; 
+    background-color: #243B53;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 70px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  
+  .logo-container{
+    display: inline-block;
+    overflow: hidden;
+  }
+  /* Logo */
+  .logo {
+    width: 220px;
+    margin-left: 0;
+    margin: 0 auto 1rem auto; /* centraliza e dá espaço abaixo */
+     /* centraliza a imagem dentro da div */
+    
+  }
+  .logo-container img {
+    /* mantém o tamanho da imagem dentro do contêiner */
+    height: auto;
+    transition: transform 0.3s ease;
+  }
+  .logo-container:hover img{
+    transform: scale(1.10);
+  }
+  
+  /* Navegação (links) */
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    margin: 0 auto; /* Centraliza os links de navegação */
+    margin-right: 0;
+    padding-right: 20px;
+    
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    color: #007bff;
+  }
+  
+  /* Botões de autenticação */
+  .auth-buttons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .auth-button {
+    padding: 8px 16px; 
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  /* Botão "Entrar" */
+  .auth-button.login {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    width: 125px;
+    
+  }
+  
+  .auth-button.login:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  /* Botão "Sair" */
+  .auth-button.logout {
+    background-color: #ff4d4d;
+    color: white;
+  }
+  
+  .auth-button.logout:hover {
+    background-color: #e60000;
+    transform: scale(1.05);
+  }
+  
+  /* Ícone hambúrguer */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+ 
+/* Animação do menu */
+.bar.open:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+.bar.open:nth-child(2) {
+  opacity: 0;
+}
+.bar.open:nth-child(3) {
+  transform: rotate(45deg) translate(-5px, -6px);
+}
+
+
+.active-link {
+  border-bottom: 2px solid #2196f3;
+  font-weight: bold;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links,
+  .auth-buttons {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: #243B53;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 999;
+  }
+
+  .nav-links.active,
+  .auth-buttons.active {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 10px 0;
+    font-size: 18px;
+  }
+
+  .auth-buttons {
+    gap: 10px;
+  }
+
+  .auth-button {
+    margin: 5px 20px;
+  }
+}
+

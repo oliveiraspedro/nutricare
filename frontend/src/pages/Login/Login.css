@@ -1,0 +1,112 @@
+/* Remove o botão nativo de mostrar senha no Microsoft Edge e similares */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+/* Remove botão nativo no Safari iOS */
+input[type="password"]::-webkit-contacts-auto-fill-button,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Remove qualquer botão nativo genérico */
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button {
+  display: none;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  height: 48px;
+}
+
+.input-container input {
+  width: 100%;
+  height: 100%;
+  padding: 14px 10px 6px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  background-color: #EAF4FB;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input-container label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #535050;
+  font-size: 15px;
+  pointer-events: none;
+  background: #EAF4FB;
+  padding: 0 4px;
+  transition: 0.3s ease all;
+  z-index: 1;
+}
+
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+  top: 5px;
+  left: 8px;
+  font-size: 12px;
+  color: #3b82f6;
+  background: #EAF4FB;
+  border-radius: 4px;
+  padding: 0 5px;
+}
+
+.input-container input:focus,
+.input-container input:not(:placeholder-shown) {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-color: #3b82f6;
+}
+
+.error {
+  color: #FF6B6B;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: left;
+  display: block;
+}
+
+.tipo {
+  background-color: var(--branco);
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  max-width: 125px;
+  text-align: center;
+  color: var(--azul-escuro);
+  font-weight: bold;
+}
+
+.tipo.ativo {
+  background-color: var(--azul-claro);
+  color: white;
+}
+
+.tipo img {
+  width: auto;
+  height: 45px;
+  margin-bottom: 5px;
+}
+
+.tipo:hover{
+  transform: scale(1.10);
+  transition: transform 0.3s ease;
+}
+
+.forgot-password{
+  margin-top: 5px;
+  font-size: 0.8em;
+  color: white;
+  font-weight: bold;
+}

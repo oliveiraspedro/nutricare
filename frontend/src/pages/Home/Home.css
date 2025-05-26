@@ -1,0 +1,321 @@
+/* RESET E BASE */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  line-height: 1.6;
+  background-color: #eaf4fb;
+  color: #333;
+}
+
+/* ---------------------- */
+/* HOME / CABEÇALHO */
+.home-content {
+  display: block;
+  padding: 4rem 2rem;
+  border-bottom-left-radius: 80px;
+  max-width: 100%;
+  position: relative;
+}
+
+.home-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #1b2d4f;
+  font-weight: bold;
+  text-align: left;
+  margin-left: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.home-content p {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #1b2d4f;
+  text-align: left;
+  margin-left: 2rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.home-content .btn {
+  background-color: #0077cc;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  display: flex;
+  width: 16rem;
+  text-decoration: none;
+  margin-left: 2rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.home-content .btn:hover {
+  transform: scale(1.05);
+  background-color: #0056b3;
+}
+
+.home-content img {
+  width: 250px;
+  border-radius: 20px;
+}
+
+/* Imagem rotacionada no quadrado */
+.square {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background-color: #008fd1;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border-radius: 40px;
+  top: 50%;
+  left: 75%;
+  z-index: 0;
+}
+
+.square img {
+  width: 250px;
+  height: 250px;
+  transform: rotate(-45deg);
+}
+
+/* ---------------------- */
+/* SEÇÃO OFERECEMOS */
+.oferecemos {
+  padding: 40px 2rem 100px;
+  color: #243b53;
+  text-align: center;
+}
+
+.oferecemos h2 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #335d7b;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.oferecemos p {
+  color: #335d7b;
+}
+
+/* ---------------------- */
+/* CONTAINER DE CARDS */
+.card-wrapper {
+  max-width: 1100px;
+  margin: 0 auto 35px;
+  padding: 40px 10px;
+  overflow-x: hidden;
+  min-height: 400px;
+}
+
+/* Lista de cards estilo swiper */
+.card-list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+  scroll-behavior: smooth;
+}
+
+.card-list::-webkit-scrollbar {
+  display: none;
+}
+
+.card-list .card-item {
+  list-style: none;
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+}
+
+/* Card individual */
+.card {
+  background-color: #fff;
+  color: #1b2d4f;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 300px;
+  min-width: 280px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  color: #335d7b;
+}
+
+.card h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
+}
+
+.card img,
+.card .card-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+/* ---------------------- */
+/* SWIPER CUSTOMIZAÇÃO */
+.custom-swiper {
+  width: 100%;
+  margin-top: 20px;
+  position: relative;
+}
+
+.swiper-pagination {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.swiper-pagination-bullet {
+  background-color: #4caf50;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  opacity: 0.7;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #333;
+  transform: scale(1.2);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #4caf50;
+  font-size: 28px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  transition: color 0.3s;
+}
+
+.swiper-button-next {
+  right: -25px;
+}
+
+.swiper-button-prev {
+  left: -25px;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #333;
+}
+
+/* ---------------------- */
+/* FAQ */
+.faq {
+  background-color: #ffffff;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.faq h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.faq-item {
+  margin-top: 1rem;
+  text-align: left;
+  border: 1px solid #dce4ec;
+  border-radius: 8px;
+  background-color: #f9fbfd;
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  padding: 1rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.faq-question:hover {
+  background-color: #e3effa;
+}
+
+.faq-question .arrow {
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.faq-question.open .arrow {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 1rem;
+  background-color: #fff;
+  border-top: 1px solid #dce4ec;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* ---------------------- */
+/* ANIMAÇÃO */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------------- */
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .card-wrapper {
+    margin: 0 10px 25px;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+}

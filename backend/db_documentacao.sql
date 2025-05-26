@@ -1,0 +1,16 @@
+CREATE TABLE nutricionista(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    crm INT(6) NOT NULL, 
+    email VARCHAR(100) NOT NULL,
+    phone INT(9) NOT NULL,
+    pwd VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE paciente(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone INT NOT NULL,
+    pwd VARCHAR(100) NOT NULL
+);

@@ -1,0 +1,128 @@
+.profile-container {
+  min-height: 100vh;
+  background-color: #e6f0fa;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-header {
+  background-color: #243B53;
+  color: white;
+  width: 100%;
+  max-width: 700px;
+  padding: 1.5rem;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-icon {
+  font-size: 2rem;
+}
+
+.profile-card {
+  background: white;
+  width: 100%;
+  max-width: 700px;
+  padding: 1.5rem;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.user-avatar {
+  font-size: 3rem;
+  color: gray;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .input-grupo:nth-child(3) {
+    grid-column: 1;
+  }
+
+  .edit-button-container {
+    grid-column: 1;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+}
+
+.input-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.input-grupo label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+}
+
+.input-wrapper input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  color: #333;
+  font-size: 1rem;
+}
+
+.input-icon {
+  margin-right: 0.5rem;
+  color: #999;
+}
+
+.edit-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.edit-button {
+  background-color: #0284c7;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.edit-button:hover {
+  background-color: #0369a1;
+  transform: scale(1.05);
+}
