@@ -1,18 +1,25 @@
-import './Perfil.css';
-import { useState } from 'react';
-import { FaUserCircle, FaEnvelope, FaPhone, FaLock, FaEdit, FaAppleAlt } from 'react-icons/fa';
+import "./Perfil.css";
+import { useState } from "react";
+import {
+  FaUserCircle,
+  FaEnvelope,
+  FaPhone,
+  FaLock,
+  FaEdit,
+  FaAppleAlt,
+} from "react-icons/fa";
 
 const Perfil = () => {
-  const [email, setEmail] = useState('max@gmail.com');
-  const [telefone, setTelefone] = useState('(11) 98372-04567');
-  const [senha, setSenha] = useState('**********');
+  const [email, setEmail] = useState("max@gmail.com");
+  const [telefone, setTelefone] = useState("(11) 98372-04567");
+  const [senha, setSenha] = useState("**********");
 
   return (
     <div className="profile-container">
       {/* Header */}
       <div className="profile-header">
         <span className="profile-icon">
-          {FaAppleAlt({ className: 'profile-icon' })}
+          {FaAppleAlt({ className: "profile-icon" })}
         </span>
         <div>
           <h1>Meu Perfil</h1>
@@ -49,7 +56,8 @@ const Perfil = () => {
               <FaPhone className="input-icon" />
               <input
                 id="telefone"
-                type="text"
+                type="tel"  
+                placeholder="(11) 99999-9999"
                 value={telefone}
                 onChange={(e) => setTelefone(e.target.value)}
               />

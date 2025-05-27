@@ -45,10 +45,11 @@ const ForgotPassword = () => {
       isDisabled={false}
     >
       <h2>Esqueceu sua Senha?</h2>
-      
+
       <p>Insira o e-mail cadastrado para recuperar a senha</p>
 
       <div className="input-container">
+        <span className="input-icon material-symbols-outlined">mail</span>
         <input
           id="email"
           type="email"

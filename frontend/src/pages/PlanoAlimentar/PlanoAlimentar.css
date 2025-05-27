@@ -1,0 +1,62 @@
+.plano-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.cardapio-box {
+  background-color: #2F4B69;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.cardapio-box input {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.cardapio-info {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.section-box {
+  background-color: #2F4B69;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.section-box button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.save-button {
+  display: block;
+  margin: 30px auto 0;
+  background-color: #0077cc;
+  color: white;
+  font-size: 18px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #005fa3;
+}

@@ -1,0 +1,225 @@
+.app-container {
+  min-height: 100vh;
+  background-color: #1a202c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-family: sans-serif;
+}
+
+.app-container.modal {
+  min-height: unset;
+  background: none;
+  padding: 0;
+}
+
+.app-box {
+  background: linear-gradient(to bottom, #2563eb, #1e40af);
+  border-radius: 24px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.icon {
+  color: white;
+}
+
+.recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.recipe-item {
+  background-color: rgba(30, 64, 175, 0.5);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.recipe-header:hover {
+  background-color: rgba(30, 64, 175, 0.7);
+}
+
+.recipe-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.check-button {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+}
+
+.check-button.checked {
+  background: white;
+  color: #2563eb;
+  border-color: white;
+}
+
+.recipe-name {
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.recipe-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-button:hover {
+  color: #fca5a5;
+}
+
+.expand-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.recipe-details {
+  padding: 0 16px 16px;
+  background-color: rgba(30, 58, 138, 0.5);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+.recipe-sub {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.add-form {
+  background-color: rgba(30, 64, 175, 0.5);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.add-input {
+  width: 100%;
+  background-color: rgba(30, 58, 138, 0.5);
+  color: white;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.add-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.add-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background: white;
+  color: #2563eb;
+}
+
+.btn-primary:hover {
+  background: #f0f0f0;
+}
+
+.btn-secondary {
+  background: rgba(30, 58, 138, 0.5);
+  color: white;
+  border: 1px solid #2563eb;
+}
+
+.btn-secondary:hover {
+  background: rgba(30, 58, 138, 0.7);
+}
+
+.btn-add {
+  width: 100%;
+  background-color: rgba(30, 64, 175, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.btn-add:hover {
+  background-color: rgba(30, 64, 175, 0.7);
+}
+
+.btn-confirm {
+  width: 100%;
+  background-color: #06b6d4;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-confirm:hover {
+  background-color: #22d3ee;
+}
+
+.status {
+  margin-top: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}

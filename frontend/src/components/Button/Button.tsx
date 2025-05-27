@@ -13,6 +13,7 @@ const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   size = "medium",
   icon,
+  className,
   ...props
 }) => {
   return (

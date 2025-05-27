@@ -12,6 +12,7 @@ import Perfil from "./pages/Perfil/Perfil";
 import Dietas from "./pages/Dietas/Dietas";
 import Pacientes from "./pages/Pacientes/Pacientes";
 import PlanoAlimentar from "./pages/PlanoAlimentar/PlanoAlimentar";
+import NutriCareDashboard from "./pages/teste/NutriCareDashboard";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <a href="http://localhost:3000/pacientes">Pacientes</a>
       <a href="http://localhost:3000/perfil">Perfil</a>
       <a href="http://localhost:3000/plano-alimentar">Plano</a>
+      <a href="http://localhost:3000/teste">Teste</a>
       <Router>
         <Header />
         <main className="main-content">
@@ -33,6 +35,7 @@ function App() {
             <Route path="/dietas" element={<Dietas />} />
             <Route path="/pacientes" element={<Pacientes />} />
             <Route path="/plano-alimentar" element={<PlanoAlimentar />} />
+            <Route path="/teste" element={<NutriCareDashboard />} />
           </Routes>
         </main>
         <Footer />

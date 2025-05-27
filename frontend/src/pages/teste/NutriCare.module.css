@@ -1,0 +1,287 @@
+.dashboard {
+  min-height: 100vh;
+  background-color: #EAF4FB;
+  font-family: Arial, sans-serif;
+}
+
+.mainContent {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.patientInfoCard {
+  background-color: #243B53;
+  color: #FFFFFF;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.patientHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.patientTitle {
+  font-weight: bold;
+}
+
+.patientDetails {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.section {
+  background-color: #243B53;
+  color: #FFFFFF;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 18px;
+}
+
+.mealsContainer {
+  background-color: #FFFFFF;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.mealRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.timeInput,
+.foodSelect,
+.addFoodSelect {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.foodSelect {
+  flex: 1;
+  color: #9C9C9C;
+}
+
+.foodSelect option {
+  color: #243B53;
+}
+
+.ratingStars {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.star {
+  color: #FFD700;
+  font-size: 16px;
+}
+
+.addFoodSelect {
+  background-color: #1687C6;
+  color: #FFFFFF;
+  border: none;
+}
+
+.addFoodSelect option {
+  background-color: #FFFFFF;
+  color: #243B53;
+}
+
+.removeButton {
+  background-color: #FF6B6B;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeButton:hover {
+  background-color: #ff5252;
+}
+
+.addMealButton {
+  background-color: #1687C6;
+  color: #FFFFFF;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 1rem;
+}
+
+.addMealButton:hover {
+  background-color: #0f6fa8;
+}
+
+.dietSection {
+  background-color: #243B53;
+  color: #FFFFFF;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.recipesButton {
+  background-color: #1687C6;
+  color: #FFFFFF;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.recipesButton:hover {
+  background-color: #0f6fa8;
+}
+
+.analysis {
+  background-color: #FFFFFF;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.analysisTitle {
+  margin-bottom: 1rem;
+  color: #243B53;
+  font-size: 16px;
+}
+
+.analysisContent {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.table {
+  flex: 1;
+}
+
+.tableHeader {
+  margin-bottom: 1rem;
+  color: #243B53;
+  font-weight: bold;
+}
+
+.tableRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.nutrientName {
+  color: #243B53;
+}
+
+.nutrientValue {
+  background-color: #f0f0f0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  color: #243B53;
+}
+
+.chartContainer {
+  flex: 1;
+  height: 300px;
+  position: relative;
+}
+
+.chartInfo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(36, 59, 83, 0.9);
+  color: #FFFFFF;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 12px;
+  min-width: 120px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.chartInfo h4 {
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.chartInfo p {
+  margin: 0.25rem 0;
+  font-size: 11px;
+}
+
+.saveButton {
+  background-color: #1687C6;
+  color: #FFFFFF;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  margin: 0 auto;
+}
+
+.saveButton:hover {
+  background-color: #0f6fa8;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.modalContent {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.modalClose {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 20px;
+  border: none;
+  background: none;
+  color: #333;
+  cursor: pointer;
+}

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./Pacientes.css";
 
-import ModalAdicionarPaciente from "./Modais/ModalAdicionarPaciente";
-import ModalConfirmarExclusao from "./Modais/ModalConfirmarExclusao";
-import ModalPerfilPaciente from "./Modais/ModalPerfilPaciente";
+import ModalAdicionarPaciente from "../../components/Modais/ModalAdicionarPaciente";
+import ModalConfirmarExclusao from "../../components/Modais/ModalConfirmarExclusao";
+import ModalPerfilPaciente from "../../components/Modais/ModalPerfilPaciente";
 
 import Button from "../../components/Button/Button";
 
@@ -49,7 +49,8 @@ const Pacientes: React.FC = () => {
 
   const [modalAdicionarAberto, setModalAdicionarAberto] = useState(false);
   const [modalExcluirAberto, setModalExcluirAberto] = useState(false);
-  const [pacienteSelecionado, setPacienteSelecionado] = useState<Paciente | null>(null);
+  const [pacienteSelecionado, setPacienteSelecionado] =
+    useState<Paciente | null>(null);
   const [modalPerfilAberto, setModalPerfilAberto] = useState(false);
 
   const handleAbrirModalAdicionar = () => setModalAdicionarAberto(true);
@@ -73,7 +74,7 @@ const Pacientes: React.FC = () => {
 
   const handleConfirmarExclusao = () => {
     if (pacienteSelecionado) {
-      setPacientes(pacientes.filter(p => p.id !== pacienteSelecionado.id));
+      setPacientes(pacientes.filter((p) => p.id !== pacienteSelecionado.id));
     }
     setModalExcluirAberto(false);
     setPacienteSelecionado(null);
@@ -93,8 +94,16 @@ const Pacientes: React.FC = () => {
     <div className="seus-pacientes-container">
       <div className="seus-pacientes-header">
         <p>Seus Pacientes</p>
-        <button className="add-paciente-button" onClick={handleAbrirModalAdicionar}>
-          <span className="material-symbols-outlined">person_add</span>
+        <button
+          className="add-paciente-button"
+          onClick={handleAbrirModalAdicionar}
+        >
+          <span
+            className="material-symbols-outlined"
+            style={{ color: "white" }}
+          >
+            person_add{" "}
+          </span>
           Adicionar Paciente
         </button>
       </div>
@@ -107,7 +116,10 @@ const Pacientes: React.FC = () => {
             onClick={() => handleAbrirPerfilPaciente(paciente)}
           >
             <div className="paciente-info">
-              <span className="material-symbols-outlined" style={{ color: "white" }}>
+              <span
+                className="material-symbols-outlined"
+                style={{ color: "white" }}
+              >
                 account_circle
               </span>
               <span className="paciente-nome">{paciente.nome}</span>

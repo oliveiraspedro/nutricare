@@ -1,6 +1,6 @@
 import React from "react";
 import "./ModalPerfilPaciente.css";
-import Button from "../../../components/Button/Button";
+import Button from "../Button/Button";
 
 interface Paciente {
   nome: string;
