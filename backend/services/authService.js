@@ -36,11 +36,11 @@ async function pacienteRegister(name, email, phone, password){
     }
 
     // Criar Hash da senha
-    const salt = await bycript.genSalt(10)
-    const password_hash = await bycrypt.hash(password. salt)
+    const salt = await bycrypt.genSalt(10)
+    const password_hash = await bycrypt.hash(password, salt)
 
     // Criar paciente no banco de dados
-    const newPaciente = { name, email, phone, crm, password_hash}
+    const newPaciente = { name, email, phone, password_hash}
     const createPaciente = await pacienteRepostory.createPaciente(newPaciente)
 
     return {

@@ -22,12 +22,15 @@ const Register: React.FC = () => {
 
   // Estados dos Tipos de Usuários
   type AccountUser = "medico" | "paciente";
-  const [type, setType] = useState<AccountUser>("medico");
+  const [accountType, setAccountType] = useState<AccountUser>("medico");
 
   // Validação
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [fullNameError, setFullNameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [crmError, setCrmError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
 
   // Funções de validação
@@ -40,6 +43,8 @@ const Register: React.FC = () => {
     const emailValid = validateEmail(email);
     const passwordValid = validatePassword(password);
     const passwordsMatch = password === confirmPassword;
+    const fullNameFilled = fullName.trim() !== "";
+    const phoneFilled = phone.trim() !== "";
 
     setEmailError(emailValid || email === "" ? "" : "Digite um e-mail válido.");
     setPasswordError(
@@ -51,59 +56,150 @@ const Register: React.FC = () => {
       passwordsMatch || confirmPassword === "" ? "" : "As senhas não coincidem."
     );
 
-    setIsFormValid(
-      emailValid &&
-        passwordValid &&
-        passwordsMatch &&
-        fullName.trim() !== "" &&
-        phone.trim() !== ""
+    setFullNameError(
+      fullNameFilled || fullName === "" ? "" : "O nome completo é obrigatório."
     );
-  }, [email, password, confirmPassword, fullName, phone]);
+    setPhoneError(
+      phoneFilled || phone === "" ? "" : "O telefone é obrigatório."
+    );
+
+    let crmFilled = true;
+    if (accountType === "medico") {
+      crmFilled = crm.trim() !== "";
+      setCrmError(
+        crmFilled || crm === "" ? "" : "O CRM é obrigatório para médicos."
+      );
+    } else {
+      setCrmError("");
+    }
+
+    let formIsValid =
+      emailValid &&
+      passwordValid &&
+      passwordsMatch &&
+      fullNameFilled &&
+      phoneFilled;
+
+    if (accountType === "medico") {
+      formIsValid = formIsValid && crmFilled;
+    }
+
+    setIsFormValid(formIsValid);
+  }, [email, password, confirmPassword, fullName, phone, crm, accountType]);
 
   // Enviar cadastro
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    setEmailError(validateEmail(email) ? "" : "Digite um e-mail válido.");
+    setPasswordError(
+      validatePassword(password)
+        ? ""
+        : "A senha deve ter pelo menos 6 caracteres."
+    );
+    setConfirmPasswordError(
+      password === confirmPassword ? "" : "As senhas não coincidem."
+    );
+
+    console.log("Validando campos antes de enviar...");
     if (!isFormValid) {
+      console.log("Formulário inválido");
       alert("Por favor, preencha todos os campos corretamente.");
       return;
     }
 
-    const newUser = {
-      name: fullName,
-      email: email,
-      phone: phone, 
-      password: password,
-    };
+    if (accountType === "paciente") {
+      const newPaciente = {
+        name: fullName,
+        email: email,
+        phone: phone,
+        password: password,
+      };
 
-    try {
-      const response = await fetch("http://localhost:8080/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/register/paciente",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newPaciente),
+          }
+        );
 
-      if (!response.ok) {
-        throw new Error("Erro ao cadastrar usuário");
+        const result = await response.json();
+
+        if (response.ok) {
+          console.log("Paciente cadastrado com sucesso:", result);
+          alert("Paciente cadastrado com sucesso!");
+        } else {
+          console.error("Erro ao cadastrar paciente:", result);
+          alert(
+            result.message || "Erro ao cadastrar paciente. Tente novamente."
+          );
+          return;
+        }
+
+        // Limpar campos
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setFullName("");
+        setPhone("");
+
+        // Redirecionar para login
+        navigate("/login");
+      } catch (error) {
+        console.error("Erro no cadastro:", error);
+        alert("Erro ao cadastrar. Tente novamente.");
       }
+    } else if (accountType === "medico") {
+      const newMedico = {
+        name: fullName,
+        email: email,
+        phone: phone,
+        password: password,
+        crm: crm,
+      };
 
-      const result = await response.json();
-      alert("Usuário cadastrado com sucesso!");
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/register/medico",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newMedico),
+          }
+        );
 
-      // Limpar campos
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      setFullName("");
-      setPhone("");
+        const result = await response.json();
 
-      // Redirecionar para login
-      navigate("/login");
-    } catch (error) {
-      console.error("Erro no cadastro:", error);
-      alert("Erro ao cadastrar. Tente novamente.");
+        if (response.ok) {
+          console.log("Médico cadastrado com sucesso:", result);
+          alert("Médico cadastrado com sucesso!");
+        } else {
+          console.error("Erro ao cadastrar médico:", result);
+          alert(result.message || "Erro ao cadastrar médico. Tente novamente.");
+          return;
+        }
+
+        // Limpar campos
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setFullName("");
+        setPhone("");
+        setCrm("");
+
+        // Redirecionar para login
+        navigate("/login");
+      } catch (error) {
+        console.error("Erro no cadastro:", error);
+        alert("Erro ao cadastrar. Tente novamente.");
+      }
     }
   };
 
@@ -121,15 +217,15 @@ const Register: React.FC = () => {
 
       <div className="tipo-conta">
         <div
-          onClick={() => setType("medico")}
-          className={type === "medico" ? "tipo ativo" : "tipo"}
+          onClick={() => setAccountType("medico")}
+          className={accountType === "medico" ? "tipo ativo" : "tipo"}
         >
           <img src={medicoicon} alt="Médico" />
           <span>Médico</span>
         </div>
         <div
-          onClick={() => setType("paciente")}
-          className={type === "paciente" ? "tipo ativo" : "tipo"}
+          onClick={() => setAccountType("paciente")}
+          className={accountType === "paciente" ? "tipo ativo" : "tipo"}
         >
           <img src={pacienteicon} alt="Paciente" />
           <span>Paciente</span>
@@ -180,21 +276,21 @@ const Register: React.FC = () => {
       </div>
 
       {/* CRM */}
-      <div
-        style={type === "paciente" ? { display: "none" } : { display: "flex" }}
-        className="input-container"
-      >
-        <span className="material-symbols-outlined input-icon">badge</span>
-        <input
-          id="crm"
-          type="text"
-          placeholder=" "
-          value={crm}
-          onChange={(e) => setCrm(e.target.value)}
-          required
-        />
-        <label htmlFor="crm">CRM</label>
-      </div>
+
+      {accountType === "medico" && (
+        <div style={{ display: "flex" }} className="input-container">
+          <span className="material-symbols-outlined input-icon">badge</span>
+          <input
+            id="crm"
+            type="text"
+            placeholder=" "
+            value={crm}
+            onChange={(e) => setCrm(e.target.value)}
+            required
+          />
+          <label htmlFor="crm">CRM</label>
+        </div>
+      )}
 
       {/* Senha */}
       <div className="input-container">

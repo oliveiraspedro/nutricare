@@ -24,7 +24,7 @@ async function pacienteRegister(req, res){
     }
 
     try {
-        const newPaciente = await authService.medicoRegister(name, email, phone, password);
+        const newPaciente = await authService.pacienteRegister(name, email, phone, password);
         res.status(201).json({ message: 'Paciente registrado com sucesso!', user: newPaciente });
     } catch (error) {
         console.error('Erro no AuthController.pacienteRegister:', error);
