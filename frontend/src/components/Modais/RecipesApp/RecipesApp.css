@@ -15,7 +15,7 @@
 }
 
 .app-box {
-  background: linear-gradient(to bottom, #2563eb, #1e40af);
+  background: linear-gradient(to bottom, #007bff, #007bff);
   border-radius: 24px;
   padding: 24px;
   width: 100%;
@@ -205,7 +205,7 @@
 
 .btn-confirm {
   width: 100%;
-  background-color: #06b6d4;
+  background-color: #243B53;
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -214,7 +214,7 @@
 }
 
 .btn-confirm:hover {
-  background-color: #22d3ee;
+  background-color: #1a2b3d;
 }
 
 .status {
