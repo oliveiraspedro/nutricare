@@ -3,12 +3,12 @@ import './RecipesApp.css';
 
 const RecipesApp = () => {
   const [recipes, setRecipes] = useState([
-    { id: 1, name: 'Almôndegas de grão-de-bico', expanded: false, attached: true },
-    { id: 2, name: 'Arroz ao forno com espinafre', expanded: false, attached: true },
-    { id: 3, name: 'Assado ao alecrim', expanded: false, attached: true },
-    { id: 4, name: 'Atum selado na crosta de gergelim', expanded: false, attached: true },
-    { id: 5, name: 'Bacalhoada', expanded: false, attached: true },
-    { id: 6, name: 'Badejo com tomate e alho-poró', expanded: false, attached: true }
+    { id: 1, name: 'Almôndegas de grão-de-bico', expanded: false, attached: false },
+    { id: 2, name: 'Arroz ao forno com espinafre', expanded: false, attached: false },
+    { id: 3, name: 'Assado ao alecrim', expanded: false, attached: false },
+    { id: 4, name: 'Atum selado na crosta de gergelim', expanded: false, attached: false },
+    { id: 5, name: 'Bacalhoada', expanded: false, attached: false },
+    { id: 6, name: 'Badejo com tomate e alho-poró', expanded: false, attached: false }
   ]);
 
   const [newRecipe, setNewRecipe] = useState('');
@@ -56,47 +56,48 @@ const RecipesApp = () => {
         </div>
 
         {/* Recipes List */}
-        <div className="recipe-list">
-          {recipes.map((recipe) => (
-            <div key={recipe.id} className="recipe-item">
-              <div className="recipe-header" onClick={() => toggleRecipe(recipe.id)}>
-                <div className="recipe-left">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleAttached(recipe.id);
-                    }}
-                    className={`check-button ${recipe.attached ? 'checked' : ''}`}
-                  >
-                    {recipe.attached && <span className="material-symbols-outlined">check</span>}
-                  </button>
-                  <span className="recipe-name">{recipe.name}</span>
-                </div>
-                <div className="recipe-right">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeRecipe(recipe.id);
-                    }}
-                    className="close-button"
-                  >
-                    <span className="material-symbols-outlined">close</span>
-                  </button>
-                  <span className="material-symbols-outlined expand-icon">
-                    {recipe.expanded ? 'expand_less' : 'expand_more'}
-                  </span>
-                </div>
-              </div>
-
-              {recipe.expanded && (
-                <div className="recipe-details">
-                  <p>Detalhes da receita "{recipe.name}" apareceriam aqui.</p>
-                  <p className="recipe-sub">Ingredientes, modo de preparo, tempo de cozimento, etc.</p>
-                </div>
-              )}
-            </div>
-          ))}
+<div className="recipe-list">
+  {recipes.map((recipe) => (
+    <div key={recipe.id} className="recipe-item">
+      <div className="recipe-header" onClick={() => toggleRecipe(recipe.id)}>
+        <div className="recipe-left">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleAttached(recipe.id);
+            }}
+            className={`check-button ${recipe.attached ? 'checked' : ''}`}
+          >
+            {recipe.attached && <span className="material-symbols-outlined">check</span>}
+          </button>
+          <span className="recipe-name">{recipe.name}</span>
         </div>
+        <div className="recipe-right">
+          <span className="material-symbols-outlined expand-icon">
+            {recipe.expanded ? 'expand_less' : 'expand_more'}
+          </span>
+        </div>
+      </div>
+
+      {recipe.expanded && (
+        <div className="recipe-details">
+          <p>Detalhes da receita "{recipe.name}" apareceriam aqui.</p>
+          <p className="recipe-sub">Ingredientes, modo de preparo, tempo de cozimento, etc.</p>
+          
+          {/* Delete Button */}
+          <div className="recipe-actions">
+            <button
+              onClick={() => removeRecipe(recipe.id)}
+              className="btn btn-delete"
+            >
+              Remover receita
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  ))}
+</div>
 
         {/* Add New Recipe */}
         {showAddForm ? (

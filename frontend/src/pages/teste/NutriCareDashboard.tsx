@@ -105,6 +105,7 @@ const NutriCareDashboard = () => {
                   <option value="Almoço">Almoço</option>
                   <option value="Jantar">Jantar</option>
                   <option value="Lanche">Lanche</option>
+                  <option value="Ceia">Ceia</option>
                 </select>
 
                 <button

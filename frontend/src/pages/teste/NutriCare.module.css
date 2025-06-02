@@ -1,6 +1,6 @@
 .dashboard {
   min-height: 100vh;
-  background-color: #EAF4FB;
+  background-color: #eaf4fb;
   font-family: Arial, sans-serif;
 }
 
@@ -11,8 +11,8 @@
 }
 
 .patientInfoCard {
-  background-color: #243B53;
-  color: #FFFFFF;
+  background-color: #243b53;
+  color: #ffffff;
   padding: 1rem 1.5rem;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -35,8 +35,8 @@
 }
 
 .section {
-  background-color: #243B53;
-  color: #FFFFFF;
+  background-color: #243b53;
+  color: #ffffff;
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -49,7 +49,7 @@
 }
 
 .mealsContainer {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   padding: 1rem;
   border-radius: 8px;
 }
@@ -73,11 +73,11 @@
 
 .foodSelect {
   flex: 1;
-  color: #9C9C9C;
+  color: #9c9c9c;
 }
 
 .foodSelect option {
-  color: #243B53;
+  color: #243b53;
 }
 
 .ratingStars {
@@ -86,28 +86,47 @@
 }
 
 .star {
-  color: #FFD700;
+  color: #ffd700;
   font-size: 16px;
 }
 
+.addFoodButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.addFoodButton:hover {
+  background-color: #eaeaea;
+}
+
 .addFoodSelect {
-  background-color: #1687C6;
-  color: #FFFFFF;
+  background-color: #1687c6;
+  color: #ffffff;
   border: none;
 }
 
 .addFoodSelect option {
-  background-color: #FFFFFF;
-  color: #243B53;
+  background-color: #ffffff;
+  color: #243b53;
 }
 
 .removeButton {
-  background-color: #FF6B6B;
+  background-color: #ff6b6b;
   border: none;
   padding: 0.5rem;
   border-radius: 4px;
   cursor: pointer;
-  color: #FFFFFF;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,8 +137,8 @@
 }
 
 .addMealButton {
-  background-color: #1687C6;
-  color: #FFFFFF;
+  background-color: #1687c6;
+  color: #ffffff;
   border: none;
   padding: 0.75rem 2rem;
   border-radius: 4px;
@@ -134,8 +153,8 @@
 }
 
 .dietSection {
-  background-color: #243B53;
-  color: #FFFFFF;
+  background-color: #243b53;
+  color: #ffffff;
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -143,8 +162,8 @@
 }
 
 .recipesButton {
-  background-color: #1687C6;
-  color: #FFFFFF;
+  background-color: #1687c6;
+  color: #ffffff;
   border: none;
   padding: 0.5rem 1.5rem;
   border-radius: 4px;
@@ -156,7 +175,7 @@
 }
 
 .analysis {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   padding: 1.5rem;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -164,7 +183,7 @@
 
 .analysisTitle {
   margin-bottom: 1rem;
-  color: #243B53;
+  color: #243b53;
   font-size: 16px;
 }
 
@@ -180,7 +199,7 @@
 
 .tableHeader {
   margin-bottom: 1rem;
-  color: #243B53;
+  color: #243b53;
   font-weight: bold;
 }
 
@@ -193,14 +212,14 @@
 }
 
 .nutrientName {
-  color: #243B53;
+  color: #243b53;
 }
 
 .nutrientValue {
   background-color: #f0f0f0;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  color: #243B53;
+  color: #243b53;
 }
 
 .chartContainer {
@@ -214,12 +233,12 @@
   top: 10px;
   right: 10px;
   background-color: rgba(36, 59, 83, 0.9);
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 0.75rem;
   border-radius: 6px;
   font-size: 12px;
   min-width: 120px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .chartInfo h4 {
@@ -234,8 +253,8 @@
 }
 
 .saveButton {
-  background-color: #1687C6;
-  color: #FFFFFF;
+  background-color: #1687c6;
+  color: #ffffff;
   border: none;
   padding: 1rem 3rem;
   border-radius: 8px;

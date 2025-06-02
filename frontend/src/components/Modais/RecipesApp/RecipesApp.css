@@ -1,21 +1,55 @@
 .app-container {
-  min-height: 100vh;
-  background-color: #1a202c;
+  /*min-height: 100vh;*/
+  background-color: #243B53;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
   font-family: sans-serif;
+  border-radius: 5px;
 }
 
 .app-container.modal {
   min-height: unset;
   background: none;
   padding: 0;
+
+}
+
+.NutriCare_modalContent__xzZ4n {
+   background-color: transparent;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: none;
+    padding: 24px;
+    box-sizing: border-box;
+    overflow: auto;
+    scrollbar-width: none;          /* Firefox */
+    -ms-overflow-style: none;       /* IE 10+ */
+}
+
+.NutriCare_modalClose__A318K {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    font-size: 20px;
+    border: none;
+    background: none;
+    color: #fbfbfb;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.NutriCare_modalClose__A318K:hover{
+  color: #FF6B6B;
 }
 
 .app-box {
-  background: linear-gradient(to bottom, #007bff, #007bff);
+  background: #375372;
   border-radius: 24px;
   padding: 24px;
   width: 100%;
@@ -48,7 +82,7 @@
 }
 
 .recipe-item {
-  background-color: rgba(30, 64, 175, 0.5);
+  background-color: #2F4B69;
   border-radius: 16px;
   overflow: hidden;
 }
@@ -63,7 +97,7 @@
 }
 
 .recipe-header:hover {
-  background-color: rgba(30, 64, 175, 0.7);
+  background-color: #2F4B69;
 }
 
 .recipe-left {
@@ -121,7 +155,6 @@
 
 .recipe-details {
   padding: 0 16px 16px;
-  background-color: rgba(30, 58, 138, 0.5);
   border-radius: 12px;
   color: rgba(255, 255, 255, 0.8);
   font-size: 14px;
@@ -133,7 +166,7 @@
 }
 
 .add-form {
-  background-color: rgba(30, 64, 175, 0.5);
+  background-color: #2F4B69;
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 24px;
@@ -141,9 +174,9 @@
 
 .add-input {
   width: 100%;
-  background-color: rgba(30, 58, 138, 0.5);
+  background-color: #2F4B69;
   color: white;
-  border: 1px solid #2563eb;
+  border: 1px solid #243B53;
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 14px;
@@ -171,7 +204,7 @@
 
 .btn-primary {
   background: white;
-  color: #2563eb;
+  color: #2F4B69;
 }
 
 .btn-primary:hover {
@@ -179,28 +212,34 @@
 }
 
 .btn-secondary {
-  background: rgba(30, 58, 138, 0.5);
+  background: #2F4B69;
   color: white;
-  border: 1px solid #2563eb;
+  border: 1px solid #243B53;
 }
 
 .btn-secondary:hover {
-  background: rgba(30, 58, 138, 0.7);
+  background: #375372;
 }
 
 .btn-add {
   width: 100%;
-  background-color: rgba(30, 64, 175, 0.5);
+  background-color: #243B53;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   margin-bottom: 24px;
+  transition: 0.4s ease;
+}
+
+.btn-add .material-symbols-outlined{
+  color: white;
 }
 
 .btn-add:hover {
-  background-color: rgba(30, 64, 175, 0.7);
+  background-color: #1a2b3d;
+  transition: 0.4s ease;
 }
 
 .btn-confirm {
@@ -214,7 +253,7 @@
 }
 
 .btn-confirm:hover {
-  background-color: #1a2b3d;
+  background-color: #2089C7;
 }
 
 .status {
@@ -222,4 +261,8 @@
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
+}
+
+.recipe-actions{
+  text-align: center;
 }
