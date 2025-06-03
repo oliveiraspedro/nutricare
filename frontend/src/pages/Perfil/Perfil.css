@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1.5rem;
 }
 
 .profile-header {
@@ -29,8 +30,13 @@
   width: 100%;
   max-width: 700px;
   padding: 1.5rem;
-  border-radius: 0 0 10px 10px;
+  border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card:first-of-type {
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 0;
 }
 
 .profile-user {
@@ -125,4 +131,223 @@
 .edit-button:hover {
   background-color: #0369a1;
   transform: scale(1.05);
+}
+
+/* === ESTILOS PARA DADOS ANTROPOMÉTRICOS === */
+
+.antropometric-card {
+  margin-top: 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e6f0fa;
+}
+
+.section-icon {
+  font-size: 2rem;
+  color: #243B53;
+}
+
+.section-header h3 {
+  margin: 0;
+  color: #243B53;
+  font-size: 1.5rem;
+}
+
+.section-header p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.antropometric-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .antropometric-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.input-wrapper.readonly {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.input-wrapper.readonly input {
+  color: #475569;
+  font-weight: 500;
+}
+
+/* IMC Display */
+.imc-display {
+  background: linear-gradient(135deg, #243B53 0%, #334155 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(36, 59, 83, 0.15);
+}
+
+.imc-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.imc-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.imc-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.imc-classification {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.imc-classification.abaixo-do-peso {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.imc-classification.peso-normal {
+  background-color: #10b981;
+  color: white;
+}
+
+.imc-classification.sobrepeso {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.imc-classification.obesidade {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Observações */
+.observacoes-grupo {
+  grid-column: 1 / -1;
+}
+
+.textarea-wrapper {
+  align-items: flex-start;
+  padding-top: 0.75rem;
+}
+
+.textarea-wrapper textarea {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  color: #475569;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: none;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* Mensagem quando não há dados */
+.no-data-message {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #64748b;
+}
+
+.no-data-icon {
+  font-size: 3rem;
+  color: #cbd5e1;
+  margin-bottom: 1rem;
+}
+
+.no-data-message p {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.no-data-message span {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .profile-header {
+    padding: 1rem;
+  }
+
+  .profile-card {
+    padding: 1rem;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .section-icon {
+    font-size: 1.5rem;
+  }
+
+  .imc-info {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .imc-value {
+    font-size: 1.5rem;
+  }
+
+  .antropometric-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 0.5rem;
+  }
+
+  .profile-header {
+    padding: 1rem 0.75rem;
+  }
+
+  .profile-card {
+    padding: 0.75rem;
+  }
+
+  .imc-display {
+    padding: 1rem;
+  }
 }
