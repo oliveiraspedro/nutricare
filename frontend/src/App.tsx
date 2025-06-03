@@ -11,7 +11,7 @@ import NewPassword from "./pages/NewPassword/NewPassword";
 import Perfil from "./pages/Perfil/Perfil";
 import Dietas from "./pages/Dietas/Dietas";
 import Pacientes from "./pages/Pacientes/Pacientes";
-import NutriCareDashboard from "./pages/teste/NutriCareDashboard";
+import NutriCareDashboard from "./pages/Plano/NutriCareDashboard";
 
 function App() {
   return (
