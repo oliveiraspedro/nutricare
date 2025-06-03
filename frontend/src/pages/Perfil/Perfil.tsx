@@ -30,10 +30,10 @@ const Perfil = () => {
 
   // Estados para dados antropométricos
   const [dadosAntropometricos, setDadosAntropometricos] = useState<DadosAntropometricos>({
-    peso: 75.5,
-    altura: 170,
-    circunferencia: 85,
-    dataAvaliacao: "2024-11-15",
+    peso: 61.0,
+    altura: 161,
+    circunferencia: 60,
+    dataAvaliacao: "03-06-2025",
     observacoes: "Paciente apresenta boa evolução no programa nutricional."
   });
 
