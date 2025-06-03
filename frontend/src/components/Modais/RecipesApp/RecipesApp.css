@@ -16,7 +16,7 @@
 
 }
 
-.NutriCare_modalContent__xzZ4n {
+[class*="NutriCare_modalContent__" ]{
    background-color: transparent;
     border-radius: 12px;
     width: 100%;
@@ -32,7 +32,7 @@
     -ms-overflow-style: none;       /* IE 10+ */
 }
 
-.NutriCare_modalClose__A318K {
+[class*="NutriCare_modalClose__" ] {
     position: absolute;
     top: 30px;
     right: 40px;
@@ -44,7 +44,7 @@
     transition: color 0.2s;
 }
 
-.NutriCare_modalClose__A318K:hover{
+[class*="NutriCare_modalClose__" ]:hover{
   color: #FF6B6B;
 }
 
