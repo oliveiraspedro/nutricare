@@ -24,6 +24,50 @@ const LoginPage = () => {
   type AccountUser = "medico" | "paciente";
   const [accountType, setAccountType] = useState<AccountUser>("medico");
 
+  // Função para formatar o CRM automaticamente
+  const formatCRM = (value: string): string => {
+    // Remove tudo que não for letra ou número
+    const cleaned = value.replace(/[^A-Za-z0-9]/g, '');
+    
+    // Aplica o formato XX-123456 (2 letras + hífen + 6 números)
+    if (cleaned.length <= 2) {
+      return cleaned.toUpperCase();
+    } else if (cleaned.length <= 8) {
+      const letters = cleaned.slice(0, 2).toUpperCase();
+      const numbers = cleaned.slice(2);
+      return `${letters}-${numbers}`;
+    } else {
+      // Limita a 8 caracteres no total (2 letras + 6 números)
+      const letters = cleaned.slice(0, 2).toUpperCase();
+      const numbers = cleaned.slice(2, 8);
+      return `${letters}-${numbers}`;
+    }
+  };
+
+  // Função para validar o CRM
+  const validateCRM = (crmValue: string): string => {
+    if (crmValue === "") return "";
+    
+    // Regex para validar formato XX-123456 (2 letras + hífen + 6 números)
+    const crmRegex = /^[A-Z]{2}-\d{6}$/;
+    
+    if (!crmRegex.test(crmValue)) {
+      if (crmValue.length < 9) {
+        return "CRM deve ter o formato UF-000000";
+      } else {
+        return "Formato de CRM inválido. Use UF-000000";
+      }
+    }
+    
+    return "";
+  };
+
+  // Handler para mudança no input do CRM
+  const handleCrmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedValue = formatCRM(e.target.value);
+    setCrm(formattedValue);
+  };
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -95,11 +139,18 @@ const LoginPage = () => {
     );
 
     let crmFilled = true;
+    let crmValido = true;
     if (accountType === "medico") {
       crmFilled = crm.trim() !== "";
-      setCrmError(
-        crmFilled || crm === "" ? "" : "O CRM é obrigatório para médicos."
-      );
+      crmValido = validateCRM(crm) === "";
+      
+      if (crm === "") {
+        setCrmError("");
+      } else if (!crmFilled) {
+        setCrmError("O CRM é obrigatório para médicos.");
+      } else {
+        setCrmError(validateCRM(crm));
+      }
     } else {
       setCrmError("");
     }
@@ -113,7 +164,7 @@ const LoginPage = () => {
     let formIsValid = emailValido && senhaValida;
 
     if (accountType === "medico") {
-      formIsValid = crmFilled && senhaValida;
+      formIsValid = crmFilled && crmValido && senhaValida;
     }
 
     setIsFormValid(formIsValid);
@@ -174,9 +225,10 @@ const LoginPage = () => {
             type="text"
             placeholder=" "
             value={crm}
-            onChange={(e) => setCrm(e.target.value)}
+            onChange={handleCrmChange}
             required
             autoComplete="off"
+            maxLength={9}
           />
           <label htmlFor="crm">CRM</label>
           <div className="error">{crmError || "\u00A0"}</div>
