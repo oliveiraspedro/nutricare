@@ -203,23 +203,24 @@
 }
 
 .btn-primary {
-  background: white;
-  color: #2F4B69;
+  background: #243B53;
+  color: #ffffff;
 }
 
 .btn-primary:hover {
-  background: #f0f0f0;
+  background: #2089C7;
 }
 
 .btn-secondary {
-  background: #2F4B69;
+  background: #243B53;
   color: white;
-  border: 1px solid #243B53;
 }
 
 .btn-secondary:hover {
-  background: #375372;
+  background: #ff4d4d;
 }
+
+
 
 .btn-add {
   width: 100%;
