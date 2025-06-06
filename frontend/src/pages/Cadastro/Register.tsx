@@ -39,12 +39,60 @@ const Register: React.FC = () => {
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePassword = (password: string): boolean => password.length >= 6;
 
+  // Função para formatar o telefone automaticamente
+  const formatPhone = (value: string): string => {
+    // Remove tudo que não for número
+    const cleaned = value.replace(/\D/g, '');
+    
+    // Aplica o formato (XX) XXXXX-XXXX
+    if (cleaned.length <= 2) {
+      return cleaned;
+    } else if (cleaned.length <= 7) {
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2)}`;
+    } else if (cleaned.length <= 11) {
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7)}`;
+    } else {
+      // Limita a 11 dígitos no total (DDD + 9 dígitos)
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7, 11)}`;
+    }
+  };
+
+  // Função para validar o telefone
+  const validatePhone = (phoneValue: string): string => {
+    if (phoneValue === "") return "";
+    
+    // Remove formatação para validar apenas números
+    const numbersOnly = phoneValue.replace(/\D/g, '');
+    
+    // Valida se tem 10 ou 11 dígitos (DDD + 8 ou 9 dígitos)
+    if (numbersOnly.length < 10) {
+      return "Telefone deve ter pelo menos 10 dígitos";
+    } else if (numbersOnly.length > 11) {
+      return "Telefone deve ter no máximo 11 dígitos";
+    }
+    
+    // Valida se o DDD é válido (11 a 99)
+    const ddd = parseInt(numbersOnly.slice(0, 2));
+    if (ddd < 11 || ddd > 99) {
+      return "DDD inválido";
+    }
+    
+    return "";
+  };
+
+  // Handler para mudança no input do telefone
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedValue = formatPhone(e.target.value);
+    setPhone(formattedValue);
+  };
+
   // Validações em tempo real
   useEffect(() => {
     const emailValid = validateEmail(email);
     const passwordValid = validatePassword(password);
     const passwordsMatch = password === confirmPassword;
     const fullNameFilled = fullName.trim() !== "";
+    const phoneValid = validatePhone(phone) === "";
     const phoneFilled = phone.trim() !== "";
 
     setEmailError(emailValid || email === "" ? "" : "Digite um e-mail válido.");
@@ -60,9 +108,13 @@ const Register: React.FC = () => {
     setFullNameError(
       fullNameFilled || fullName === "" ? "" : "O nome completo é obrigatório."
     );
-    setPhoneError(
-      phoneFilled || phone === "" ? "" : "O telefone é obrigatório."
-    );
+    
+    // Validação do telefone
+    if (phone === "") {
+      setPhoneError("");
+    } else {
+      setPhoneError(validatePhone(phone));
+    }
 
     let crmFilled = true;
     let crmValido = true;
@@ -87,10 +139,11 @@ const Register: React.FC = () => {
       passwordValid &&
       passwordsMatch &&
       fullNameFilled &&
-      phoneFilled;
+      phoneFilled &&
+      phoneValid;
 
     if (accountType === "medico") {
-      formIsValid = formIsValid && crmFilled;
+      formIsValid = formIsValid && crmFilled && crmValido;
     }
 
     setIsFormValid(formIsValid);
@@ -161,11 +214,14 @@ const Register: React.FC = () => {
       return;
     }
 
+    // Remove formatação do telefone antes de enviar
+    const cleanPhone = phone.replace(/\D/g, '');
+
     if (accountType === "paciente") {
       const newPaciente = {
         name: fullName,
         email: email,
-        phone: phone,
+        phone: cleanPhone, // Envia apenas números
         password: password,
       };
 
@@ -211,7 +267,7 @@ const Register: React.FC = () => {
       const newMedico = {
         name: fullName,
         email: email,
-        phone: phone,
+        phone: cleanPhone, // Envia apenas números
         password: password,
         crm: crm,
       };
@@ -322,10 +378,12 @@ const Register: React.FC = () => {
           type="text"
           placeholder=" "
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={handlePhoneChange}
           required
+          maxLength={15} // (XX) XXXXX-XXXX = 15 caracteres
         />
         <label htmlFor="phone">Telefone</label>
+        <div className="error">{phoneError || "\u00A0"}</div>
       </div>
 
       {/* Campo de CRM*/}
