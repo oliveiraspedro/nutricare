@@ -27,8 +27,8 @@ const LoginPage = () => {
   // Função para formatar o CRM automaticamente
   const formatCRM = (value: string): string => {
     // Remove tudo que não for letra ou número
-    const cleaned = value.replace(/[^A-Za-z0-9]/g, '');
-    
+    const cleaned = value.replace(/[^A-Za-z0-9]/g, "");
+
     // Aplica o formato XX-123456 (2 letras + hífen + 6 números)
     if (cleaned.length <= 2) {
       return cleaned.toUpperCase();
@@ -47,10 +47,10 @@ const LoginPage = () => {
   // Função para validar o CRM
   const validateCRM = (crmValue: string): string => {
     if (crmValue === "") return "";
-    
+
     // Regex para validar formato XX-123456 (2 letras + hífen + 6 números)
     const crmRegex = /^[A-Z]{2}-\d{6}$/;
-    
+
     if (!crmRegex.test(crmValue)) {
       if (crmValue.length < 9) {
         return "CRM deve ter o formato UF-000000";
@@ -58,7 +58,7 @@ const LoginPage = () => {
         return "Formato de CRM inválido. Use UF-000000";
       }
     }
-    
+
     return "";
   };
 
@@ -90,19 +90,62 @@ const LoginPage = () => {
 
         if (response.ok) {
           console.log("Login efetuado com sucesso:", result);
-          alert("Login efetuado com sucesso:");
+          if (result.token) {
+            localStorage.setItem("token", result.token);
+            localStorage.setItem("userType", "medico");
+            localStorage.setItem("crm", result.token.crm);
+            navigate("/pacientes");
+          }
         } else {
           console.error("Erro ao efetuar login", result);
           alert(result.message || "Erro ao efetuar login. Tente novamente.");
           return;
         }
 
-        // Limpar campos
         setCrm("");
         setPassword("");
 
-        // Redirecionar para login
-        //navigate("/login");
+        alert("Login efetuado com sucesso!");
+      } catch (error) {
+        console.error("Erro no cadastro:", error);
+        alert("Erro ao cadastrar. Tente novamente.");
+      }
+    } else {
+      const newPaciente = {
+        email: email,
+        password: password,
+      };
+
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/login/paciente",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newPaciente),
+          }
+        );
+
+        const result = await response.json();
+
+        if (response.ok) {
+          console.log("Login efetuado com sucesso:", result);
+          if (result.token) {
+            localStorage.setItem("token", result.token);
+            localStorage.setItem("userType", "paciente");
+            localStorage.setItem("email", result.token.email);
+            navigate("/perfil");
+          }
+        } else {
+          console.error("Erro ao efetuar login", result);
+          alert(result.message || "Erro ao efetuar login. Tente novamente.");
+          return;
+        }
+
+        setEmail("");
+        setPassword("");
 
         alert("Login efetuado com sucesso!");
       } catch (error) {
@@ -143,7 +186,7 @@ const LoginPage = () => {
     if (accountType === "medico") {
       crmFilled = crm.trim() !== "";
       crmValido = validateCRM(crm) === "";
-      
+
       if (crm === "") {
         setCrmError("");
       } else if (!crmFilled) {
