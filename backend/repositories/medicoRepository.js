@@ -23,7 +23,7 @@ async function findMedicoByCrm(crm){
     let connection = await pool.getConnection();
     try {
         const [rows] = await connection.execute(
-            'SELECT id, name, email, phone, crm FROM nutricionista WHERE crm = ?',
+            'SELECT id, name, email, phone, crm, pwd FROM nutricionista WHERE crm = ?',
             [crm]
         );
         return rows[0] || null;

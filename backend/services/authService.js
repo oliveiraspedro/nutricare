@@ -58,7 +58,7 @@ async function medicoLogin(crm, password){
     }
 
     // Verificar se a senha está correta
-    const isPasswordValid = await bycrypt.compare(password, medico.password_hash);
+    const isPasswordValid = await bycrypt.compare(password, medico.pwd);
     if (!isPasswordValid){
         throw new Error('CRM ou senha inválidos');
     }
