@@ -1,0 +1,238 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Nutricare",
+        "description": "API documentação para o sistema Nutricare",
+        "contact": {
+            "email": "pedro.santosdeoliveira13@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Servidor de desenvolvimento"
+        }
+    ],
+    "paths": {
+        "/api/register/medico": {
+            "post": {
+                "summary": "Registrar médico",
+                "description": "Endpoint para registrar um novo médico.",
+                "tags": ["Médico"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "$ref": "#/components/schemas/Médico"
+                            },
+                            "example": {
+                                "name": "Dr. João Silva",
+                                "email": "dr.joao.silva@example.com",
+                                "phone": 123456789,
+                                "crm": 123456,
+                                "password": "senha123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Médico"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Médico already exist!"
+                    }
+                }
+            }
+        },
+        "/api/register/paciente": {
+            "post": {
+                "summary": "Registrar paciente",
+                "description": "Endpoint para registrar um novo paciente.",
+                "tags": ["Paciente"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Paciente"
+                            },
+                            "example": {
+                                "name": "José Carmino",
+                                "email": "carmino01@example.com",
+                                "phone": 987563546,
+                                "password": "senha123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                "201": {
+                    "description": "Created!",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Paciente"
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Paciente already exist!"
+                }
+            }
+            }
+        },
+        "/api/login/medico": {
+            "post": {
+                "summary": "Login médico",
+                "description": "Endpoint para realizar o login de um médico.",
+                "tags": ["Médico"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Médico"
+                            },
+                            "example": {
+                                "crm": "987653",
+                                "password": "senha123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "CRM e senha são obrigatórios."
+                    },
+                    "401": {
+                        "description": "CRM ou senha inválidos."
+                    },
+                    "200": {
+                        "description": "Login bem-sucedido!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Médico",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Token JWT para autenticação"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login/paciente": {
+            "post": {
+                "summary": "Login paciente",
+                "description": "Endpoint para realizar o login de um paciente.",
+                "tags": ["Paciente"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Paciente"
+                            },
+                            "example": {
+                                "email": "carmino01@example.com",
+                                "password": "senha123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Email e senha são obrigatórios."
+                    },
+                    "401": {
+                        "description": "Email ou senha inválidos."
+                    },
+                    "200": {
+                        "description": "Login bem-sucedido!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Token JWT para autenticação"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Médico": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone": {
+                        "type": "number"
+                    }, 
+                    "crm": {
+                        "type": "number"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password"
+                    }
+                }
+            },
+            "Paciente": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone": {
+                        "type": "number"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

@@ -47,7 +47,7 @@ async function medicoLogin(req, res){
         res.status(200).json({message: 'Login bem-sucedido!', token: token});
     }catch (error){
         console.error('Erro no AuthController.login', error.message)
-        res.status(500).json({error: 'Erro interno no servidor', error: message});
+        res.status(500).json({error: 'Erro interno no servidor', error: error.message});
     }
 }
 
@@ -66,7 +66,7 @@ async function pacienteLogin(req, res){
         res.status(200).json({message: 'Login bem-sucedido!', token: token});
     }catch (error){
         console.error('Erro no AuthController.login', error.message)
-        res.status(500).json({error: 'Erro interno no servidor', error: message});
+        res.status(500).json({error: 'Erro interno no servidor', error: error.message});
     }
 }
 

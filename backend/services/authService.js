@@ -90,7 +90,7 @@ async function pacienteLogin(email, password){
     }
 
     // Verificar se a senha está correta
-    const isPasswordValid = await bycrypt.compare(password, paciente.password_hash);
+    const isPasswordValid = await bycrypt.compare(password, paciente.pwd);
     if (!isPasswordValid){
         throw new Error('Email ou senha inválidos');
     }

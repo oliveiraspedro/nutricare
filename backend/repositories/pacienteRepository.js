@@ -19,7 +19,7 @@ async function findPacienteByEmail(email){
     let connection = await pool.getConnection();
     try {
         const [rows] = await connection.execute(
-            'SELECT id, name, email, phone FROM paciente WHERE email = ?',
+            'SELECT id, name, email, phone, pwd FROM paciente WHERE email = ?',
             [email]
         );
         return rows[0] || null;
