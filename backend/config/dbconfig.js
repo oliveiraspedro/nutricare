@@ -3,7 +3,7 @@ const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'Pedr1nho%JSON', // Definir senha
+    password: '', // Definir senha
     database: 'nutricare_db', // Definir nome do banco de dados
     port: '3307', // Definir porta
     connectionLimit: 10
