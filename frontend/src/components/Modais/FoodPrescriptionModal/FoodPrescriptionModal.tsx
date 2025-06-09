@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./FoodPrescriptionModal.css";
 
 type Food = {
@@ -9,7 +10,7 @@ type Food = {
 interface FoodPrescriptionModalProps {
   foods: Food[];
   onRemove: (id: string) => void;
-  onAdd: (food: Food) => void;  // nova prop para adicionar alimento
+  onAdd: (food: Food) => void;
   onClose: () => void;
 }
 
@@ -23,51 +24,41 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
   const [searchResults, setSearchResults] = useState<Food[]>([]);
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
+  // 1. Busca o token do backend ao abrir o modal
   useEffect(() => {
     const fetchToken = async () => {
-      const clientId = "YOUR_CLIENT_ID";
-      const clientSecret = "YOUR_CLIENT_SECRET";
-
-      const res = await fetch("https://oauth.fatsecret.com/connect/token", {
-        method: "POST",
-        headers: {
-          Authorization: "Basic " + btoa(`${clientId}:${clientSecret}`),
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: "grant_type=client_credentials&scope=basic",
-      });
-
-      const data = await res.json();
-      setAccessToken(data.access_token);
+      try {
+        const response = await axios.get("http://localhost:8080/api/fatsecret/token");
+        setAccessToken(response.data.access_token);
+      } catch (error) {
+        console.error("Erro ao obter token:", error);
+      }
     };
 
     fetchToken();
   }, []);
 
+  // 2. Faz a busca de alimentos chamando o backend
   const handleSearch = async () => {
     if (!searchTerm || !accessToken) return;
 
-    const res = await fetch("https://platform.fatsecret.com/rest/server.api", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        method: "foods.search",
-        format: "json",
-        search_expression: searchTerm,
-      }),
-    });
+    try {
+      const response = await axios.post("http://localhost:8080/api/fatsecret/search", {
+        query: searchTerm,
+        token: accessToken,
+      });
 
-    const data = await res.json();
-    const results: Food[] =
-      data.foods?.food?.map((item: any) => ({
-        id: item.food_id.toString(),
-        name: item.food_name,
-      })) ?? [];
+      const data = response.data;
+      const results: Food[] =
+        data.foods?.food?.map((item: any) => ({
+          id: item.food_id.toString(),
+          name: item.food_name,
+        })) ?? [];
 
-    setSearchResults(results);
+      setSearchResults(results);
+    } catch (error) {
+      console.error("Erro ao buscar alimentos:", error);
+    }
   };
 
   return (
@@ -99,7 +90,7 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
                 <span>{food.name}</span>
                 <button
                   onClick={() => {
-                    onAdd(food);         // chama a prop para adicionar no estado pai
+                    onAdd(food);
                     setSearchResults([]);
                     setSearchTerm("");
                   }}

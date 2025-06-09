@@ -1,16 +1,18 @@
 // src/api/fatsecret.ts
-export async function getFatSecretToken() {
-  const clientId = 'c35c4e743d47433791233bc78b73a727';
-  const clientSecret = 'b889f6ac8ed84d24b3b912deebfab6cf';
-  const response = await fetch('https://oauth.fatsecret.com/connect/token', {
-    method: 'POST',
-    headers: {
-      Authorization: 'Basic ' + btoa(`${clientId}:${clientSecret}`),
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: 'grant_type=client_credentials&scope=basic',
-  });
 
-  const data = await response.json();
-  return data.access_token;
-}
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:8080/api';
+
+export const fetchFatSecretToken = async (): Promise<string> => {
+  const response = await axios.get(`${API_BASE_URL}/fatsecret/token`);
+  return response.data.access_token;
+};
+
+export const searchFoods = async (query: string, token: string) => {
+  const response = await axios.post(`${API_BASE_URL}/fatsecret/search`, {
+    query,
+    token,
+  });
+  return response.data;
+};
