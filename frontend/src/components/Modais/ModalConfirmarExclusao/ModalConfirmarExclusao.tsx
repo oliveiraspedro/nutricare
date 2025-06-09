@@ -1,6 +1,6 @@
 import React from "react";
-import "./Modal.css";
-import Button from "../Button/Button";
+import "./ModalConfirmarExclusao.css";
+import Button from "../../Button/Button";
 
 interface ModalConfirmarExclusaoProps {
   isOpen: boolean;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./Modal.css";
-import Button from "../Button/Button";
+import "./ModalAdicionarPaciente.css";
+import Button from "../../Button/Button";
 
 interface ModalAdicionarPacienteProps {
   isOpen: boolean;

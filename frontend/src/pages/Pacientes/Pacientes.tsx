@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./Pacientes.css";
 
-import ModalAdicionarPaciente from "../../components/Modais/ModalAdicionarPaciente";
-import ModalConfirmarExclusao from "../../components/Modais/ModalConfirmarExclusao";
-import ModalPerfilPaciente from "../../components/Modais/ModalPerfilPaciente";
+import ModalAdicionarPaciente from "../../components/Modais/ModalAdicionarPaciente/ModalAdicionarPaciente";
+import ModalConfirmarExclusao from "../../components/Modais/ModalConfirmarExclusao/ModalConfirmarExclusao";
+import ModalPerfilPaciente from "../../components/Modais/ModalPerfilPaciente/ModalPerfilPaciente";
 
 import Button from "../../components/Button/Button";
 

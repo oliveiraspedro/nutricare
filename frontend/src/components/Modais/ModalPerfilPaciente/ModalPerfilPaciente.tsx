@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./ModalPerfilPaciente.css";
-import Button from "../Button/Button";
+import Button from "../../Button/Button";
 
 interface DadosAntropometricos {
   peso: number | "";

@@ -115,13 +115,13 @@
  
 /* Animação do menu */
 .bar.open:nth-child(1) {
-  transform: rotate(-45deg) translate(-5px, 6px);
+  transform: rotate(-45deg) translate(-5px, 10px);
 }
 .bar.open:nth-child(2) {
   opacity: 0;
 }
 .bar.open:nth-child(3) {
-  transform: rotate(45deg) translate(-5px, -6px);
+  transform: rotate(45deg) translate(-5px, -10px);
 }
 
 

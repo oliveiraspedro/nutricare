@@ -16,12 +16,14 @@ import NutriCareDashboard from "./pages/Plano/NutriCareDashboard";
 function App() {
   return (
     <div className="page-wrapper">
-      Atalho:
-      <a href="http://localhost:3000/pacientes">Pacientes</a>
-      <a href="http://localhost:3000/perfil">Perfil</a>
-      <a href="http://localhost:3000/plano-alimentar">Plano</a>
       <Router>
         <Header />
+        <div style={{display: "flex", gap: "10px"}}>
+          Atalho:
+          <a href="http://localhost:3000/pacientes">Pacientes</a>
+          <a href="http://localhost:3000/perfil">Perfil</a>
+          <a href="http://localhost:3000/plano-alimentar">Plano</a>
+        </div>
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />

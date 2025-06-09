@@ -32,17 +32,23 @@ const Header: React.FC = () => {
   return (
     <header className="header-container">
       <div className="logo-container">
-        <img
-          src={logo}
-          alt="Logo NutriCare"
-          className="logo"
-          style={{
-            width: "13rem",
-            height: "3rem",
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-        />
+        <NavLink
+            to="/"
+            end
+            onClick={() => setMenuOpen(false)}
+        >
+          <img
+            src={logo}
+            alt="Logo NutriCare"
+            className="logo"
+            style={{
+              width: "13rem",
+              height: "3rem",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+          />
+        </NavLink>
       </div>
 
       <div className="hamburger" onClick={toggleMenu}>
