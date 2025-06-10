@@ -201,7 +201,7 @@ const LoginPage = () => {
     setPasswordError(
       senhaValida || password === ""
         ? ""
-        : "A senha deve ter pelo menos 6 caracteres."
+        : "A senha deve ter pelo menos 8 caracteres."
     );
 
     let formIsValid = emailValido && senhaValida;

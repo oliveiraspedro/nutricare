@@ -6,7 +6,7 @@ async function getMedicoById(id){
 }
 
 async function findMedicoByCrm(crm){
-    const medico = await medicoRepository.getMedicoByCrm(crm); 
+    const medico = await medicoRepository.findMedicoByCrm(crm); 
     return medico;
 }
 
@@ -20,6 +20,7 @@ async function getMedicoProfile(id){
     return medicoProfile;
 }
 
+/*
 async function createMedico(userData){
     const { name, email, phone, crm, password } = userData;
 
@@ -53,6 +54,7 @@ async function createMedico(userData){
     const { password: medicoPassword, ...medicoWithoutPassword } = newMedico;
     return medicoWithoutPassword;
 }
+*/
 
 async function getAllPacientes(){
     const pacientes = await medicoRepository.getAllPacientes();
@@ -62,6 +64,5 @@ async function getAllPacientes(){
 module.exports = {
     findMedicoByCrm,
     getMedicoProfile,
-    getAllPacientes,
-    createMedico
+    getAllPacientes
 }

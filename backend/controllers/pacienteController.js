@@ -18,7 +18,7 @@ async function getPacienteById(req, res){
 
 async function getPacienteProfile(req, res){
     try {
-        const { id } = req.user.id;
+        const { id } = req.user.paciente.id;
         const pacienteProfile = await pacienteService.getPacienteProfile(id);
 
         if (!pacienteProfile){

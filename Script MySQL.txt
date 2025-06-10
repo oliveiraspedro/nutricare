@@ -5,9 +5,9 @@ USE nutricare_db;
 CREATE TABLE nutricionista (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    crm VARCHAR(9) NOT NULL, 
-    email VARCHAR(100) NOT NULL,
-    phone VARCHAR(9) NOT NULL,
+    crm VARCHAR(9) NOT NULL UNIQUE, 
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(11) NOT NULL,
     pwd VARCHAR(255) NOT NULL
 );
 
@@ -15,7 +15,7 @@ CREATE TABLE paciente (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(9) NOT NULL,
+    phone VARCHAR(11) NOT NULL,
     pwd VARCHAR(100) NOT NULL
 );
 
@@ -66,22 +66,7 @@ CREATE TABLE avaliacao (
 
 
 INSERT INTO nutricionista (name, crm, email, phone, pwd) VALUES
-('Dra. Mariana Costa', '123456789', 'mariana.costa@nutricare.com', '998877665', 'Senha123!'),
-('Dr. Lucas Almeida', '987654321', 'lucas.almeida@nutricare.com', '997766554', 'Senha456!'),
-('Dra. Fernanda Rocha', '456789123', 'fernanda.rocha@nutricare.com', '996655443', 'Senha789!'),
-('Dr. Rafael Monteiro', '321654987', 'rafael.monteiro@nutricare.com', '995544332', 'NutriRafael!'),
-('Dra. Bianca Lima', '789123456', 'bianca.lima@nutricare.com', '994433221', 'BiaSenha2024'),
 ('Dr. Teste Nutri', '321654988', 'teste@nutri.com', '123456891', 'teste');
 
 INSERT INTO paciente (name, email, phone, pwd) VALUES
-('Carlos Henrique', 'carlos.henrique@gmail.com', '989898989', 'Carlos@2024'),
-('Juliana Mendes', 'juliana.mendes@gmail.com', '978978978', 'Juliana@123'),
-('Renato Silva', 'renato.silva@gmail.com', '967967967', 'Renato_789'),
-('Patrícia Lima', 'patricia.lima@gmail.com', '956956956', 'PLima#321'),
-('André Torres', 'andre.torres@gmail.com', '945945945', 'Torres654!'),
-('Larissa Moreira', 'larissa.moreira@gmail.com', '934934934', 'Larissa2024'),
-('Thiago Pereira', 'thiago.pereira@gmail.com', '923923923', 'TPereira@456'),
-('Camila Azevedo', 'camila.azevedo@gmail.com', '912912912', 'Camila789!'),
-('Vinícius Ramos', 'vinicius.ramos@gmail.com', '901901901', 'VRamos2024'),
-('Isabela Duarte', 'isabela.duarte@gmail.com', '890890890', 'Isabela@321'),
 ('Teste Paciente', 'teste@paciente.com', '123456890', 'teste');

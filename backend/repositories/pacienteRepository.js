@@ -41,7 +41,7 @@ async function createPaciente(newPaciente) {
         
         const [result] = await connection.execute(
             'INSERT INTO paciente (name, email, phone, pwd) VALUES (?, ?, ?, ?)',
-            [newPaciente.name, newPaciente.email, newPaciente.phone, newPaciente.password_hash]
+            [newPaciente.name, newPaciente.email, newPaciente.phone, newPaciente.pwd]
         );
 
         return {

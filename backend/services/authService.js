@@ -1,4 +1,4 @@
-const bycrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const jwttConfig = require('../config/jwtConfig');
 const medicoRepostory = require('../repositories/medicoRepository');
@@ -12,11 +12,11 @@ async function medicoRegister(name, email, phone, crm, password){
     }
 
     // Criar Hash da senha
-    const salt = await bycrypt.genSalt(10)
-    const password_hash = await bycrypt.hash(password, salt)
+    const salt = await bcrypt.genSalt(10)
+    const password_hash = await bcrypt.hash(password, salt)
 
     // Criar médico no banco de dados
-    const newMedico = { name, email, phone, crm, password_hash}
+    const newMedico = { name, email, phone, crm, pwd: password_hash }
     const createMedico = await medicoRepostory.createMedico(newMedico);
 
     return {
@@ -36,11 +36,11 @@ async function pacienteRegister(name, email, phone, password){
     }
 
     // Criar Hash da senha
-    const salt = await bycrypt.genSalt(10)
-    const password_hash = await bycrypt.hash(password, salt)
+    const salt = await bcrypt.genSalt(10)
+    const password_hash = await bcrypt.hash(password, salt)
 
     // Criar paciente no banco de dados
-    const newPaciente = { name, email, phone, password_hash}
+    const newPaciente = { name, email, phone, pwd: password_hash }
     const createPaciente = await pacienteRepostory.createPaciente(newPaciente)
 
     return {
@@ -58,7 +58,7 @@ async function medicoLogin(crm, password){
     }
 
     // Verificar se a senha está correta
-    const isPasswordValid = await bycrypt.compare(password, medico.pwd);
+    const isPasswordValid = await bcrypt.compare(password, medico.pwd);
     if (!isPasswordValid){
         throw new Error('CRM ou senha inválidos');
     }
@@ -90,7 +90,7 @@ async function pacienteLogin(email, password){
     }
 
     // Verificar se a senha está correta
-    const isPasswordValid = await bycrypt.compare(password, paciente.pwd);
+    const isPasswordValid = await bcrypt.compare(password, paciente.pwd);
     if (!isPasswordValid){
         throw new Error('Email ou senha inválidos');
     }
