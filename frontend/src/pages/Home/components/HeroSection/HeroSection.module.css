@@ -1,0 +1,113 @@
+.heroContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background-color: #eaf4fb;
+    border-bottom-left-radius: 80px;
+    min-height: 80vh;
+    justify-content: center;
+    overflow: hidden; /* Garante que nada vaze para fora */
+}
+
+.heroText {
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+.heroText h1 {
+    /* ALTERADO: A fonte agora é fluida, crescendo com a tela até um limite máximo. */
+    font-size: clamp(2.5rem, 5vw, 4rem); 
+    color: #1b2d4f;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.heroText p {
+    /* ALTERADO: O parágrafo também se torna fluido. */
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    color: #1b2d4f;
+    margin-bottom: 2rem;
+    max-width: 50ch; /* Limita a largura do parágrafo para melhor legibilidade */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.heroButton {
+    background-color: #0077cc;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-block;
+}
+
+.heroButton:hover {
+    transform: scale(1.05);
+    background-color: #0056b3;
+}
+
+.heroImageContainer {
+    display: none;
+}
+
+.rotatingSquare {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    background-color: #008fd1;
+    transform: rotate(45deg);
+    border-radius: 40px;
+    transition: transform 1.5s ease-in-out;
+}
+
+.rotatingSquare img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    object-fit: cover;
+    border-radius: 20px;
+    transition: transform 1.5s ease-in-out;
+}
+
+.rotatingSquare:hover {
+    transform: rotate(405deg);
+}
+
+.rotatingSquare:hover img {
+    transform: translate(-50%, -50%) rotate(-405deg);
+}
+
+/* ALTERADO: Media query simplificada, pois clamp() já cuida do tamanho da fonte */
+@media (min-width: 992px) {
+    .heroContainer {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        padding: 5rem;
+    }
+    .heroText {
+        margin-bottom: 0;
+        max-width: 50%; /* Ocupa metade da tela */
+    }
+    .heroText p {
+        margin-left: 0; /* Alinha o parágrafo à esquerda */
+        margin-right: 0;
+    }
+    .heroImageContainer {
+        display: block;
+        width: 45%; /* Define uma largura para o container da imagem */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
