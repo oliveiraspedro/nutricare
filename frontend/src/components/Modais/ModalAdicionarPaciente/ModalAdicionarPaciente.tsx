@@ -27,6 +27,7 @@ const ModalAdicionarPaciente: React.FC<ModalAdicionarPacienteProps> = ({ isOpen,
       setErro("Digite um e-mail válido.");
       return;
     }
+    
 
     setErro("");
     onAdd(email);

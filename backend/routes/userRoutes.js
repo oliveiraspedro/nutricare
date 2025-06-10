@@ -24,6 +24,7 @@ router.post('/fatsecret/search', fatsecretController.searchFoods);
 
 // -------- GET --------S
 router.get('/medico/profile', authMiddleware, medicoController.getMedicoProfile);
+router.get('/medico/pacientes/:email', authMiddleware, medicoController.getPacienteByEmail);
 //router.get('/medico/pacientes', authMiddleware, medicoController.findAllPacientes);
 //router.get('/medico/pacientes/:pacienteId/plano', authMiddleware, medicoController.getPlanoByPaciente);
 

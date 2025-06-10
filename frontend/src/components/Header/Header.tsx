@@ -7,6 +7,7 @@ import logo from "../../assets/img/NutriCare_Logo.webp";
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userType, setUserType] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -14,8 +15,10 @@ const Header: React.FC = () => {
   useEffect(() => {
     // Verifica o estado de autenticação do usuário
     const token = localStorage.getItem("token");
+    const userType = localStorage.getItem("userType");
     if (token) {
       setIsLoggedIn(true);
+      setUserType(userType);
     } else {
       setIsLoggedIn(false);
     }
@@ -25,6 +28,7 @@ const Header: React.FC = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userType");
     localStorage.removeItem("email");
+    localStorage.removeItem("crm");
     setIsLoggedIn(false);
     navigate("/login"); // Redireciona para a página de login após o logout
   };
@@ -32,11 +36,7 @@ const Header: React.FC = () => {
   return (
     <header className="header-container">
       <div className="logo-container">
-        <NavLink
-            to="/"
-            end
-            onClick={() => setMenuOpen(false)}
-        >
+        <NavLink to="/" end onClick={() => setMenuOpen(false)}>
           <img
             src={logo}
             alt="Logo NutriCare"
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
         <div className={`bar ${menuOpen ? "open" : ""}`}></div>
       </div>
 
-      {!isLoggedIn && (
+      {!isLoggedIn ? (
         <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
           <NavLink
             to="/"
@@ -68,18 +68,46 @@ const Header: React.FC = () => {
             Home
           </NavLink>
           <NavLink
-            to="/dietas"
-            onClick={() => setMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active-link" : "")}
-          >
-            Dietas
-          </NavLink>
-          <NavLink
             to="/register"
             onClick={() => setMenuOpen(false)}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Cadastro
+          </NavLink>
+        </nav>
+      ) : (
+        <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
+          <NavLink
+            to="/"
+            end
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            Home
+          </NavLink>
+          {userType === "medico" ? (
+            <NavLink
+              to="/pacientes"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Pacientes
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/dietas"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Dietas
+            </NavLink>
+          )}
+          <NavLink
+            to="/perfil"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            Perfil
           </NavLink>
         </nav>
       )}

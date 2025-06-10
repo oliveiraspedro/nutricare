@@ -93,7 +93,7 @@ const LoginPage = () => {
           if (result.token) {
             localStorage.setItem("token", result.token);
             localStorage.setItem("userType", "medico");
-            localStorage.setItem("crm", result.token.crm);
+            localStorage.setItem("crm", result.token.crm); // TODO: CRM está vindo como undefined, verificar no backend
             navigate("/pacientes");
           }
         } else {
@@ -104,8 +104,6 @@ const LoginPage = () => {
 
         setCrm("");
         setPassword("");
-
-        alert("Login efetuado com sucesso!");
       } catch (error) {
         console.error("Erro no cadastro:", error);
         alert("Erro ao cadastrar. Tente novamente.");

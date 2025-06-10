@@ -37,6 +37,24 @@ async function findMedicoByCrm(crm){
     }
 }
 
+async function getPacienteByEmail(email){
+    let connection = await pool.getConnection();
+    try{
+        const [rows] = await connection.execute(
+            'SELECT name, email, phone FROM paciente WHERE email = ?',
+            [email]
+        );
+        return rows[0] || null;
+    } catch (error) {
+        console.error('Erro no medicoRepository.getPacienteByEmail (via pool):', error);
+        throw error;
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+}
+
 async function getAllPacientes(){}
 
 async function createMedico(newMedico) {
@@ -73,5 +91,6 @@ async function createMedico(newMedico) {
 module.exports = {
     findMedicoById,
     findMedicoByCrm,
+    getPacienteByEmail,
     createMedico
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ModalPerfilPaciente.css";
 import Button from "../../Button/Button";
 
@@ -24,27 +25,35 @@ interface ModalPerfilPacienteProps {
   paciente: Paciente | null;
 }
 
-const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({ 
-  isOpen, 
-  onClose, 
-  paciente 
+const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
+  isOpen,
+  onClose,
+  paciente,
 }) => {
-  const [dadosAntropometricos, setDadosAntropometricos] = useState<DadosAntropometricos>({
-    peso: paciente?.avaliacaoAtual?.peso || "",
-    altura: paciente?.avaliacaoAtual?.altura || "",
-    circunferencia: paciente?.avaliacaoAtual?.circunferencia || "",
-    dataAvaliacao: paciente?.avaliacaoAtual?.dataAvaliacao || new Date().toISOString().split('T')[0],
-    observacoes: paciente?.avaliacaoAtual?.observacoes || ""
-  });
+  const navigate = useNavigate();
+
+  const [dadosAntropometricos, setDadosAntropometricos] =
+    useState<DadosAntropometricos>({
+      peso: paciente?.avaliacaoAtual?.peso || "",
+      altura: paciente?.avaliacaoAtual?.altura || "",
+      circunferencia: paciente?.avaliacaoAtual?.circunferencia || "",
+      dataAvaliacao:
+        paciente?.avaliacaoAtual?.dataAvaliacao ||
+        new Date().toISOString().split("T")[0],
+      observacoes: paciente?.avaliacaoAtual?.observacoes || "",
+    });
 
   const [modoEdicao, setModoEdicao] = useState(false);
 
   if (!isOpen || !paciente) return null;
 
-  const handleInputChange = (field: keyof DadosAntropometricos, value: string | number) => {
-    setDadosAntropometricos(prev => ({
+  const handleInputChange = (
+    field: keyof DadosAntropometricos,
+    value: string | number
+  ) => {
+    setDadosAntropometricos((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -77,7 +86,9 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
   return (
     <div className="modal-overlay">
       <div className="modal perfil-modal">
-        <button className="fechar-x" onClick={onClose}>×</button>
+        <button className="fechar-x" onClick={onClose}>
+          ×
+        </button>
 
         <h2 className="modal-title">
           <span className="material-symbols-outlined">person</span>
@@ -112,7 +123,7 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
         <div className="section-divider">
           <span className="material-symbols-outlined">monitoring</span>
           <h3>Dados Antropométricos</h3>
-          <button 
+          <button
             className="btn-editar-avaliacao"
             onClick={() => setModoEdicao(!modoEdicao)}
           >
@@ -128,8 +139,8 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
           <div className="input-row">
             <div className="input-group">
               <label>Peso (kg)</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 step="0.1"
                 value={dadosAntropometricos.peso}
                 onChange={(e) => handleInputChange("peso", e.target.value)}
@@ -139,8 +150,8 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
             </div>
             <div className="input-group">
               <label>Altura (cm)</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 value={dadosAntropometricos.altura}
                 onChange={(e) => handleInputChange("altura", e.target.value)}
                 disabled={!modoEdicao}
@@ -152,21 +163,25 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
           <div className="input-row">
             <div className="input-group">
               <label>Circunferência da Cintura (cm)</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 step="0.1"
                 value={dadosAntropometricos.circunferencia}
-                onChange={(e) => handleInputChange("circunferencia", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("circunferencia", e.target.value)
+                }
                 disabled={!modoEdicao}
                 placeholder="Ex: 85"
               />
             </div>
             <div className="input-group">
               <label>Data da Avaliação</label>
-              <input 
-                type="date" 
+              <input
+                type="date"
                 value={dadosAntropometricos.dataAvaliacao}
-                onChange={(e) => handleInputChange("dataAvaliacao", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("dataAvaliacao", e.target.value)
+                }
                 disabled={!modoEdicao}
               />
             </div>
@@ -186,7 +201,7 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
 
           <div className="input-group">
             <label>Observações</label>
-            <textarea 
+            <textarea
               value={dadosAntropometricos.observacoes}
               onChange={(e) => handleInputChange("observacoes", e.target.value)}
               disabled={!modoEdicao}
@@ -201,27 +216,26 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
           {modoEdicao && (
             <Button
               label="Salvar Avaliação"
-              
               size="medium"
               icon={<span className="material-symbols-outlined">save</span>}
               onClick={handleSalvarAvaliacao}
             />
           )}
-          
+
           <Button
             label="Adicionar Planejamento"
             variant="primary"
             size="medium"
             icon={<span className="material-symbols-outlined">add</span>}
-            onClick={() => alert("Adicionar planejamento")}
+            onClick={() => navigate("/plano-alimentar")}
           />
-          
+
           <Button
             label="Gerenciar Planejamento"
             variant="secondary"
             size="medium"
             icon={<span className="material-symbols-outlined">edit</span>}
-            onClick={() => alert("Gerenciar planejamento")}
+            onClick={() => navigate("/plano-alimentar")}
           />
         </div>
       </div>

@@ -56,15 +56,37 @@ const Pacientes: React.FC = () => {
   const handleAbrirModalAdicionar = () => setModalAdicionarAberto(true);
   const handleFecharModalAdicionar = () => setModalAdicionarAberto(false);
 
-  const handleAdicionarPaciente = (email: string) => {
-    const novoPaciente: Paciente = {
-      id: pacientes.length + 1,
-      nome: email, // por enquanto usamos o email como nome
-      email,
-      telefone: "Não informado",
-      dataNascimento: "Não informado",
-    };
-    setPacientes([...pacientes, novoPaciente]);
+  const handleAdicionarPaciente = async (email: string) => {
+    try {
+      console.log("Adicionando paciente com email:", email);
+      const response = await fetch(
+        `http://localhost:8080/api/medico/pacientes/${email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Erro ao adicionar paciente");
+      }
+
+      const novoPaciente: Paciente = {
+        id: pacientes.length + 1,
+        nome: result.name, // por enquanto usamos o email como nome
+        email: result.email,
+        telefone: result.telefone,
+        dataNascimento: "Não informado",
+      };
+      setPacientes([...pacientes, novoPaciente]);
+    } catch (error) {
+      console.error("Erro ao adicionar paciente:", error);
+    }
   };
 
   const handleAbrirModalExcluir = (paciente: Paciente) => {

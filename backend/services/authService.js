@@ -77,7 +77,7 @@ async function medicoLogin(crm, password){
     const token = jwt.sign(
         payload,
         jwttConfig.secret,
-        {expiresIn: jwttConfig.expiresIn}
+        {expiresIn: '24h'}
     );
 
     return token;
@@ -108,7 +108,7 @@ async function pacienteLogin(email, password){
     const token = jwt.sign(
         payload,
         jwttConfig.secret,
-        {expiresIn: jwttConfig.expiresIn}
+        {expiresIn: '24h'}
     );
 
     return token;

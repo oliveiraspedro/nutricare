@@ -47,6 +47,21 @@ async function getMedicoById(req, res){
     }
 }
 
+async function getPacienteByEmail(req, res){
+    try {
+        const email = req.params.email;
+        console.log('Email recebido no controller: ', email);
+        const paciente = await medicoService.getPacienteByEmail(email);
+        if (!paciente){
+            res.status(404).json({message: 'Paciente não encontrado'});
+        }
+        res.status(200).json({message: 'Paciente encontrado: ', paciente});
+    } catch (error) {
+        console.error('Erro no controller ao buscar paciente por email', error.message);
+        res.status(500).json({error: 'Erro interno no servidor', error: error.message});
+    }
+}
+
 async function getAllPacientes(req, res){
     try {
 
@@ -77,6 +92,7 @@ async function createMedico(req, res){
 module.exports = {
     findMedicoByCrm,
     getMedicoProfile,
+    getPacienteByEmail,
     getAllPacientes,
     createMedico
 }
