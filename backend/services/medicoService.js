@@ -20,7 +20,6 @@ async function getMedicoProfile(id){
     return medicoProfile;
 }
 
-<<<<<<< HEAD
 async function getPacienteByEmail(email){
     const paciente = await medicoRepository.getPacienteByEmail(email);
 
@@ -31,9 +30,6 @@ async function getPacienteByEmail(email){
     return paciente;
 }
 
-=======
-/*
->>>>>>> a49405679f241a24b0cc6f9141ec1f54146a3a90
 async function createMedico(userData){
     const { name, email, phone, crm, password } = userData;
 
@@ -67,7 +63,6 @@ async function createMedico(userData){
     const { password: medicoPassword, ...medicoWithoutPassword } = newMedico;
     return medicoWithoutPassword;
 }
-*/
 
 async function getAllPacientes(){
     const pacientes = await medicoRepository.getAllPacientes();
@@ -77,11 +72,7 @@ async function getAllPacientes(){
 module.exports = {
     findMedicoByCrm,
     getMedicoProfile,
-<<<<<<< HEAD
     getPacienteByEmail,
     getAllPacientes,
     createMedico
-=======
-    getAllPacientes
->>>>>>> a49405679f241a24b0cc6f9141ec1f54146a3a90
 }
