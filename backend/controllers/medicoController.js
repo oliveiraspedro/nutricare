@@ -18,7 +18,7 @@ async function findMedicoByCrm(req, res){
 
 async function getMedicoProfile(req, res){
     try {
-        const { id } = req.user.id;
+        const { id } = req.user.medico.id;
         const medicoProfile = await medicoService.getMedicoProfile(id);
 
         if (!medicoProfile){

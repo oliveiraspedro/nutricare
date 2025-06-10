@@ -25,16 +25,17 @@ async function getDietaById(dietaId){
     return dieta;
 }
 
+/*
 async function createPaciente(userData){
     const { name, email, phone, password } = userData;
     const newPaciente = await pacienteRepository.createPaciente(name, email, phone, password);
     return newPaciente;
 }
+*/
 
 module.exports = {
     getPacienteById,
     getPacienteProfile,
     getPacienteByEmail,
-    getDietaById,
-    createPaciente
+    getDietaById
 }

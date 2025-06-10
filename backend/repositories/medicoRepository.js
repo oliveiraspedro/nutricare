@@ -4,7 +4,7 @@ async function findMedicoById(id){
     let connection = await pool.getConnection();
     try {
         const [rows] = await connection.execute(
-            'SELECT id, name, email, phone, crm FROM medico WHERE id = ?',
+            'SELECT id, name, email, phone, crm FROM nutricionista WHERE id = ?',
             [id]
         );
         
@@ -63,7 +63,7 @@ async function createMedico(newMedico) {
         
         const [result] = await connection.execute(
             'INSERT INTO nutricionista (name, email, phone, crm, pwd) VALUES (?, ?, ?, ?, ?)',
-            [newMedico.name, newMedico.email, newMedico.phone, newMedico.crm, newMedico.password_hash]
+            [newMedico.name, newMedico.email, newMedico.phone, newMedico.crm, newMedico.pwd]
         );
 
         return {
