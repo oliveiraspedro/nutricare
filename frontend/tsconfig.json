@@ -6,6 +6,10 @@
       "dom.iterable",
       "esnext"
     ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types" // Certifique-se de que seu caminho para os tipos está aqui
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,6 +25,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src",
+    "src/**/*.d.ts"
   ]
 }

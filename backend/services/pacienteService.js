@@ -25,17 +25,51 @@ async function getDietaById(dietaId){
     return dieta;
 }
 
-/*
-async function createPaciente(userData){
-    const { name, email, phone, password } = userData;
-    const newPaciente = await pacienteRepository.createPaciente(name, email, phone, password);
-    return newPaciente;
+async function assignExistingPatientToNutricionista(email, medicoId){
+    try {
+        let patient = await pacienteRepository.findPacienteByEmail(email);
+
+        if (!patient) {
+            const error = new Error('Paciente com este email não encontrado.');
+            error.statusCode = 404;
+            throw error;
+            }
+
+            if (patient.id_nutricionista !== null) {
+                if (patient.id_nutricionista === medicoId) {
+                    const error = new Error('Este paciente já está vinculado à sua lista.');
+                    error.statusCode = 409; // Conflict
+                    throw error;
+                } else {
+                    const error = new Error('Este paciente já está vinculado a outro nutricionista.');
+                    error.statusCode = 409; // Conflict
+                    throw error;
+                }
+        }
+
+        // Atualiza o paciente usando o repositório
+        const affectedRows = await pacienteRepository.assignExistingPatientToNutricionista(patient.id, medicoId);
+
+        if (affectedRows === 0) {
+            const error = new Error('Falha ao atualizar o paciente. Nenhuma linha afetada.');
+            error.statusCode = 500;
+            throw error;
+        }
+
+        // Busca e retorna os dados completos do paciente atualizado
+        const updatedPatient = await pacienteRepository.findPacienteById(patient.id);
+        return updatedPatient;
+
+    } catch (error) {
+        console.error('Erro em PatientService.assignExistingPatientByEmail:', error);
+        throw error;
+    }
 }
-*/
 
 module.exports = {
     getPacienteById,
     getPacienteProfile,
     getPacienteByEmail,
-    getDietaById
+    getDietaById,
+    assignExistingPatientToNutricionista
 }

@@ -20,16 +20,6 @@ async function getMedicoProfile(id){
     return medicoProfile;
 }
 
-async function getPacienteByEmail(email){
-    const paciente = await medicoRepository.getPacienteByEmail(email);
-
-    if (!paciente){
-        throw new Error('Paciente não encontrado');
-    }
-
-    return paciente;
-}
-
 async function createMedico(userData){
     const { name, email, phone, crm, password } = userData;
 
@@ -72,7 +62,6 @@ async function getAllPacientes(){
 module.exports = {
     findMedicoByCrm,
     getMedicoProfile,
-    getPacienteByEmail,
     getAllPacientes,
     createMedico
 }

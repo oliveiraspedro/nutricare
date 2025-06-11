@@ -33,8 +33,6 @@ async function findPacienteByEmail(email){
     }
 }
 
-async function getDietaById(dietaId){}
-
 async function createPaciente(newPaciente) {
     let connection = await pool.getConnection();
     try {
@@ -65,9 +63,39 @@ async function createPaciente(newPaciente) {
         }
 }
 
+async function assignExistingPatientToNutricionista(paciente, medicoId) {
+    let connection = await pool.getConnection();
+    try{
+        const updateQuery = `
+                UPDATE paciente
+                SET id_nutricionista = ?
+                WHERE id = ?
+            `;
+            const [result] = await connection.execute(updateQuery, [medicoId, paciente.id]);
+
+            if (result.affectedRows === 0) {
+                // Isso seria um caso raro aqui, pois já verificamos se o paciente existe
+                const error = new Error('Falha ao atualizar o paciente. Nenhuma linha afetada.');
+                error.statusCode = 500;
+                throw error;
+            }
+
+            // 4. Buscar e retornar os dados completos do paciente atualizado
+            const [updatedPatient] = await connection.execute('SELECT name, email, phone FROM paciente WHERE id = ?', [patient.id]);
+            return updatedPatient[0];
+    } catch (error) {
+        console.error('Erro no medicoRepository.getPacienteByEmail (via pool):', error);
+        throw error;
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+}
+
 module.exports = {
     findPacienteById,
     findPacienteByEmail,
-    getDietaById,
-    createPaciente
+    createPaciente,
+    assignExistingPatientToNutricionista
 }

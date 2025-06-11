@@ -60,13 +60,17 @@ const Pacientes: React.FC = () => {
     try {
       console.log("Adicionando paciente com email:", email);
       const response = await fetch(
-        `http://localhost:8080/api/medico/pacientes/${email}`,
+        `http://localhost:8080/api/medico/pacientes`,
         {
-          method: "GET",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("token")}`,
           },
+          body: JSON.stringify({
+            email,
+            medicoId: localStorage.getItem("userId"),
+          }),
         }
       );
 

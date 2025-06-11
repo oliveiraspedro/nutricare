@@ -4,9 +4,20 @@ import React, { useState, useEffect } from "react";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import "./Login.css";
 import medicoicon from "../../assets/img/image-doutor.png";
 import pacienteicon from "../../assets/img/image-paciente.png";
+
+interface JwtPayload {
+  // Adicione as propriedades que você incluiu no seu payload
+  id: number; // Ou string, dependendo do tipo do seu ID
+  email: string;
+  role: string;
+  name?: string; // Opcional, se nem sempre estiver presente
+  crm?: string; // Opcional, se nem sempre estiver presente (para médicos)
+  // Adicione quaisquer outras propriedades que você colocar no token
+}
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -92,18 +103,37 @@ const LoginPage = () => {
           console.log("Login efetuado com sucesso:", result);
           if (result.token) {
             localStorage.setItem("token", result.token);
-            localStorage.setItem("userType", "medico");
-            localStorage.setItem("crm", result.token.crm); // TODO: CRM está vindo como undefined, verificar no backend
-            navigate("/pacientes");
+
+            try {
+              // <<<< AQUI É ONDE VOCÊ DECODIFICA O TOKEN >>>>
+              const decodedToken = jwtDecode(result.token);
+
+              // Agora, 'decodedToken' é o objeto que contém as informações do payload
+              // (id, email, role, crm, etc., dependendo do que você colocou no backend)
+
+              localStorage.setItem("userType", "medico");
+              console.log("Token decodificado:", decodedToken.medico.id);
+              localStorage.setItem("userId", decodedToken.medico.id.toString());
+              console.log("CRM do médico:", decodedToken.medico.crm);
+              localStorage.setItem("userName", decodedToken.medico.crm || "");
+
+              navigate("/pacientes"); // Ou para o dashboard do médico
+            } catch (decodeError) {
+              console.error("Erro ao decodificar o token:", decodeError);
+              console.log(
+                "Erro ao processar o token de autenticação. Tente novamente."
+              );
+              // Opcional: Limpar o token inválido
+              localStorage.removeItem("token");
+            }
+          } else {
+            console.log(result.message || "Token não recebido.");
           }
         } else {
-          console.error("Erro ao efetuar login", result);
-          alert(result.message || "Erro ao efetuar login. Tente novamente.");
-          return;
+          console.log(
+            result.message || "Erro no login. Verifique suas credenciais."
+          );
         }
-
-        setCrm("");
-        setPassword("");
       } catch (error) {
         console.error("Erro no cadastro:", error);
         alert("Erro ao cadastrar. Tente novamente.");
