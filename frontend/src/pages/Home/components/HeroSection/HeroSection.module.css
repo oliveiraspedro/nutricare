@@ -1,9 +1,12 @@
+/* HeroSection.module.css */
+
 .heroContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 3rem 1.5rem;
+    /* ALTERADO: Padding ajustado para melhor espaçamento em telas pequenas */
+    padding: 4rem 2rem;
     background-color: #eaf4fb;
     border-bottom-left-radius: 80px;
     min-height: 80vh;
@@ -17,8 +20,8 @@
 }
 
 .heroText h1 {
-    /* ALTERADO: A fonte agora é fluida, crescendo com a tela até um limite máximo. */
-    font-size: clamp(2.5rem, 5vw, 4rem); 
+    /* A fonte já está fluida, o que é ótimo! */
+    font-size: clamp(2.5rem, 5vw, 4rem);
     color: #1b2d4f;
     margin-bottom: 1rem;
     font-weight: bold;
@@ -27,11 +30,11 @@
 }
 
 .heroText p {
-    /* ALTERADO: O parágrafo também se torna fluido. */
+    /* O parágrafo também está fluido. Excelente! */
     font-size: clamp(1.2rem, 2.5vw, 1.5rem);
     color: #1b2d4f;
     margin-bottom: 2rem;
-    max-width: 50ch; /* Limita a largura do parágrafo para melhor legibilidade */
+    max-width: 50ch; /* Limita a largura para melhor legibilidade */
     margin-left: auto;
     margin-right: auto;
 }
@@ -58,8 +61,9 @@
 
 .rotatingSquare {
     position: relative;
-    width: 280px;
-    height: 280px;
+    /* ALTERADO: Tamanho do quadrado agora é fluido para melhor adaptação em telas maiores */
+    width: clamp(280px, 30vw, 400px);
+    height: clamp(280px, 30vw, 400px);
     background-color: #008fd1;
     transform: rotate(45deg);
     border-radius: 40px;
@@ -86,28 +90,27 @@
     transform: translate(-50%, -50%) rotate(-405deg);
 }
 
-/* ALTERADO: Media query simplificada, pois clamp() já cuida do tamanho da fonte */
 @media (min-width: 992px) {
     .heroContainer {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         text-align: left;
-        padding: 5rem;
+        /* ALTERADO: Padding ajustado para telas grandes */
+        padding: 5rem 4rem;
     }
     .heroText {
         margin-bottom: 0;
-        max-width: 50%; /* Ocupa metade da tela */
+        max-width: 50%;
     }
     .heroText p {
-        margin-left: 0; /* Alinha o parágrafo à esquerda */
+        margin-left: 0;
         margin-right: 0;
     }
     .heroImageContainer {
-        display: block;
-        width: 45%; /* Define uma largura para o container da imagem */
-        display: flex;
+        display: flex; /* Usamos flex para centralizar o quadrado */
         justify-content: center;
         align-items: center;
+        width: 45%;
     }
-}
+}   

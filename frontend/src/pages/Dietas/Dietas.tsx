@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Clock, Apple, ChefHat, TrendingUp, Calendar, User, Phone } from 'lucide-react';
-import './Dietas.css';
+import styles from './Dietas.module.css';
 
 interface Food {
   name: string;
@@ -31,9 +31,9 @@ const Dietas: React.FC = () => {
   const [expandedMeal, setExpandedMeal] = useState<number | null>(null);
 
   const patientInfo: PatientInfo = {
-    name: "Max Maya",
-    phone: "(13)9999-999",
-    birthDate: "30/05/2005",
+    name: "Márcio",
+    phone: "(11)98053-4570",
+    birthDate: "15/08/2005",
     lastUpdate: "15/06/2025"
   };
 
@@ -120,61 +120,61 @@ const Dietas: React.FC = () => {
   };
 
   return (
-    <div className="diet-container">
+    <div className={styles['diet-container']}>
       {/* Header */}
-      <div className="diet-header">
-        <div className="header-content">
-          <div className="header-top">
-            <div className="patient-info">
-              <div className="user-avatar">
-                <User className="user-icon" />
+      <div className={styles['diet-header']}>
+        <div className={styles['header-content']}>
+          <div className={styles['header-top']}>
+            <div className={styles['patient-info']}>
+              <div className={styles['user-avatar']}>
+                <User className={styles['user-icon']} />
               </div>
-              <div className="patient-details">
-                <h1 className="page-title">Minha Dieta</h1>
-                <p className="patient-name">{patientInfo.name}</p>
+              <div className={styles['patient-details']}>
+                <h1 className={styles['page-title']}>Minha Dieta</h1>
+                <p className={styles['patient-name']}>{patientInfo.name}</p>
               </div>
             </div>
-            <div className="contact-info">
-              <div className="contact-item">
-                <Phone className="contact-icon" />
+            <div className={styles['contact-info']}>
+              <div className={styles['contact-item']}>
+                <Phone className={styles['contact-icon']} />
                 {patientInfo.phone}
               </div>
-              <div className="contact-item">
-                <Calendar className="contact-icon" />
+              <div className={styles['contact-item']}>
+                <Calendar className={styles['contact-icon']} />
                 Atualizado em {patientInfo.lastUpdate}
               </div>
             </div>
           </div>
 
           {/* Stats Cards */}
-          <div className="stats-grid">
-            <div className="stat-card stat-card-green">
-              <div className="stat-content">
-                <div className="stat-text">
-                  <p className="stat-label">Refeições Concluídas</p>
-                  <p className="stat-value">{completedMeals}/{meals.length}</p>
+          <div className={styles['stats-grid']}>
+            <div className={`${styles['stat-card']} ${styles['stat-card-green']}`}>
+              <div className={styles['stat-content']}>
+                <div className={styles['stat-text']}>
+                  <p className={styles['stat-label']}>Refeições Concluídas</p>
+                  <p className={styles['stat-value']}>{completedMeals}/{meals.length}</p>
                 </div>
-                <ChefHat className="stat-icon" />
+                <ChefHat className={styles['stat-icon']} />
               </div>
             </div>
-            <div className="stat-card stat-card-blue">
-              <div className="stat-content">
-                <div className="stat-text">
-                  <p className="stat-label">Calorias do Dia</p>
-                  <p className="stat-value">{totalDayCalories}</p>
+            <div className={`${styles['stat-card']} ${styles['stat-card-blue']}`}>
+              <div className={styles['stat-content']}>
+                <div className={styles['stat-text']}>
+                  <p className={styles['stat-label']}>Calorias do Dia</p>
+                  <p className={styles['stat-value']}>{totalDayCalories}</p>
                 </div>
-                <TrendingUp className="stat-icon" />
+                <TrendingUp className={styles['stat-icon']} />
               </div>
             </div>
-            <div className="stat-card stat-card-purple">
-              <div className="stat-content">
-                <div className="stat-text">
-                  <p className="stat-label">Próxima Refeição</p>
-                  <p className="stat-subtitle">
+            <div className={`${styles['stat-card']} ${styles['stat-card-purple']}`}>
+              <div className={styles['stat-content']}>
+                <div className={styles['stat-text']}>
+                  <p className={styles['stat-label']}>Próxima Refeição</p>
+                  <p className={styles['stat-subtitle']}>
                     {meals.find(m => !m.completed)?.type || "Completo!"}
                   </p>
                 </div>
-                <Clock className="stat-icon" />
+                <Clock className={styles['stat-icon']} />
               </div>
             </div>
           </div>
@@ -182,14 +182,14 @@ const Dietas: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="main-content">
+      <div className={styles['main-content']}>
         {/* Day Selector */}
-        <div className="day-selector">
+        <div className={styles['day-selector']}>
           {['ontem', 'hoje', 'amanhã'].map((day) => (
             <button
               key={day}
               onClick={() => setSelectedDay(day)}
-              className={`day-button ${selectedDay === day ? 'day-button-active' : ''}`}
+              className={`${styles['day-button']} ${selectedDay === day ? styles['day-button-active'] : ''}`}
             >
               {day.charAt(0).toUpperCase() + day.slice(1)}
             </button>
@@ -197,50 +197,50 @@ const Dietas: React.FC = () => {
         </div>
 
         {/* Meals List */}
-        <div className="meals-list">
+        <div className={styles['meals-list']}>
           {meals.map((meal) => (
             <div
               key={meal.id}
-              className={`meal-card ${expandedMeal === meal.id ? 'meal-card-expanded' : ''}`}
+              className={`${styles['meal-card']} ${expandedMeal === meal.id ? styles['meal-card-expanded'] : ''}`}
             >
               {/* Meal Header */}
               <div
-                className="meal-header"
+                className={styles['meal-header']}
                 onClick={() => toggleMeal(meal.id)}
               >
-                <div className="meal-header-content">
-                  <div className="meal-info">
+                <div className={styles['meal-header-content']}>
+                  <div className={styles['meal-info']}>
                     <div
-                      className="meal-icon"
+                      className={styles['meal-icon']}
                       style={{ backgroundColor: `${meal.color}20` }}
                     >
                       {meal.icon}
                     </div>
-                    <div className="meal-details">
-                      <h3 className="meal-type">{meal.type}</h3>
-                      <div className="meal-meta">
-                        <div className="meal-time">
-                          <Clock className="meta-icon" />
-                          <span className="time-text">{meal.time}</span>
+                    <div className={styles['meal-details']}>
+                      <h3 className={styles['meal-type']}>{meal.type}</h3>
+                      <div className={styles['meal-meta']}>
+                        <div className={styles['meal-time']}>
+                          <Clock className={styles['meta-icon']} />
+                          <span className={styles['time-text']}>{meal.time}</span>
                         </div>
-                        <div className="meal-calories">
-                          <Apple className="meta-icon" />
+                        <div className={styles['meal-calories']}>
+                          <Apple className={styles['meta-icon']} />
                           <span>{meal.totalCalories} cal</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="meal-actions">
+                  <div className={styles['meal-actions']}>
                     {meal.completed && (
-                      <div className="completed-badge">
-                        <span className="completed-check">✓</span>
+                      <div className={styles['completed-badge']}>
+                        <span className={styles['completed-check']}>✓</span>
                       </div>
                     )}
-                    <div className="expand-icon">
+                    <div className={styles['expand-icon']}>
                       {expandedMeal === meal.id ? (
-                        <span className="arrow arrow-up">▲</span>
+                        <span className={`${styles.arrow} ${styles['arrow-up']}`}>▲</span>
                       ) : (
-                        <span className="arrow arrow-down">▼</span>
+                        <span className={`${styles.arrow} ${styles['arrow-down']}`}>▼</span>
                       )}
                     </div>
                   </div>
@@ -249,31 +249,31 @@ const Dietas: React.FC = () => {
 
               {/* Expanded Content */}
               {expandedMeal === meal.id && (
-                <div className="meal-details-expanded">
-                  <div className="meal-foods-section">
-                    <h4 className="foods-title">
-                      <Apple className="foods-icon" />
+                <div className={styles['meal-details-expanded']}>
+                  <div className={styles['meal-foods-section']}>
+                    <h4 className={styles['foods-title']}>
+                      <Apple className={styles['foods-icon']} />
                       Alimentos desta refeição:
                     </h4>
-                    <div className="foods-list">
+                    <div className={styles['foods-list']}>
                       {meal.foods.map((food, index) => (
-                        <div key={index} className="food-item">
-                          <div className="food-info">
-                            <p className="food-name">{food.name}</p>
-                            <p className="food-quantity">{food.quantity}</p>
+                        <div key={index} className={styles['food-item']}>
+                          <div className={styles['food-info']}>
+                            <p className={styles['food-name']}>{food.name}</p>
+                            <p className={styles['food-quantity']}>{food.quantity}</p>
                           </div>
-                          <div className="food-calories">
-                            <p className="calories-text">{food.calories} cal</p>
+                          <div className={styles['food-calories']}>
+                            <p className={styles['calories-text']}>{food.calories} cal</p>
                           </div>
                         </div>
                       ))}
                     </div>
                     
                     {/* Action Button */}
-                    <div className="meal-action">
+                    <div className={styles['meal-action']}>
                       <button
                         onClick={() => markMealComplete(meal.id)}
-                        className={`action-button ${meal.completed ? 'action-button-completed' : 'action-button-active'}`}
+                        className={`${styles['action-button']} ${meal.completed ? styles['action-button-completed'] : styles['action-button-active']}`}
                         disabled={meal.completed}
                       >
                         {meal.completed ? '✓ Refeição Concluída' : 'Marcar como Concluída'}
@@ -287,24 +287,24 @@ const Dietas: React.FC = () => {
         </div>
 
         {/* Bottom Stats */}
-        <div className="summary-card">
-          <h3 className="summary-title">Resumo do Dia</h3>
-          <div className="summary-grid">
-            <div className="summary-item summary-item-blue">
-              <p className="summary-label">Meta Calórica</p>
-              <p className="summary-value">1800</p>
+        <div className={styles['summary-card']}>
+          <h3 className={styles['summary-title']}>Resumo do Dia</h3>
+          <div className={styles['summary-grid']}>
+            <div className={`${styles['summary-item']} ${styles['summary-item-blue']}`}>
+              <p className={styles['summary-label']}>Meta Calórica</p>
+              <p className={styles['summary-value']}>1800</p>
             </div>
-            <div className="summary-item summary-item-green">
-              <p className="summary-label">Consumidas</p>
-              <p className="summary-value">{totalDayCalories}</p>
+            <div className={`${styles['summary-item']} ${styles['summary-item-green']}`}>
+              <p className={styles['summary-label']}>Consumidas</p>
+              <p className={styles['summary-value']}>{totalDayCalories}</p>
             </div>
-            <div className="summary-item summary-item-orange">
-              <p className="summary-label">Restantes</p>
-              <p className="summary-value">{1800 - totalDayCalories}</p>
+            <div className={`${styles['summary-item']} ${styles['summary-item-orange']}`}>
+              <p className={styles['summary-label']}>Restantes</p>
+              <p className={styles['summary-value']}>{1800 - totalDayCalories}</p>
             </div>
-            <div className="summary-item summary-item-purple">
-              <p className="summary-label">Progresso</p>
-              <p className="summary-value">
+            <div className={`${styles['summary-item']} ${styles['summary-item-purple']}`}>
+              <p className={styles['summary-label']}>Progresso</p>
+              <p className={styles['summary-value']}>
                 {Math.round((totalDayCalories / 1800) * 100)}%
               </p>
             </div>

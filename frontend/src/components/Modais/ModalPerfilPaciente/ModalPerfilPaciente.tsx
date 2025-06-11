@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./ModalPerfilPaciente.css";
+import styles from "./ModalPerfilPaciente.module.css";
 import Button from "../../Button/Button";
+import { User, X, Edit, Save, Plus, BarChart4, Eye } from "lucide-react";
 
 interface DadosAntropometricos {
   peso: number | "";
@@ -31,37 +32,48 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
   paciente,
 }) => {
   const navigate = useNavigate();
-
-  const [dadosAntropometricos, setDadosAntropometricos] =
-    useState<DadosAntropometricos>({
-      peso: paciente?.avaliacaoAtual?.peso || "",
-      altura: paciente?.avaliacaoAtual?.altura || "",
-      circunferencia: paciente?.avaliacaoAtual?.circunferencia || "",
-      dataAvaliacao:
-        paciente?.avaliacaoAtual?.dataAvaliacao ||
-        new Date().toISOString().split("T")[0],
-      observacoes: paciente?.avaliacaoAtual?.observacoes || "",
-    });
-
   const [modoEdicao, setModoEdicao] = useState(false);
+  const [dadosAntropometricos, setDadosAntropometricos] = useState<DadosAntropometricos>({
+    peso: "",
+    altura: "",
+    circunferencia: "",
+    dataAvaliacao: new Date().toISOString().split("T")[0],
+    observacoes: "",
+  });
+
+  useEffect(() => {
+    if (paciente) {
+      setDadosAntropometricos({
+        peso: paciente.avaliacaoAtual?.peso || "",
+        altura: paciente.avaliacaoAtual?.altura || "",
+        circunferencia: paciente.avaliacaoAtual?.circunferencia || "",
+        dataAvaliacao:
+          paciente.avaliacaoAtual?.dataAvaliacao || new Date().toISOString().split("T")[0],
+        observacoes: paciente.avaliacaoAtual?.observacoes || "",
+      });
+      setModoEdicao(false);
+    }
+  }, [paciente]);
 
   if (!isOpen || !paciente) return null;
 
-  const handleInputChange = (
-    field: keyof DadosAntropometricos,
-    value: string | number
+    const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    const { name, value } = e.target;
     setDadosAntropometricos((prev) => ({
       ...prev,
-      [field]: value,
+      [name]: value,
     }));
   };
 
+
   const calcularIMC = () => {
-    if (dadosAntropometricos.peso && dadosAntropometricos.altura) {
-      const pesoNum = Number(dadosAntropometricos.peso);
-      const alturaNum = Number(dadosAntropometricos.altura) / 100; // converter cm para metros
-      const imc = pesoNum / (alturaNum * alturaNum);
+    const pesoNum = Number(dadosAntropometricos.peso);
+    const alturaNum = Number(dadosAntropometricos.altura);
+    if (pesoNum > 0 && alturaNum > 0) {
+      const alturaMetros = alturaNum / 100;
+      const imc = pesoNum / (alturaMetros * alturaMetros);
       return imc.toFixed(1);
     }
     return null;
@@ -75,7 +87,6 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
   };
 
   const handleSalvarAvaliacao = () => {
-    // Aqui faria a chamada para API para salvar os dados
     console.log("Salvando avaliação:", dadosAntropometricos);
     alert("Avaliação salva com sucesso!");
     setModoEdicao(false);
@@ -84,160 +95,145 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
   const imc = calcularIMC();
 
   return (
-    <div className="modal-overlay">
-      <div className="modal perfil-modal">
-        <button className="fechar-x" onClick={onClose}>
-          ×
-        </button>
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.closeButton} onClick={onClose}>×</button>
 
-        <h2 className="modal-title">
-          <span className="material-symbols-outlined">person</span>
-          Perfil do Paciente
-        </h2>
+        <header className={styles.modalHeader}>
+          <User size={24} />
+          <h2>Perfil do Paciente</h2>
+        </header>
 
-        {/* Dados Pessoais */}
-        <div className="perfil-form">
-          <div className="input-row">
-            <div className="input-group">
-              <label>Nome completo</label>
-              <input type="text" value={paciente.nome} disabled />
+        <section className={styles.formGrid}>
+            <div className={styles.formGroup}>
+                <label>Nome completo</label>
+                <input type="text" value={paciente.nome} disabled />
             </div>
-            <div className="input-group">
-              <label>E-mail</label>
-              <input type="email" value={paciente.email} disabled />
+            <div className={styles.formGroup}>
+                <label>E-mail</label>
+                <input type="email" value={paciente.email} disabled />
             </div>
-          </div>
-          <div className="input-row">
-            <div className="input-group">
-              <label>Telefone</label>
-              <input type="text" value={paciente.telefone} disabled />
+            <div className={styles.formGroup}>
+                <label>Telefone</label>
+                <input type="text" value={paciente.telefone} disabled />
             </div>
-            <div className="input-group">
-              <label>Data de nascimento</label>
-              <input type="text" value={paciente.dataNascimento} disabled />
+            <div className={styles.formGroup}>
+                <label>Data de nascimento</label>
+                <input type="date" value={paciente.dataNascimento} disabled />
             </div>
-          </div>
-        </div>
+        </section>
 
-        {/* Divisor */}
-        <div className="section-divider">
-          <span className="material-symbols-outlined">monitoring</span>
-          <h3>Dados Antropométricos</h3>
-          <button
-            className="btn-editar-avaliacao"
+        <div className={styles.sectionDivider}>
+            <BarChart4 size={20} />
+            <h3>Dados Antropométricos</h3>
+            <button
+            className={styles.editButton}
             onClick={() => setModoEdicao(!modoEdicao)}
-          >
-            <span className="material-symbols-outlined">
-              {modoEdicao ? "visibility" : "edit"}
-            </span>
+            >
+            {modoEdicao ? <Eye size={16} /> : <Edit size={16} />}
             {modoEdicao ? "Visualizar" : "Editar"}
-          </button>
+            </button>
         </div>
 
-        {/* Dados Antropométricos */}
-        <div className="antropometrico-form">
-          <div className="input-row">
-            <div className="input-group">
-              <label>Peso (kg)</label>
-              <input
-                type="number"
-                step="0.1"
-                value={dadosAntropometricos.peso}
-                onChange={(e) => handleInputChange("peso", e.target.value)}
-                disabled={!modoEdicao}
-                placeholder="Ex: 75.5"
-              />
+        <section className={styles.antropometricoContainer}>
+            <div className={styles.formGrid}>
+                <div className={styles.formGroup}>
+                    <label>Peso (kg)</label>
+                    <input
+                        name="peso"
+                        type="number"
+                        step="0.1"
+                        value={dadosAntropometricos.peso}
+                        onChange={handleInputChange}
+                        disabled={!modoEdicao}
+                        placeholder="Ex: 75.5"
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Altura (cm)</label>
+                    <input
+                        name="altura"
+                        type="number"
+                        value={dadosAntropometricos.altura}
+                        onChange={handleInputChange}
+                        disabled={!modoEdicao}
+                        placeholder="Ex: 170"
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Circunferência da Cintura (cm)</label>
+                    <input
+                        name="circunferencia"
+                        type="number"
+                        step="0.1"
+                        value={dadosAntropometricos.circunferencia}
+                        onChange={handleInputChange}
+                        disabled={!modoEdicao}
+                        placeholder="Ex: 85"
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Data da Avaliação</label>
+                    <input
+                        name="dataAvaliacao"
+                        type="date"
+                        value={dadosAntropometricos.dataAvaliacao}
+                        onChange={handleInputChange}
+                        disabled={!modoEdicao}
+                    />
+                </div>
             </div>
-            <div className="input-group">
-              <label>Altura (cm)</label>
-              <input
-                type="number"
-                value={dadosAntropometricos.altura}
-                onChange={(e) => handleInputChange("altura", e.target.value)}
-                disabled={!modoEdicao}
-                placeholder="Ex: 170"
-              />
+
+            {imc && (
+                <div className={styles.imcDisplay}>
+                    <p className={styles.imcValue}>IMC: {imc}</p>
+                    <span className={styles.imcClassification}>
+                    {getClassificacaoIMC(Number(imc))}
+                    </span>
+                </div>
+            )}
+            
+            <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+                <label>Observações</label>
+                <textarea
+                    name="observacoes"
+                    value={dadosAntropometricos.observacoes}
+                    onChange={handleInputChange}
+                    disabled={!modoEdicao}
+                    placeholder="Observações sobre a avaliação do paciente..."
+                    rows={3}
+                />
             </div>
-          </div>
+        </section>
 
-          <div className="input-row">
-            <div className="input-group">
-              <label>Circunferência da Cintura (cm)</label>
-              <input
-                type="number"
-                step="0.1"
-                value={dadosAntropometricos.circunferencia}
-                onChange={(e) =>
-                  handleInputChange("circunferencia", e.target.value)
-                }
-                disabled={!modoEdicao}
-                placeholder="Ex: 85"
-              />
-            </div>
-            <div className="input-group">
-              <label>Data da Avaliação</label>
-              <input
-                type="date"
-                value={dadosAntropometricos.dataAvaliacao}
-                onChange={(e) =>
-                  handleInputChange("dataAvaliacao", e.target.value)
-                }
-                disabled={!modoEdicao}
-              />
-            </div>
-          </div>
-
-          {/* IMC Calculado */}
-          {imc && (
-            <div className="imc-display">
-              <div className="imc-valor">
-                <span className="imc-numero">IMC: {imc}</span>
-                <span className="imc-classificacao">
-                  {getClassificacaoIMC(Number(imc))}
-                </span>
-              </div>
-            </div>
-          )}
-
-          <div className="input-group">
-            <label>Observações</label>
-            <textarea
-              value={dadosAntropometricos.observacoes}
-              onChange={(e) => handleInputChange("observacoes", e.target.value)}
-              disabled={!modoEdicao}
-              placeholder="Observações sobre a avaliação do paciente..."
-              rows={3}
-            />
-          </div>
-        </div>
-
-        {/* Botões de Ação */}
-        <div className="modal-buttons-vertical">
-          {modoEdicao && (
-            <Button
-              label="Salvar Avaliação"
-              size="medium"
-              icon={<span className="material-symbols-outlined">save</span>}
-              onClick={handleSalvarAvaliacao}
-            />
-          )}
-
-          <Button
-            label="Adicionar Planejamento"
-            variant="primary"
-            size="medium"
-            icon={<span className="material-symbols-outlined">add</span>}
-            onClick={() => navigate("/plano-alimentar")}
-          />
-
-          <Button
-            label="Gerenciar Planejamento"
-            variant="secondary"
-            size="medium"
-            icon={<span className="material-symbols-outlined">edit</span>}
-            onClick={() => navigate("/plano-alimentar")}
-          />
-        </div>
+        <footer className={styles.actionButtons}>
+            {modoEdicao ? (
+                <Button
+                    label="Salvar Avaliação"
+                    variant="primary"
+                    size="medium"
+                    icon={<Save size={16} />}
+                    onClick={handleSalvarAvaliacao}
+                />
+            ) : (
+                <>
+                    <Button
+                        label="Adicionar Planejamento"
+                        variant="primary"
+                        size="medium"
+                        icon={<Plus size={16} />}
+                        onClick={() => navigate("/plano-alimentar")}
+                    />
+                    <Button
+                        label="Gerenciar Planejamento"
+                        variant="secondary"
+                        size="medium"
+                        icon={<Edit size={16} />}
+                        onClick={() => navigate("/plano-alimentar")}
+                    />
+                </>
+            )}
+        </footer>
       </div>
     </div>
   );

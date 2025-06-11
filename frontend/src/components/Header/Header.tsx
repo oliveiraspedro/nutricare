@@ -28,6 +28,7 @@ const Header: React.FC = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userType");
     localStorage.removeItem("email");
+    localStorage.removeItem("userName");
     localStorage.removeItem("crm");
     setIsLoggedIn(false);
     setUserType(null);

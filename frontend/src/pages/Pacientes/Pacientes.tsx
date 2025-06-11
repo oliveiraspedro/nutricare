@@ -60,7 +60,7 @@ const Pacientes: React.FC = () => {
     try {
       console.log("Adicionando paciente com email:", email);
       const response = await fetch(
-        `http://localhost:8080/api/medico/pacientes`,
+        `http://localhost:8080/api/medico/pacientes/add`,
         {
           method: "PUT",
           headers: {
@@ -80,11 +80,21 @@ const Pacientes: React.FC = () => {
         throw new Error(result.message || "Erro ao adicionar paciente");
       }
 
+      console.log(
+        "Novo paciente adicionado:",
+        "name: ",
+        result.paciente.name,
+        "email: ",
+        result.paciente.email,
+        "phone: ",
+        result.paciente.phone
+      );
+
       const novoPaciente: Paciente = {
         id: pacientes.length + 1,
-        nome: result.name, // por enquanto usamos o email como nome
-        email: result.email,
-        telefone: result.telefone,
+        nome: result.paciente.name,
+        email: result.paciente.email,
+        telefone: result.paciente.phone,
         dataNascimento: "Não informado",
       };
       setPacientes([...pacientes, novoPaciente]);

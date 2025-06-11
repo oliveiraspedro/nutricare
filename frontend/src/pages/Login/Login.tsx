@@ -103,19 +103,14 @@ const LoginPage = () => {
             localStorage.setItem("token", result.token);
 
             try {
-              // <<<< AQUI É ONDE VOCÊ DECODIFICA O TOKEN >>>>
               const decodedToken = jwtDecode(result.token);
 
-              // Agora, 'decodedToken' é o objeto que contém as informações do payload
-              // (id, email, role, crm, etc., dependendo do que você colocou no backend)
-
               localStorage.setItem("userType", "medico");
-              console.log("Token decodificado:", decodedToken.medico.id);
               localStorage.setItem("userId", decodedToken.medico.id.toString());
-              console.log("CRM do médico:", decodedToken.medico.crm);
-              localStorage.setItem("userName", decodedToken.medico.crm || "");
+              localStorage.setItem("userName", decodedToken.medico.name || "");
+              localStorage.setItem("crm", decodedToken.medico.crm || "");
 
-              navigate("/pacientes"); // Ou para o dashboard do médico
+              navigate("/pacientes");
             } catch (decodeError) {
               console.error("Erro ao decodificar o token:", decodeError);
               console.log(

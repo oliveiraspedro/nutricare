@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './FeaturesSection.module.css';
+import { Salad, CalendarDays, TrendingUp, UtensilsCrossed, Sparkles } from 'lucide-react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
@@ -7,18 +8,32 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-import saladaImg from '../../../../assets/img/salada.png';
-import logo_verde from '../../../../assets/img/logo_verde.png';
-import graficoCrescimento from '../../../../assets/img/grafico-de-crescimento.png';
-import pratoImg from '../../../../assets/img/prato.png';
-import calendarioImg from '../../../../assets/img/calendario.png';
-
 const featuresData = [
-    { img: graficoCrescimento, title: "Evolução Contínua e Simples de Seguir", desc: "Acompanhamento constante e adaptações conforme sua evolução." },
-    { img: saladaImg, title: "Recomendações práticas e equilibradas", desc: "Opções acessíveis, saborosas e alinhadas com seus hábitos." },
-    { img: logo_verde, title: "Plano alimentar ajustado ao seu perfil", desc: "Dietas elaboradas com base em suas necessidades e objetivos." },
-    { img: pratoImg, title: "Variedade de suas Refeições", desc: "Desfrute de uma ampla seleção de refeições saudáveis e saborosas." },
-    { img: calendarioImg, title: "Planejamento de Refeições Semanais", desc: "Mantenha a constância com um cronograma alimentar simples e eficaz." }
+    { 
+        icon: <UtensilsCrossed size={48} />, 
+        title: "Variedade de Refeições", 
+        desc: "Desfrute de uma ampla seleção de refeições saudáveis e saborosas." 
+    },
+    { 
+        icon: <CalendarDays size={48} />, 
+        title: "Planejamento Semanal", 
+        desc: "Mantenha a constância com um cronograma alimentar simples e eficaz." 
+    },
+    { 
+        icon: <TrendingUp size={48} />, 
+        title: "Evolução Contínua", 
+        desc: "Acompanhamento e adaptações constantes conforme sua evolução." 
+    },
+    { 
+        icon: <Salad size={48} />, 
+        title: "Recomendações Equilibradas", 
+        desc: "Opções acessíveis e alinhadas com seus hábitos e gostos." 
+    },
+    { 
+        icon: <Sparkles size={48} />, 
+        title: "Plano Personalizado", 
+        desc: "Dietas elaboradas com base em suas necessidades e objetivos únicos." 
+    }
 ];
 
 export const FeaturesSection = () => {
@@ -30,7 +45,10 @@ export const FeaturesSection = () => {
                     modules={[Pagination, Navigation]}
                     spaceBetween={30}
                     slidesPerView={1}
-                    navigation
+                    navigation={{
+                        nextEl: `.${styles.swiperButtonNext}`,
+                        prevEl: `.${styles.swiperButtonPrev}`,
+                    }}
                     pagination={{ clickable: true }}
                     loop
                     breakpoints={{
@@ -39,16 +57,19 @@ export const FeaturesSection = () => {
                     }}
                     className={styles.customSwiper}
                 >
-                    {featuresData.map(({ img, title, desc }, index) => (
+                    {featuresData.map(({ icon, title, desc }, index) => (
                         <SwiperSlide key={index}>
                             <div className={styles.card}>
-                                <img src={img} alt={title} className={styles.cardImg} />
+                                <div className={styles.cardIcon}>{icon}</div>
                                 <h3>{title}</h3>
                                 <p>{desc}</p>
                             </div>
                         </SwiperSlide>
                     ))}
                 </Swiper>
+                
+                <div className={styles.swiperButtonPrev}></div>
+                <div className={styles.swiperButtonNext}></div>
             </div>
         </section>
     );

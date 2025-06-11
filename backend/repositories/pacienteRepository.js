@@ -19,7 +19,7 @@ async function findPacienteByEmail(email){
     let connection = await pool.getConnection();
     try {
         const [rows] = await connection.execute(
-            'SELECT id, name, email, phone, pwd FROM paciente WHERE email = ?',
+            'SELECT id, name, email, phone, pwd, id_nutricionista FROM paciente WHERE email = ?',
             [email]
         );
         return rows[0] || null;
@@ -38,7 +38,7 @@ async function createPaciente(newPaciente) {
     try {
         
         const [result] = await connection.execute(
-            'INSERT INTO paciente (name, email, phone, pwd) VALUES (?, ?, ?, ?)',
+            'INSERT INTO paciente (name, email, phone, pwd, id_nutricionista) VALUES (?, ?, ?, ?, NULL)',
             [newPaciente.name, newPaciente.email, newPaciente.phone, newPaciente.pwd]
         );
 
@@ -81,10 +81,10 @@ async function assignExistingPatientToNutricionista(paciente, medicoId) {
             }
 
             // 4. Buscar e retornar os dados completos do paciente atualizado
-            const [updatedPatient] = await connection.execute('SELECT name, email, phone FROM paciente WHERE id = ?', [patient.id]);
+            const [updatedPatient] = await connection.execute('SELECT name, email, phone FROM paciente WHERE id = ?', [paciente.id]);
             return updatedPatient[0];
     } catch (error) {
-        console.error('Erro no medicoRepository.getPacienteByEmail (via pool):', error);
+        console.error('Erro no pacienteRepository.assignExistingPatientToNutricionista (via pool):', error);
         throw error;
     } finally {
         if (connection) {

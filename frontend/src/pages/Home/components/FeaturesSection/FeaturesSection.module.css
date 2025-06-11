@@ -1,88 +1,147 @@
 .featuresSection {
-    padding: 4rem 1.5rem;
+    padding: 5rem 1.5rem;
     text-align: center;
+    background-color: #f0f7ff;
 }
 
 .featuresSection h2 {
-    font-size: 2.5rem;
-    margin-bottom: 2.5rem;
-    color: #335d7b;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    margin-bottom: 3rem;
+    color: #1b2d4f;
+    text-shadow: none;
 }
 
 .cardWrapper {
     max-width: 1100px;
     margin: 0 auto;
+    position: relative;
+}
+
+.customSwiper {
+    padding: 1.5rem 0.5rem 3.5rem 0.5rem;
+}
+
+.swiperSlide {
+    display: flex; 
+    height: auto;
 }
 
 .card {
     background-color: #fff;
     color: #1b2d4f;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    padding: 2rem 1.5rem;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    height: 340px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    padding: 2.5rem 2rem;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    height: 15rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    gap: 1rem;
+    margin: 10px 0;
 }
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: #0077cc;
+    box-shadow: 0 10px 25px -5px rgba(0, 119, 204, 0.1), 0 8px 10px -6px rgba(0, 119, 204, 0.1);
 }
 
-.cardImg {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease-in-out;
-}
-
-.card:hover .cardImg {
-    transform: scale(1.1);
+.cardIcon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eaf4fb;
+    border-radius: 12px;
+    color: #0077cc;
 }
 
 .card h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
     line-height: 1.3;
-    min-height: 50px; /* Garante altura uniforme para títulos */
+    color: #1b2d4f;
+    margin: 0;
 }
 
 .card p {
     font-size: 0.95rem;
-    color: #555;
-    line-height: 1.5;
+    color: #4a5568;
+    line-height: 1.6;
+    margin: 0;
 }
 
-.customSwiper {
-    padding-bottom: 3.5rem;
-}
-
-/* :global() é usado para estilizar classes geradas por bibliotecas externas */
-:global(.swiper-button-next),
-:global(.swiper-button-prev) {
+.swiperButtonNext,
+.swiperButtonPrev {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #0077cc;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 10;
 }
 
-:global(.swiper-button-next:hover),
-:global(.swiper-button-prev:hover) {
-    color: #0056b3;
+.swiperButtonNext:hover,
+.swiperButtonPrev:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.swiperButtonPrev {
+    left: -22px; 
+}
+.swiperButtonNext {
+    right: -22px;
+}
+
+.swiperButtonPrev::after,
+.swiperButtonNext::after {
+    font-family: 'swiper-icons';
+    font-size: 18px;
+    font-weight: bold;
+}
+.swiperButtonPrev::after {
+    content: 'prev';
+}
+.swiperButtonNext::after {
+    content: 'next';
 }
 
 :global(.swiper-pagination-bullet-active) {
     background-color: #0077cc !important;
 }
 
+@media (max-width: 1200px) {
+    .swiperButtonPrev {
+        left: 0px;
+    }
+    .swiperButtonNext {
+        right: 0px;
+    }
+}
+
 @media (max-width: 768px) {
-    :global(.swiper-button-next),
-    :global(.swiper-button-prev) {
-        display: none; /* Esconde as setas em telas menores */
+    .swiperButtonNext,
+    .swiperButtonPrev {
+        display: none;
+    }
+}
+
+@media (min-width: 1024px) {
+    .featuresSection {
+        padding: 5rem 2rem;
     }
 }

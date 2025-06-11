@@ -27,17 +27,17 @@ async function getDietaById(dietaId){
 
 async function assignExistingPatientToNutricionista(email, medicoId){
     try {
-        let patient = await pacienteRepository.findPacienteByEmail(email);
+        let paciente = await pacienteRepository.findPacienteByEmail(email);
 
-        if (!patient) {
+        if (!paciente) {
             const error = new Error('Paciente com este email não encontrado.');
             error.statusCode = 404;
             throw error;
-            }
+        }
 
-            if (patient.id_nutricionista !== null) {
-                if (patient.id_nutricionista === medicoId) {
-                    const error = new Error('Este paciente já está vinculado à sua lista.');
+        if (paciente.id_nutricionista !== null) {
+            if (paciente.id_nutricionista === medicoId) {
+                const error = new Error('Este paciente já está vinculado à sua lista.');
                     error.statusCode = 409; // Conflict
                     throw error;
                 } else {
@@ -45,10 +45,10 @@ async function assignExistingPatientToNutricionista(email, medicoId){
                     error.statusCode = 409; // Conflict
                     throw error;
                 }
-        }
+            }
 
         // Atualiza o paciente usando o repositório
-        const affectedRows = await pacienteRepository.assignExistingPatientToNutricionista(patient.id, medicoId);
+        const affectedRows = await pacienteRepository.assignExistingPatientToNutricionista(paciente, medicoId);
 
         if (affectedRows === 0) {
             const error = new Error('Falha ao atualizar o paciente. Nenhuma linha afetada.');
@@ -57,7 +57,7 @@ async function assignExistingPatientToNutricionista(email, medicoId){
         }
 
         // Busca e retorna os dados completos do paciente atualizado
-        const updatedPatient = await pacienteRepository.findPacienteById(patient.id);
+        const updatedPatient = await pacienteRepository.findPacienteByEmail(paciente.email);
         return updatedPatient;
 
     } catch (error) {

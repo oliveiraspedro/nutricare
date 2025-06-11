@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import styles from './FaqSection.module.css';
 
 const faqsData = [
-    { question: "Qual o valor dos planos?", answer: "Os valores variam de acordo com o plano escolhido. Consulte a página de planos para mais informações." },
-    { question: "É necessário ter acompanhamento?", answer: "Não é obrigatório, mas o acompanhamento profissional é sempre recomendado para melhores resultados." },
-    { question: "Como acesso minha dieta?", answer: "Você pode acessar sua dieta diretamente pelo seu painel, após fazer login." },
+    { question: "O serviço é pago?", answer: "Não! O NutriCare é totalmente gratuito para nutricionistas e pacientes. Você pode criar dietas e acompanhar seus pacientes sem custo algum." },
+    { question: "Preciso ser nutricionista para usar a plataforma?", answer: "Não! Pacientes também podem usar o NutriCare para acessar suas dietas e acompanhar sua rotina alimentar. No entanto, a criação de planos alimentares é exclusiva para nutricionistas." },
+    { question: "Posso acessar o NutriCare pelo celular?", answer: "Sim! A plataforma NutriCare é responsiva e funciona perfeitamente em celulares, tablets e computadores. Você pode acompanhar tudo de onde estiver." },
 ];
 
 export const FaqSection = () => {

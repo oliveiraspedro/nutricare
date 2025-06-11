@@ -1,0 +1,201 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  background-color: #243B53;
+  color: white;
+  position: relative;
+  padding: 2rem 1.5rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 650px; /* Tamanho ajustado */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #ffffff;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  margin-bottom: 24px;
+}
+
+.modalHeader h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.modalHeader > svg { /* Acessa o ícone lucide-react */
+  font-size: 26px;
+  color: #e2e8f0;
+}
+
+/* Estrutura de Grid para os forms */
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 coluna por padrão (mobile) */
+    gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.formGroup input,
+.formGroup textarea {
+  padding: 10px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffffff; /* Fundo branco como no original */
+  color: #333;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.formGroup input:disabled,
+.formGroup textarea:disabled {
+    background-color: #e9ecef; /* Fundo cinza claro para campos desabilitados */
+    color: #495057;
+    cursor: not-allowed;
+}
+
+.fullWidth {
+  grid-column: 1 / -1; /* Ocupa a largura total no grid de desktop */
+}
+
+/* Divisor de seção */
+.sectionDivider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0 16px 0;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sectionDivider h3 {
+  color: #ffffff;
+  margin: 0;
+  flex: 1;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.sectionDivider > svg { /* Ícone lucide-react */
+  color: #e2e8f0;
+}
+
+/* Botão de editar com o estilo original */
+.editButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid #e2e8f0;
+  color: #e2e8f0;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.editButton:hover {
+  background: rgba(226, 232, 240, 0.1);
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.editButton > svg { /* Ícone lucide-react */
+  width: 16px;
+  height: 16px;
+}
+
+.antropometricoContainer {
+  background: rgba(226, 232, 240, 0.05);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.imcDisplay {
+  background: rgba(226, 232, 240, 0.1);
+  border: 1px solid rgba(226, 232, 240, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.imcValue {
+  font-size: 18px;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+.imcClassification {
+  font-size: 13px;
+  color: #333;
+  background: #e2e8f0;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-weight: 500;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+/* Media Query para responsividade em telas maiores */
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr 1fr; /* Duas colunas em telas maiores */
+  }
+
+  .actionButtons {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}

@@ -6,8 +6,6 @@ interface MedicoPayload {
   email: string;
   phone: string;
   crm: string;
-  // Se houver uma propriedade 'role' dentro de 'medico' também, adicione-a
-  // role: string;
 }
 
 declare module 'jwt-decode' {

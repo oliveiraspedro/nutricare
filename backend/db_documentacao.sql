@@ -17,7 +17,7 @@ CREATE TABLE paciente (
     email VARCHAR(100) NOT NULL UNIQUE,
     phone VARCHAR(11) NOT NULL,
     pwd VARCHAR(100) NOT NULL,
-    id_nutricionista INT NOT NULL,
+    id_nutricionista INT,
     FOREIGN KEY (id_nutricionista) REFERENCES nutricionista(id) ON DELETE CASCADE
 );
 
@@ -68,7 +68,8 @@ CREATE TABLE avaliacao (
 
 
 INSERT INTO nutricionista (name, crm, email, phone, pwd) VALUES
-('Dr. Teste Nutri', '321654988', 'teste@nutri.com', '123456891', 'teste');
+('Carlos Freire', 'SP-688888', 'drcarlos@gmail.com', '11928375362', '$2b$10$UTcfi7DjKU0HnhPsly9hH.BWSx7b69hItMwO2kJK3zs4.q77iahde');
 
-INSERT INTO paciente (name, email, phone, pwd) VALUES
-('Teste Paciente', 'teste@paciente.com', '123456890', 'teste');
+UPDATE paciente
+SET id_nutricionista=NULL
+WHERE email="predrao@gmail.com"
