@@ -55,11 +55,22 @@
 }
 
 .mealRow {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mealRow:last-child {
+  border-bottom: none;
+}
+
+/* Novos estilos para controles das refeições */
+.mealControls {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem 0;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .timeInput,
@@ -74,6 +85,7 @@
 .foodSelect {
   flex: 1;
   color: #9c9c9c;
+  min-width: 150px;
 }
 
 .foodSelect option {
@@ -107,6 +119,129 @@
 
 .addFoodButton:hover {
   background-color: #eaeaea;
+}
+
+/* Novo estilo para o botão "Mostrar Alimentos" */
+.showFoodsButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #1687c6;
+  border: 1px solid #1687c6;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.showFoodsButton:hover {
+  background-color: #0f6fa8;
+  border-color: #0f6fa8;
+}
+
+.showFoodsButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(22, 135, 198, 0.25);
+}
+
+.arrow {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+/* Seção expansível dos alimentos */
+.mealFoodsExpanded {
+  margin-top: 15px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+.foodItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.foodInfo {
+  flex: 1;
+}
+
+.foodInfo strong {
+  display: block;
+  color: #243b53;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.foodInfo p {
+  color: #6c757d;
+  font-size: 14px;
+  margin: 0;
+}
+
+.removeFoodButton {
+  padding: 6px 8px;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeFoodButton:hover {
+  background-color: #c82333;
+}
+
+.removeFoodButton span {
+  font-size: 16px;
+}
+
+.foodDivider {
+  border: none;
+  border-top: 1px solid #dee2e6;
+  margin: 8px 0;
+}
+
+.noFoodsMessage {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+}
+
+.noFoodsMessage p {
+  margin: 5px 0;
+}
+
+.noFoodsMessage p:first-child {
+  font-weight: 600;
+  color: #243b53;
 }
 
 .addFoodSelect {
@@ -303,4 +438,68 @@
   background: none;
   color: #333;
   cursor: pointer;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 1rem;
+  }
+  
+  .mealControls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .showFoodsButton {
+    justify-content: center;
+  }
+  
+  .foodItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .removeFoodButton {
+    align-self: flex-end;
+  }
+  
+  .analysisContent {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .chartContainer {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeInput,
+  .foodSelect {
+    font-size: 16px; /* Previne zoom no iOS */
+  }
+  
+  .mealControls {
+    gap: 8px;
+  }
+  
+  .addFoodButton,
+  .showFoodsButton {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  
+  .mealFoodsExpanded {
+    padding: 15px;
+  }
+  
+  .foodInfo strong {
+    font-size: 15px;
+  }
+  
+  .foodInfo p {
+    font-size: 13px;
+  }
 }

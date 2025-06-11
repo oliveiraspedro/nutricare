@@ -1,5 +1,3 @@
-// src/components/AuthForm/AuthForm.tsx
-
 import React, { ReactNode } from "react";
 import "./AuthForm.css";
 import logo from "../../assets/img/NutriCare_Logo_2.webp";
@@ -9,11 +7,11 @@ interface AuthFormProps {
   alternateText: string;
   alternateLinkText: string;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  onBottomLinkClick?: () => void; // caso use depois
+  onBottomLinkClick?: () => void;
   buttonId?: string;
   linkTo: string;
   children: ReactNode;
-  isDisabled: boolean; // Adicionada a propriedade isDisabled
+  isDisabled: boolean;
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({
@@ -25,7 +23,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   buttonId,
   linkTo,
   children,
-  isDisabled, // Recebe a propriedade isDisabled
+  isDisabled,
 }) => {
   return (
     <div className="auth-form-container">

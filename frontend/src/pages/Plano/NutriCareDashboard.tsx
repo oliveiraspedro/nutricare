@@ -10,18 +10,48 @@ import styles from "./NutriCare.module.css";
 import Button from "../../../src/components/Button/Button";
 import RecipesApp from "../../components/Modais/RecipesApp/RecipesApp";
 import FoodPrescriptionModal from "../../components/Modais/FoodPrescriptionModal/FoodPrescriptionModal";
+import { MdRestaurant } from "react-icons/md";
 
 const NutriCareDashboard = () => {
   const [meals, setMeals] = useState([
-    { id: 1, time: "00:00", food: "Café da manhã", additionalAlimentos: "" },
-    { id: 2, time: "00:00", food: "Café da manhã", additionalAlimentos: "" },
-    { id: 3, time: "00:00", food: "Café da manhã", additionalAlimentos: "" },
+    { 
+      id: 1, 
+      time: "00:00", 
+      food: "Café da manhã", 
+      additionalAlimentos: "",
+      foods: [
+        { nome: "Pão francês", qtd: "1 unidade(s) ou 50g" },
+        { nome: "Ovo de galinha", qtd: "1 unidade(s) ou 50g" }
+      ]
+    },
+    { 
+      id: 2, 
+      time: "00:00", 
+      food: "Café da manhã", 
+      additionalAlimentos: "",
+      foods: [
+        { nome: "Banana prata", qtd: "1 unidade(s) ou 86g" },
+        { nome: "Aveia", qtd: "2 colheres de sopa" }
+      ]
+    },
+    { 
+      id: 3, 
+      time: "00:00", 
+      food: "Café da manhã", 
+      additionalAlimentos: "",
+      foods: [
+        { nome: "Arroz integral", qtd: "3 colheres de sopa" },
+        { nome: "Peito de frango", qtd: "100g" },
+        { nome: "Brócolis cozido", qtd: "1 xícara" }
+      ]
+    },
   ]);
 
   const [showRecipesModal, setShowRecipesModal] = useState(false);
   const [showFoodModal, setShowFoodModal] = useState(false);
   const [selectedMealId, setSelectedMealId] = useState<number | null>(null);
   const [prescribedFoods, setPrescribedFoods] = useState<any[]>([]);
+  const [expandedMeals, setExpandedMeals] = useState<number[]>([]);
 
   const nutritionData = [
     { name: "Proteínas", value: 44.86, color: "#1687C6" },
@@ -54,12 +84,14 @@ const NutriCareDashboard = () => {
       time: "00:00",
       food: "Café da manhã",
       additionalAlimentos: "",
+      foods: []
     };
     setMeals([...meals, newMeal]);
   };
 
   const removeMeal = (id: number) => {
     setMeals(meals.filter((meal) => meal.id !== id));
+    setExpandedMeals(expandedMeals.filter(mealId => mealId !== id));
   };
 
   const updateMeal = (
@@ -70,6 +102,33 @@ const NutriCareDashboard = () => {
     setMeals(
       meals.map((meal) => (meal.id === id ? { ...meal, [field]: value } : meal))
     );
+  };
+
+  const toggleMealExpansion = (mealId: number) => {
+    setExpandedMeals(prev => 
+      prev.includes(mealId) 
+        ? prev.filter(id => id !== mealId)
+        : [...prev, mealId]
+    );
+  };
+
+  const addFoodToMeal = (mealId: number, newFood: any) => {
+    setMeals(meals.map(meal => 
+      meal.id === mealId 
+        ? { ...meal, foods: [...(meal.foods || []), newFood] }
+        : meal
+    ));
+  };
+
+  const removeFoodFromMeal = (mealId: number, foodIndex: number) => {
+    setMeals(meals.map(meal => 
+      meal.id === mealId 
+        ? { 
+            ...meal, 
+            foods: meal.foods?.filter((_, index) => index !== foodIndex) || []
+          }
+        : meal
+    ));
   };
 
   return (
@@ -89,43 +148,84 @@ const NutriCareDashboard = () => {
           <div className={styles.mealsContainer}>
             {meals.map((meal) => (
               <div key={meal.id} className={styles.mealRow}>
-                <input
-                  type="time"
-                  value={meal.time}
-                  onChange={(e) => updateMeal(meal.id, "time", e.target.value)}
-                  className={styles.timeInput}
-                />
+                <div className={styles.mealControls}>
+                  <input
+                    type="time"
+                    value={meal.time}
+                    onChange={(e) => updateMeal(meal.id, "time", e.target.value)}
+                    className={styles.timeInput}
+                  />
 
-                <select
-                  value={meal.food}
-                  onChange={(e) => updateMeal(meal.id, "food", e.target.value)}
-                  className={styles.foodSelect}
-                >
-                  <option value="Café da manhã">Café da manhã</option>
-                  <option value="Almoço">Almoço</option>
-                  <option value="Jantar">Jantar</option>
-                  <option value="Lanche">Lanche</option>
-                  <option value="Ceia">Ceia</option>
-                </select>
+                  <select
+                    value={meal.food}
+                    onChange={(e) => updateMeal(meal.id, "food", e.target.value)}
+                    className={styles.foodSelect}
+                  >
+                    <option value="Café da manhã">Café da manhã</option>
+                    <option value="Almoço">Almoço</option>
+                    <option value="Jantar">Jantar</option>
+                    <option value="Lanche">Lanche</option>
+                    <option value="Ceia">Ceia</option>
+                  </select>
 
-                <button
-                  className={styles.addFoodButton}
-                  onClick={() => {
-                    setSelectedMealId(meal.id);
-                    setShowFoodModal(true);
-                  }}
-                >
-                  <span className="material-symbols-outlined">add</span>
-                  Adicionar Alimentos
-                </button>
+                  <button
+                    className={styles.addFoodButton}
+                    onClick={() => {
+                      setSelectedMealId(meal.id);
+                      setShowFoodModal(true);
+                    }}
+                  >
+                    <span className="material-symbols-outlined">add</span>
+                    Adicionar Alimentos
+                  </button>
 
-                <Button
-                  label=""
-                  variant="danger"
-                  size="medium"
-                  icon={<span className="material-symbols-outlined">delete</span>}
-                  onClick={() => removeMeal(meal.id)}
-                />
+                  <button
+                    className={styles.showFoodsButton}
+                    onClick={() => toggleMealExpansion(meal.id)}
+                  >
+                    <MdRestaurant />
+
+                    <span className={styles.arrow}>
+                      {expandedMeals.includes(meal.id) ? '▲' : '▼'}
+                    </span>
+                  </button>
+
+                  <Button
+                    label=""
+                    variant="danger"
+                    size="medium"
+                    icon={<span className="material-symbols-outlined">delete</span>}
+                    onClick={() => removeMeal(meal.id)}
+                  />
+                </div>
+
+                {/* Seção expansível dos alimentos */}
+                {expandedMeals.includes(meal.id) && (
+                  <div className={styles.mealFoodsExpanded}>
+                    {meal.foods && meal.foods.length > 0 ? (
+                      meal.foods.map((food, index) => (
+                        <div key={index} className={styles.foodItem}>
+                          <div className={styles.foodInfo}>
+                            <strong>{food.nome}</strong>
+                            <p>{food.qtd}</p>
+                          </div>
+                          {/*<button
+                            className={styles.removeFoodButton}
+                            onClick={() => removeFoodFromMeal(meal.id, index)}
+                          >
+                            <span className="material-symbols-outlined">delete</span>
+                          </button>*/}
+                          {index < meal.foods.length - 1 && <hr className={styles.foodDivider} />}
+                        </div>
+                      ))
+                    ) : (
+                      <div className={styles.noFoodsMessage}>
+                        <p>Nenhum alimento adicionado ainda.</p>
+                        <p>Clique em "Adicionar Alimentos" para começar.</p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
 
@@ -263,11 +363,15 @@ const NutriCareDashboard = () => {
               </button>
               <FoodPrescriptionModal
                 foods={prescribedFoods}
-                onAdd={(newFood) => setPrescribedFoods(prev => [...prev, newFood])}
+                onAdd={(newFood) => {
+                  if (selectedMealId) {
+                    addFoodToMeal(selectedMealId, newFood);
+                  }
+                  setPrescribedFoods(prev => [...prev, newFood]);
+                }}
                 onRemove={(id) => setPrescribedFoods(prev => prev.filter(f => f.id !== id))}
                 onClose={() => setShowFoodModal(false)}
               />
-
             </div>
           </div>
         )}

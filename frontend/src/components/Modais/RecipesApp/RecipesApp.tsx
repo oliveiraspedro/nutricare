@@ -61,7 +61,7 @@ const RecipesApp = () => {
         {/* Header */}
         <div className="app-header">
           <span className="material-symbols-outlined icon">restaurant_menu</span>
-          <h1>Anexar receitas culinárias</h1>
+          <h1>Anexar Receitas Culinárias</h1>
         </div>
 
         {/* Recipes List */}
@@ -107,7 +107,7 @@ const RecipesApp = () => {
                   )}
                   {/* <p className="recipe-sub">Ingredientes, modo de preparo, tempo de cozimento, etc.</p>*/}
                   
-                  {/* Delete Button */}
+                  {/* Delete Button 
                   <div className="recipe-actions">
                     <button
                       onClick={() => removeRecipe(recipe.id)}
@@ -115,7 +115,7 @@ const RecipesApp = () => {
                     >
                       Remover receita
                     </button>
-                  </div>
+                  </div>*/}
                 </div>
               )}
             </div>
