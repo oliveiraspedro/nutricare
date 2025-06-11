@@ -1,5 +1,3 @@
-// src/pages/Cadastro/Login.tsx
-
 import React, { useState, useEffect } from "react";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { Link } from "react-router-dom";

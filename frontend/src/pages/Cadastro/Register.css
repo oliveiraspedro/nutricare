@@ -45,14 +45,14 @@
   }
 
   .input-icon {
-  position: absolute;
-  top: 50%;
-  left: 0.75rem;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #666;
-  pointer-events: none;
-}
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #666;
+    pointer-events: none;
+  }
   
   .input-container input:focus + label,
   .input-container input:not(:placeholder-shown) + label {
@@ -81,16 +81,15 @@
   }
 
   .form-icon {
-  height: 50px;
-  margin-bottom: 10px;
-}
+    height: 50px;
+    margin-bottom: 10px;
+  }
 
 .tipo-conta {
   display: flex;
   justify-content: center;
   gap: 20px;
   margin: 0px 0px 20px 0px;
-  
 }
 
 .tipo {

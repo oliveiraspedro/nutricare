@@ -1,51 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Adicione esta importação
+import { useNavigate } from "react-router-dom";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import "./ForgotPassword.css";
 
 const ForgotPassword = () => {
-  const navigate = useNavigate(); // Hook para navegação
+  const navigate = useNavigate();
 
-  // Estados dos campos
   const [email, setEmail] = useState("");
   const handleSend = () => {};
 
-  // Validação
   const [emailError, setEmailError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
 
-  // Função de validação
   const validateEmail = (email: string): boolean =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  // Validações em tempo real
   useEffect(() => {
     const emailValid = validateEmail(email);
     setEmailError(emailValid || email === "" ? "" : "Digite um e-mail válido.");
     setIsFormValid(emailValid);
   }, [email]);
 
-  // Enviar cadastro
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!isFormValid) {
       alert("Por favor, preencha todos os campos corretamente.");
       return;
     }
-
     // lógica de envio vai aqui
   };
 
-  // Função para voltar à página anterior
   const handleGoBack = () => {
-    navigate(-1); // Volta para a página anterior
-    // Ou você pode usar: navigate('/login') para ir para uma rota específica
+    navigate(-1);
   };
 
   return (
     <div className="forgot-password-modal">
-      {/* Botão X para fechar */}
       <button 
         className="close-button" 
         onClick={handleGoBack}
@@ -65,9 +55,7 @@ const ForgotPassword = () => {
         isDisabled={false}
       >
         <h2>Esqueceu sua Senha?</h2>
-
         <p>Insira o e-mail cadastrado para recuperar a senha</p>
-
         <div className="input-container">
           <span className="input-icon material-symbols-outlined">mail</span>
           <input

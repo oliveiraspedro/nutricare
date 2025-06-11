@@ -1,0 +1,158 @@
+.profileCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.sectionIcon {
+    font-size: 2rem;
+    color: #243B53;
+}
+
+.sectionHeader h3 {
+    margin: 0;
+    color: #243B53;
+    font-size: 1.5rem;
+}
+
+.sectionHeader p {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #334155;
+    font-size: 0.9rem;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+}
+
+.inputWrapper input,
+.inputWrapper textarea {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    color: #475569;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: inherit;
+    resize: none;
+}
+
+.inputIcon {
+    margin-right: 0.75rem;
+    color: #94a3b8;
+}
+
+.textareaWrapper {
+    align-items: flex-start;
+    padding-top: 0.75rem;
+}
+
+.fullWidth {
+    grid-column: 1 / -1;
+}
+
+/* IMC Display */
+.imcDisplay {
+    background: linear-gradient(135deg, #243B53 0%, #334155 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.imcInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.imcLabel {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.imcValue {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.imcClassification {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.abaixo-do-peso { background-color: #3b82f6; color: white; }
+.peso-normal { background-color: #10b981; color: white; }
+.sobrepeso { background-color: #f59e0b; color: white; }
+.obesidade { background-color: #ef4444; color: white; }
+
+/* Mensagem de "Sem Dados" */
+.noDataCard {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: #64748b;
+    background-color: #f8fafc;
+}
+
+.noDataIcon {
+    font-size: 3rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
+
+.noDataText {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.noDataSubText {
+    font-size: 1rem;
+}

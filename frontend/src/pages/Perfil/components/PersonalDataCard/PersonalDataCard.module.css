@@ -1,0 +1,135 @@
+.profileCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.profileUser {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.userAvatar {
+    font-size: 3.5rem;
+    color: #94a3b8;
+}
+
+.profileUser h2 {
+    font-size: 1.5rem;
+    color: #1e293b;
+}
+
+.profileGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #334155;
+    font-size: 0.9rem;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inputWrapper:focus-within {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+}
+
+.inputWrapper.readonly {
+    background-color: #f1f5f9;
+    border-color: transparent;
+}
+.inputWrapper.readonly:focus-within {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.inputWrapper input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    color: #1e293b;
+    font-size: 1rem;
+}
+
+.inputIcon {
+    margin-right: 0.75rem;
+    color: #94a3b8;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.actionButton {
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.actionButton:hover {
+    transform: scale(1.02);
+}
+
+.editButton {
+    background-color: #0284c7;
+}
+.editButton:hover {
+    background-color: #0369a1;
+}
+
+.saveButton {
+    background-color: #10b981;
+}
+.saveButton:hover {
+    background-color: #059669;
+}
+
+.cancelButton {
+    background-color: #64748b;
+}
+.cancelButton:hover {
+    background-color: #475569;
+}
+
+
+@media (min-width: 768px) {
+    .profileGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .inputGroup:last-of-type {
+        grid-column: 1 / -1;
+    }
+}
