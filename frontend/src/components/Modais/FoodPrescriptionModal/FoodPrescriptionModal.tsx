@@ -28,7 +28,9 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/fatsecret/token");
+        const response = await axios.get(
+          "http://localhost:8080/api/fatsecret/token"
+        );
         setAccessToken(response.data.access_token);
       } catch (error) {
         console.error("Erro ao obter token:", error);
@@ -40,20 +42,35 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
 
   // 2. Faz a busca de alimentos chamando o backend
   const handleSearch = async () => {
+    console.log("handleSearch called.");
+    console.log("Current searchTerm:", searchTerm);
+    console.log("Current accessToken:", accessToken);
     if (!searchTerm || !accessToken) return;
 
     try {
-      const response = await axios.post("http://localhost:8080/api/fatsecret/search", {
-        query: searchTerm,
-        token: accessToken,
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/fatsecret/search",
+        {
+          query: searchTerm,
+          token: accessToken,
+        }
+      );
 
       const data = response.data;
+      console.log(
+        "Resposta Bruta do Backend (para alimentos):",
+        JSON.stringify(data, null, 2)
+      );
       const results: Food[] =
         data.foods?.food?.map((item: any) => ({
           id: item.food_id.toString(),
           name: item.food_name,
         })) ?? [];
+
+      results.map((food) => {
+        console.log("foodId: ", food.id);
+        console.log("foodName: ", food.name);
+      });
 
       setSearchResults(results);
     } catch (error) {
@@ -75,7 +92,10 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
             type="text"
             placeholder="Busque pelo nome do alimento ou nome da receita"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              console.log("Current Search Term:", e.target.value);
+            }}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
           <button onClick={() => setSearchTerm("")} className="clear-button">

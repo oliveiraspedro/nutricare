@@ -13,7 +13,7 @@ router.post('/login/paciente', authController.pacienteLogin);
 router.post('/register/medico', authController.medicoRegister);
 router.post('/register/paciente', authController.pacienteRegister);
 
-router.post('/fatsecret/token', fatsecretController.getFatSecretToken);
+//router.post('/fatsecret/token', fatsecretController.getFatSecretToken);
 router.post('/fatsecret/search', fatsecretController.searchFoods);
 
 //router.post('/forgot-password', authController.forgotPassword);

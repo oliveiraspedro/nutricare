@@ -1,8 +1,8 @@
 const axios = require('axios');
 const qs = require('qs');
 
-const CLIENT_ID = process.env.FATSECRET_CLIENT_ID || 'c35c4e743d47433791233bc78b73a727';
-const CLIENT_SECRET = process.env.FATSECRET_CLIENT_SECRET || 'b889f6ac8ed84d24b3b912deebfab6cf';
+const CLIENT_ID = process.env.FATSECRET_CLIENT_ID || '928d9adb4aae4da4be6b7aed139f2bb9';
+const CLIENT_SECRET = process.env.FATSECRET_CLIENT_SECRET || 'b75f5ba9c8e34f9f94796c9846a0a853';
 
 exports.getFatSecretToken = async (req, res) => {
   try {
@@ -34,7 +34,8 @@ exports.searchFoods = async (req, res) => {
       params: {
         method: 'foods.search',
         format: 'json',
-        search_expression: query
+        search_expression: query,
+        oauth_consumer_key: CLIENT_ID
       },
       headers: {
         Authorization: `Bearer ${token}`,
@@ -43,7 +44,21 @@ exports.searchFoods = async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error('Erro ao buscar alimentos:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Erro ao buscar alimentos' });
+        console.error('--- ERRO DETALHADO AO BUSCAR ALIMENTOS DA FATSECRET ---');
+        console.error('Status HTTP:', error.response?.status);
+        console.error('Texto do Status:', error.response?.statusText);
+        console.error('Dados da Resposta (possível erro da FatSecret):', JSON.stringify(error.response?.data, null, 2));
+        console.error('Mensagem do Erro (Axios/JS):', error.message);
+        console.error('Configuração da Requisição:', JSON.stringify(error.config, null, 2));
+        console.error('--- FIM DO ERRO DETALHADO ---');
+
+        let errorMessage = 'Erro ao buscar alimentos.';
+        if (error.response?.data?.error) {
+            errorMessage = `Erro da FatSecret: ${error.response.data.error.message || JSON.stringify(error.response.data.error)}`;
+        } else if (error.response?.status) {
+            errorMessage = `Erro HTTP ${error.response.status}: ${error.response.statusText}`;
+        }
+
+        res.status(error.response?.status || 500).json({ error: errorMessage });
   }
 };
