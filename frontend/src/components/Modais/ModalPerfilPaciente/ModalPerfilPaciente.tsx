@@ -222,14 +222,19 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
                         variant="primary"
                         size="medium"
                         icon={<Plus size={16} />}
-                        onClick={() => navigate("/plano-alimentar")}
+                        onClick={() => {
+                          {localStorage.setItem("pacienteEmail", paciente.email)}
+                          navigate("/plano-alimentar")
+                        }}
                     />
                     <Button
                         label="Gerenciar Planejamento"
                         variant="secondary"
                         size="medium"
                         icon={<Edit size={16} />}
-                        onClick={() => navigate("/plano-alimentar")}
+                        onClick={() => {
+                          navigate("/plano-alimentar")
+                        }}
                     />
                 </>
             )}

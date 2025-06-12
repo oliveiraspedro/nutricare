@@ -14,7 +14,6 @@ interface JwtPayload {
   role: string;
   name?: string; // Opcional, se nem sempre estiver presente
   crm?: string; // Opcional, se nem sempre estiver presente (para médicos)
-  // Adicione quaisquer outras propriedades que você colocar no token
 }
 
 const LoginPage = () => {
