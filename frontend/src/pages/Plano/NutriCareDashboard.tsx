@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import styles from "./NutriCare.module.css";
 import Button from "../../../src/components/Button/Button";
 import RecipesApp from "../../components/Modais/RecipesApp/RecipesApp";
@@ -14,36 +8,36 @@ import { MdRestaurant } from "react-icons/md";
 
 const NutriCareDashboard = () => {
   const [meals, setMeals] = useState([
-    { 
-      id: 1, 
-      time: "00:00", 
-      food: "Café da manhã", 
+    {
+      id: 1,
+      time: "00:00",
+      food: "Café da manhã",
       additionalAlimentos: "",
       foods: [
         { nome: "Pão francês", qtd: "1 unidade(s) ou 50g" },
-        { nome: "Ovo de galinha", qtd: "1 unidade(s) ou 50g" }
-      ]
+        { nome: "Ovo de galinha", qtd: "1 unidade(s) ou 50g" },
+      ],
     },
-    { 
-      id: 2, 
-      time: "00:00", 
-      food: "Café da manhã", 
+    {
+      id: 2,
+      time: "00:00",
+      food: "Café da manhã",
       additionalAlimentos: "",
       foods: [
         { nome: "Banana prata", qtd: "1 unidade(s) ou 86g" },
-        { nome: "Aveia", qtd: "2 colheres de sopa" }
-      ]
+        { nome: "Aveia", qtd: "2 colheres de sopa" },
+      ],
     },
-    { 
-      id: 3, 
-      time: "00:00", 
-      food: "Café da manhã", 
+    {
+      id: 3,
+      time: "00:00",
+      food: "Café da manhã",
       additionalAlimentos: "",
       foods: [
         { nome: "Arroz integral", qtd: "3 colheres de sopa" },
         { nome: "Peito de frango", qtd: "100g" },
-        { nome: "Brócolis cozido", qtd: "1 xícara" }
-      ]
+        { nome: "Brócolis cozido", qtd: "1 xícara" },
+      ],
     },
   ]);
 
@@ -78,20 +72,44 @@ const NutriCareDashboard = () => {
     { nutrient: "Calorias totais", value: "530.44g" },
   ];
 
-  const addMeal = () => {
+  const addMeal = async () => {
     const newMeal = {
       id: Date.now(),
       time: "00:00",
       food: "Café da manhã",
       additionalAlimentos: "",
-      foods: []
+      foods: [],
     };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMeal),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log("Paciente cadastrado com sucesso:", result);
+        alert("Paciente cadastrado com sucesso!");
+      } else {
+        console.error("Erro ao cadastrar paciente:", result);
+        alert(result.message || "Erro ao cadastrar paciente. Tente novamente.");
+        return;
+      }
+    } catch (error) {
+      console.error("Erro no cadastro:", error);
+      alert("Erro ao cadastrar. Tente novamente.");
+    }
     setMeals([...meals, newMeal]);
   };
 
   const removeMeal = (id: number) => {
     setMeals(meals.filter((meal) => meal.id !== id));
-    setExpandedMeals(expandedMeals.filter(mealId => mealId !== id));
+    setExpandedMeals(expandedMeals.filter((mealId) => mealId !== id));
   };
 
   const updateMeal = (
@@ -105,30 +123,35 @@ const NutriCareDashboard = () => {
   };
 
   const toggleMealExpansion = (mealId: number) => {
-    setExpandedMeals(prev => 
-      prev.includes(mealId) 
-        ? prev.filter(id => id !== mealId)
+    setExpandedMeals((prev) =>
+      prev.includes(mealId)
+        ? prev.filter((id) => id !== mealId)
         : [...prev, mealId]
     );
   };
 
   const addFoodToMeal = (mealId: number, newFood: any) => {
-    setMeals(meals.map(meal => 
-      meal.id === mealId 
-        ? { ...meal, foods: [...(meal.foods || []), newFood] }
-        : meal
-    ));
+    setMeals(
+      meals.map((meal) =>
+        meal.id === mealId
+          ? { ...meal, foods: [...(meal.foods || []), newFood] }
+          : meal
+      )
+    );
   };
 
   const removeFoodFromMeal = (mealId: number, foodIndex: number) => {
-    setMeals(meals.map(meal => 
-      meal.id === mealId 
-        ? { 
-            ...meal, 
-            foods: meal.foods?.filter((_, index) => index !== foodIndex) || []
-          }
-        : meal
-    ));
+    setMeals(
+      meals.map((meal) =>
+        meal.id === mealId
+          ? {
+              ...meal,
+              foods:
+                meal.foods?.filter((_, index) => index !== foodIndex) || [],
+            }
+          : meal
+      )
+    );
   };
 
   return (
@@ -152,13 +175,17 @@ const NutriCareDashboard = () => {
                   <input
                     type="time"
                     value={meal.time}
-                    onChange={(e) => updateMeal(meal.id, "time", e.target.value)}
+                    onChange={(e) =>
+                      updateMeal(meal.id, "time", e.target.value)
+                    }
                     className={styles.timeInput}
                   />
 
                   <select
                     value={meal.food}
-                    onChange={(e) => updateMeal(meal.id, "food", e.target.value)}
+                    onChange={(e) =>
+                      updateMeal(meal.id, "food", e.target.value)
+                    }
                     className={styles.foodSelect}
                   >
                     <option value="Café da manhã">Café da manhã</option>
@@ -186,7 +213,7 @@ const NutriCareDashboard = () => {
                     <MdRestaurant />
 
                     <span className={styles.arrow}>
-                      {expandedMeals.includes(meal.id) ? '▲' : '▼'}
+                      {expandedMeals.includes(meal.id) ? "▲" : "▼"}
                     </span>
                   </button>
 
@@ -194,7 +221,9 @@ const NutriCareDashboard = () => {
                     label=""
                     variant="danger"
                     size="medium"
-                    icon={<span className="material-symbols-outlined">delete</span>}
+                    icon={
+                      <span className="material-symbols-outlined">delete</span>
+                    }
                     onClick={() => removeMeal(meal.id)}
                   />
                 </div>
@@ -215,7 +244,9 @@ const NutriCareDashboard = () => {
                           >
                             <span className="material-symbols-outlined">delete</span>
                           </button>*/}
-                          {index < meal.foods.length - 1 && <hr className={styles.foodDivider} />}
+                          {index < meal.foods.length - 1 && (
+                            <hr className={styles.foodDivider} />
+                          )}
                         </div>
                       ))
                     ) : (
@@ -367,9 +398,11 @@ const NutriCareDashboard = () => {
                   if (selectedMealId) {
                     addFoodToMeal(selectedMealId, newFood);
                   }
-                  setPrescribedFoods(prev => [...prev, newFood]);
+                  setPrescribedFoods((prev) => [...prev, newFood]);
                 }}
-                onRemove={(id) => setPrescribedFoods(prev => prev.filter(f => f.id !== id))}
+                onRemove={(id) =>
+                  setPrescribedFoods((prev) => prev.filter((f) => f.id !== id))
+                }
                 onClose={() => setShowFoodModal(false)}
               />
             </div>
