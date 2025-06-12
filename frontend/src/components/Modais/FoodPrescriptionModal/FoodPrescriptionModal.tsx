@@ -42,9 +42,6 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
 
   // 2. Faz a busca de alimentos chamando o backend
   const handleSearch = async () => {
-    console.log("handleSearch called.");
-    console.log("Current searchTerm:", searchTerm);
-    console.log("Current accessToken:", accessToken);
     if (!searchTerm || !accessToken) return;
 
     try {
@@ -68,8 +65,8 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
         })) ?? [];
 
       results.map((food) => {
-        console.log("foodId: ", food.id);
-        console.log("foodName: ", food.name);
+        console.log("food id: ", food.id);
+        console.log("food name: ", food.name);
       });
 
       setSearchResults(results);
@@ -94,7 +91,7 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              console.log("Current Search Term:", e.target.value);
+              console.log("searchTerm: ", searchTerm);
             }}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
