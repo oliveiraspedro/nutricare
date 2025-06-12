@@ -93,9 +93,34 @@ async function assignExistingPatientToNutricionista(paciente, medicoId) {
     }
 }
 
+async function deassignPatientFromNutricionista(medicoId) {
+    let connection = await pool.getConnection();
+    try {
+        const [result] = await connection.execute(
+            'UPDATE paciente SET id_nutricionista = NULL WHERE id_nutricionista = ?',
+            [medicoId]
+        );
+        if (result.affectedRows === 0) {
+            const error = new Error('Nenhum paciente encontrado ou já desvinculado.');
+            error.statusCode = 404;
+            throw error;
+        }
+        return result.affectedRows;
+    } catch (error) {
+        console.error('Erro no pacienteRepository.deassignPatientFromNutricionista (via pool):', error);
+        throw error;
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+    
+}
+
 module.exports = {
     findPacienteById,
     findPacienteByEmail,
     createPaciente,
-    assignExistingPatientToNutricionista
+    assignExistingPatientToNutricionista,
+    deassignPatientFromNutricionista
 }

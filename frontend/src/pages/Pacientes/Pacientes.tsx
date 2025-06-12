@@ -6,6 +6,8 @@ import ModalConfirmarExclusao from "../../components/Modais/ModalConfirmarExclus
 import ModalPerfilPaciente from "../../components/Modais/ModalPerfilPaciente/ModalPerfilPaciente";
 
 import Button from "../../components/Button/Button";
+import { ModuleResolutionKind } from "typescript";
+import { resourceLimits } from "worker_threads";
 
 interface Paciente {
   id: number;
@@ -60,7 +62,7 @@ const Pacientes: React.FC = () => {
     try {
       console.log("Adicionando paciente com email:", email);
       const response = await fetch(
-        `http://localhost:8080/api/medico/pacientes/add`,
+        `http://localhost:8080/api/medico/pacientes/assignPaciente`,
         {
           method: "PUT",
           headers: {
@@ -80,16 +82,6 @@ const Pacientes: React.FC = () => {
         throw new Error(result.message || "Erro ao adicionar paciente");
       }
 
-      console.log(
-        "Novo paciente adicionado:",
-        "name: ",
-        result.paciente.name,
-        "email: ",
-        result.paciente.email,
-        "phone: ",
-        result.paciente.phone
-      );
-
       const novoPaciente: Paciente = {
         id: pacientes.length + 1,
         nome: result.paciente.name,
@@ -108,7 +100,32 @@ const Pacientes: React.FC = () => {
     setModalExcluirAberto(true);
   };
 
-  const handleConfirmarExclusao = () => {
+  const handleConfirmarExclusao = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/medico/pacientes/deassignPaciente`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            medicoId: localStorage.getItem("userId"),
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Erro ao desassociar paciente");
+      }
+
+      console.log("Paciente desassociado com sucesso:", result.message);
+    } catch (error) {
+      console.error("Erro ao excluir paciente:", error);
+    }
     if (pacienteSelecionado) {
       setPacientes(pacientes.filter((p) => p.id !== pacienteSelecionado.id));
     }

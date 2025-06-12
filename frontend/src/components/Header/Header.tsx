@@ -27,6 +27,7 @@ const Header: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userType");
+    localStorage.removeItem("userId");
     localStorage.removeItem("email");
     localStorage.removeItem("userName");
     localStorage.removeItem("crm");

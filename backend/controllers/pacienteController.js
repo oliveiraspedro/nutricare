@@ -79,7 +79,7 @@ async function assignExistingPatientToNutricionista(req, res){
         if (!email || !medicoId) {
             return res.status(400).json({error: 'Email e ID do médico são obrigatórios.'});
         }
-        console.log('Email recebido no controller: ', email);
+        
         const paciente = await pacienteService.assignExistingPatientToNutricionista(email, medicoId);
         if (!paciente){
             res.status(404).json({message: 'Paciente não encontrado'});
@@ -91,11 +91,26 @@ async function assignExistingPatientToNutricionista(req, res){
     }
 }
 
+async function deassignPatientFromNutricionista(req, res){
+    try {
+        const medicoId = req.body.medicoId;
+        if (!medicoId) {
+            return res.status(400).json({error: 'ID do médico é obrigatório.'});
+        }
+        const result = await pacienteService.deassignPatientFromNutricionista(medicoId);
+        res.status(200).json({message: 'Paciente desvinculado com sucesso.', result: result});
+    } catch (error) {
+        console.error('Erro ao desvincular paciente:', error.message);
+        res.status(500).json({error: 'Erro interno no servidor', message: error.message});
+    }
+}
+
 module.exports = {
     getPacienteById,
     getPacienteProfile,
     getPacienteByEmail,
     getDietaById,
     createPaciente,
-    assignExistingPatientToNutricionista
+    assignExistingPatientToNutricionista,
+    deassignPatientFromNutricionista
 }

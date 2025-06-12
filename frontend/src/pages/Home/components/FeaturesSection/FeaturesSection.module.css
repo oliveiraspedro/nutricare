@@ -39,7 +39,7 @@
     align-items: flex-start;
     text-align: left;
     gap: 1rem;
-    margin: 10px 0;
+    margin-top: 10px;
 }
 
 .card:hover {

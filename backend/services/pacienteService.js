@@ -66,10 +66,21 @@ async function assignExistingPatientToNutricionista(email, medicoId){
     }
 }
 
+async function deassignPatientFromNutricionista(medicoId) {
+    try {
+        const affectedRows = await pacienteRepository.deassignPatientFromNutricionista(medicoId);
+        return affectedRows;
+    } catch (error) {
+        console.error('Erro em PatientService.deassignPatientFromNutricionista:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     getPacienteById,
     getPacienteProfile,
     getPacienteByEmail,
     getDietaById,
-    assignExistingPatientToNutricionista
+    assignExistingPatientToNutricionista,
+    deassignPatientFromNutricionista
 }

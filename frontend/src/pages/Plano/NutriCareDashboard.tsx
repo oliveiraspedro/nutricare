@@ -71,11 +71,11 @@ const NutriCareDashboard = () => {
   };
 
   const nutritionTable = [
-    { nutrient: "Proteínas totais", value: "76.5g" },
-    { nutrient: "Lipídios totais", value: "76.7g" },
-    { nutrient: "Carboidratos totais", value: "76.3g" },
-    { nutrient: "Fibras totais", value: "76.7g" },
-    { nutrient: "Calorias totais", value: "76.7g" },
+    { nutrient: "Proteínas totais", value: "44.86g" },
+    { nutrient: "Lipídios totais", value: "27.00g" },
+    { nutrient: "Carboidratos totais", value: "27.00g" },
+    { nutrient: "Fibras totais", value: "27.00g" },
+    { nutrient: "Calorias totais", value: "530.44g" },
   ];
 
   const addMeal = () => {
