@@ -109,7 +109,7 @@ const LoginPage = () => {
               localStorage.setItem("userName", decodedToken.medico.name || "");
               localStorage.setItem("crm", decodedToken.medico.crm || "");
 
-              navigate("/pacientes");
+              navigate(`/pacientes/${localStorage.getItem("userId")}`);
             } catch (decodeError) {
               console.error("Erro ao decodificar o token:", decodeError);
               console.log(

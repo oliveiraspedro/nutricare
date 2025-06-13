@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Pacientes.css";
 
 import ModalAdicionarPaciente from "../../components/Modais/ModalAdicionarPaciente/ModalAdicionarPaciente";
@@ -8,45 +8,46 @@ import ModalPerfilPaciente from "../../components/Modais/ModalPerfilPaciente/Mod
 import Button from "../../components/Button/Button";
 import { ModuleResolutionKind } from "typescript";
 import { resourceLimits } from "worker_threads";
+import { PackageIcon } from "lucide-react";
 
 interface Paciente {
   id: number;
-  nome: string;
+  name: string;
   email: string;
-  telefone: string;
+  phone: string;
   dataNascimento: string;
 }
 
 const Pacientes: React.FC = () => {
   const [pacientes, setPacientes] = useState<Paciente[]>([
-    {
-      id: 1,
-      nome: "Max Maya",
-      email: "max@example.com",
-      telefone: "11 91234-5678",
-      dataNascimento: "1990-01-15",
-    },
-    {
-      id: 2,
-      nome: "Pedro Silva",
-      email: "pedro@example.com",
-      telefone: "21 99876-5432",
-      dataNascimento: "1985-07-08",
-    },
-    {
-      id: 3,
-      nome: "Carlos Mendes",
-      email: "carlos@example.com",
-      telefone: "31 98765-4321",
-      dataNascimento: "1978-05-23",
-    },
-    {
-      id: 4,
-      nome: "Márcio Almeida",
-      email: "marcio@example.com",
-      telefone: "41 99999-0000",
-      dataNascimento: "1992-12-02",
-    },
+    // {
+    //   id: 1,
+    //   nome: "Max Maya",
+    //   email: "max@example.com",
+    //   telefone: "11 91234-5678",
+    //   dataNascimento: "1990-01-15",
+    // },
+    // {
+    //   id: 2,
+    //   nome: "Pedro Silva",
+    //   email: "pedro@example.com",
+    //   telefone: "21 99876-5432",
+    //   dataNascimento: "1985-07-08",
+    // },
+    // {
+    //   id: 3,
+    //   nome: "Carlos Mendes",
+    //   email: "carlos@example.com",
+    //   telefone: "31 98765-4321",
+    //   dataNascimento: "1978-05-23",
+    // },
+    // {
+    //   id: 4,
+    //   nome: "Márcio Almeida",
+    //   email: "marcio@example.com",
+    //   telefone: "41 99999-0000",
+    //   dataNascimento: "1992-12-02",
+    // },
   ]);
 
   const [modalAdicionarAberto, setModalAdicionarAberto] = useState(false);
@@ -57,6 +58,50 @@ const Pacientes: React.FC = () => {
 
   const handleAbrirModalAdicionar = () => setModalAdicionarAberto(true);
   const handleFecharModalAdicionar = () => setModalAdicionarAberto(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/medico/pacientes/${localStorage.getItem(
+            "userId"
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || "Erro ao adicionar paciente");
+        }   
+
+        const fetchedPacientes: Paciente[] = result.pacientes.map(
+          (paciente: Paciente) => {
+            return {
+              id: paciente.id,
+              name: paciente.name,
+              email: paciente.email,
+              phone: paciente.phone,
+              dataNascimento: "Não informado",
+            };
+          }
+        );
+        setPacientes(fetchedPacientes);
+      } catch (error) {
+        console.error(
+          "Erro ao buscar todos os pacientes associados com nutricionista:",
+          error
+        );
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleAdicionarPaciente = async (email: string) => {
     try {
@@ -84,9 +129,9 @@ const Pacientes: React.FC = () => {
 
       const novoPaciente: Paciente = {
         id: pacientes.length + 1,
-        nome: result.paciente.name,
+        name: result.paciente.name,
         email: result.paciente.email,
-        telefone: result.paciente.phone,
+        phone: result.paciente.phone,
         dataNascimento: "Não informado",
       };
       setPacientes([...pacientes, novoPaciente]);
@@ -175,7 +220,7 @@ const Pacientes: React.FC = () => {
               >
                 account_circle
               </span>
-              <span className="paciente-nome">{paciente.nome}</span>
+              <span className="paciente-nome">{paciente.name}</span>
             </div>
 
             <Button
@@ -203,7 +248,7 @@ const Pacientes: React.FC = () => {
         isOpen={modalExcluirAberto}
         onClose={() => setModalExcluirAberto(false)}
         onConfirm={handleConfirmarExclusao}
-        nome={pacienteSelecionado?.nome}
+        nome={pacienteSelecionado?.name}
       />
 
       {/* Modal: Perfil do Paciente */}

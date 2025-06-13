@@ -33,8 +33,11 @@ function App() {
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/newPassword" element={<NewPassword />} />
             <Route path="/dietas" element={<Dietas />} />
-            <Route path="/pacientes" element={<Pacientes />} />
-            <Route path="/plano-alimentar/:pacienteEmail" element={<NutriCareDashboard />} />
+            <Route path="/pacientes/:medicoId" element={<Pacientes />} />
+            <Route
+              path="/plano-alimentar/:pacienteEmail"
+              element={<NutriCareDashboard />}
+            />
           </Routes>
         </main>
         <Footer />

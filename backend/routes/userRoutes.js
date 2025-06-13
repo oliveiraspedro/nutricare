@@ -25,8 +25,7 @@ router.post('/fatsecret/getFoodDetails', fatsecretController.getFoodDetails);
 
 // -------- GET --------S
 router.get('/medico/profile', authMiddleware, medicoController.getMedicoProfile);
-//router.get('/medico/pacientes', authMiddleware, medicoController.findAllPacientes);
-//router.get('/medico/pacientes/:pacienteId/plano', authMiddleware, medicoController.getPlanoByPaciente);
+router.get('/medico/pacientes/:medicoId', authMiddleware, medicoController.getAllPacientesAssignWithMedico);
 
 router.get('/paciente/profile', authMiddleware, pacienteController.getPacienteProfile);
 // router.get('/paciente/:id', authMiddleware, pacienteController.findPacienteById);

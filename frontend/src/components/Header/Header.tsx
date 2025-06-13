@@ -93,7 +93,7 @@ const Header: React.FC = () => {
           </NavLink>
           {userType === "medico" ? (
             <NavLink
-              to="/pacientes"
+              to={`/pacientes/${localStorage.getItem("userId")}`}
               onClick={() => setMenuOpen(false)}
               className={({ isActive }) => (isActive ? "active-link" : "")}
             >

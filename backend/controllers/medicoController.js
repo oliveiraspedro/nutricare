@@ -90,10 +90,31 @@ async function removeRefeicaoById(req, res){
     }
 }
 
+async function getAllPacientesAssignWithMedico(req, res){
+    try{
+        const medicoId = req.params.medicoId;
+        const pacientes = await medicoService.getAllPacientesAssignWithMedico(medicoId);
+        console.log("medicoId passado para o controller: ", medicoId)
+
+        if (pacientes != null){
+            console.log("Pacientes encontrados:")
+            pacientes.forEach(paciente => {
+                console.log("Paciente ", paciente.name);
+            })
+        }
+
+        res.status(200).json({messag: 'Usuários encontrados: ', pacientes: pacientes})
+    }catch(error){
+        console.error({ error: 'Erro no controller ao tentar buscar os pacientes associados ao medico: ', error});
+        res.status(500).json({error: 'Erro interno no servido', error});
+    }
+}
+
 module.exports = {
     findMedicoByCrm,
     getMedicoProfile,
     getAllPacientes,
     createMedico,
-    removeRefeicaoById
+    removeRefeicaoById,
+    getAllPacientesAssignWithMedico
 }

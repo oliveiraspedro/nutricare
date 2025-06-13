@@ -78,19 +78,40 @@ async function removeRefeicaoById(id){
 
         return affectedRows;
         
-        } catch (error) {
-            console.error('Erro no medicoRepository.createMedico (via pool):', error);
-            throw error;
-        } finally {
-            if (connection) {
-                connection.release();
-            }
+    } catch (error) {
+        console.error('Erro no medicoRepository.createMedico (via pool):', error);
+        throw error;
+    } finally {
+        if (connection) {
+            connection.release();
         }
+    }
+}
+
+async function getAllPacientesAssignWithMedico(medicoId){
+    let connection = await pool.getConnection();
+    try {
+        const [result] = await connection.execute(
+            'SELECT * FROM paciente WHERE id_nutricionista=?',
+            [medicoId]
+        );
+
+        return result;
+        
+    } catch (error) {
+        console.error('Erro no medicoRepository.createMedico (via pool):', error);
+        throw error;
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
 }
 
 module.exports = {
     findMedicoById,
     findMedicoByCrm,
     createMedico,
-    removeRefeicaoById
+    removeRefeicaoById,
+    getAllPacientesAssignWithMedico
 }

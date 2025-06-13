@@ -63,10 +63,17 @@ async function removeRefeicaoById(id){
     return medicoRepository.removeRefeicaoById(id);
 }
 
+async function getAllPacientesAssignWithMedico(medicoId){
+    const pacientes = await medicoRepository.getAllPacientesAssignWithMedico(medicoId);
+
+    return pacientes;
+}
+
 module.exports = {
     findMedicoByCrm,
     getMedicoProfile,
     getAllPacientes,
     createMedico,
-    removeRefeicaoById
+    removeRefeicaoById,
+    getAllPacientesAssignWithMedico
 }

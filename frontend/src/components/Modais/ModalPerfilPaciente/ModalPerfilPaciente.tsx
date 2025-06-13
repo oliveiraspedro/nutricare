@@ -13,9 +13,9 @@ interface DadosAntropometricos {
 }
 
 interface Paciente {
-  nome: string;
+  name: string;
   email: string;
-  telefone: string;
+  phone: string;
   dataNascimento: string;
   avaliacaoAtual?: DadosAntropometricos;
 }
@@ -110,7 +110,7 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
         <section className={styles.formGrid}>
           <div className={styles.formGroup}>
             <label>Nome completo</label>
-            <input type="text" value={paciente.nome} disabled />
+            <input type="text" value={paciente.name} disabled />
           </div>
           <div className={styles.formGroup}>
             <label>E-mail</label>
@@ -118,7 +118,7 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
           </div>
           <div className={styles.formGroup}>
             <label>Telefone</label>
-            <input type="text" value={paciente.telefone} disabled />
+            <input type="text" value={paciente.phone} disabled />
           </div>
           <div className={styles.formGroup}>
             <label>Data de nascimento</label>
