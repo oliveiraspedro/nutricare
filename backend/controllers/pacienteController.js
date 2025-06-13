@@ -118,6 +118,23 @@ async function addRefeicao(req, res){
     }
 }
 
+async function addAlimento(req, res){
+    try{
+        const pacienteEmail = req.body.pacienteEmail.pacienteEmail;
+        const foodToAdd = req.body.foodToAdd;
+
+        console.log("Email paciente: ", pacienteEmail)
+        const result = await pacienteService.addAlimento(pacienteEmail, foodToAdd);
+        if(!result){
+            res.status
+        }
+        res.status(201).json({message: "Refeição cadastrada com sucesso", result: result});
+    }catch(error){
+        console.error({error: 'Erro no controle ao tentar cadastrar refeição: ', error})
+        res.status(500).json({error: 'Erro interno no servido', error});
+    }
+}
+
 module.exports = {
     getPacienteById,
     getPacienteProfile,
@@ -126,5 +143,6 @@ module.exports = {
     createPaciente,
     assignExistingPatientToNutricionista,
     deassignPatientFromNutricionista,
-    addRefeicao
+    addRefeicao,
+    addAlimento
 }

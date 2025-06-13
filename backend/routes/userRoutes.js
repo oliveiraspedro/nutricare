@@ -36,6 +36,7 @@ router.get('/fatsecret/token', fatsecretController.getFatSecretToken);
 
 // -------- POST --------
 router.post('/medico/pacientes/addRefeicao', authMiddleware, pacienteController.addRefeicao);
+router.post('/medico/plano-alimentar', authMiddleware, pacienteController.addAlimento);
 
 // -------- PUT --------
 router.put('/medico/pacientes/assignPaciente', authMiddleware, pacienteController.assignExistingPatientToNutricionista);

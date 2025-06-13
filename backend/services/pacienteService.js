@@ -88,6 +88,21 @@ async function addRefeicao(pacienteEmail, newMeal){
     };
 }
 
+async function addAlimento(pacienteEmail, foodToAdd){
+    const paciente = await pacienteRepository.findPacienteByEmail(pacienteEmail);
+
+    console.log("refeição id: ", paciente.id_nutricionista);
+
+    if (!paciente.id_nutricionista) {
+        const error = new Error('Este paciente não tem nenhuma refeição associada a ele');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    const result = await pacienteRepository.addAlimentoByRefeicaoId(paciente.id_nutricionista, foodToAdd);
+    return result;
+}
+
 module.exports = {
     getPacienteById,
     getPacienteProfile,
@@ -95,5 +110,6 @@ module.exports = {
     getDietaById,
     assignExistingPatientToNutricionista,
     deassignPatientFromNutricionista,
-    addRefeicao
+    addRefeicao,
+    addAlimento
 }

@@ -40,8 +40,14 @@ CREATE TABLE refeicao (
 
 CREATE TABLE alimento (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100),
-    tipo VARCHAR(50),
+    api_food_id VARCHAR(50) NOT NULL,
+    name_alimento VARCHAR(255),
+    quantidade INT,
+    descricao_porcao VARCHAR(255),
+    calorias INT,
+    proteinas DECIMAL(10,2),    
+    carboidratos DECIMAL(10,2),
+    gorduras DECIMAL(10,2),
     id_refeicao INT NOT NULL,
     FOREIGN KEY (id_refeicao) REFERENCES refeicao(id)
 );
@@ -73,3 +79,6 @@ INSERT INTO nutricionista (name, crm, email, phone, pwd) VALUES
 
 INSERT INTO paciente (name, email, phone, pwd) VALUES
 ('Pedro da Costa', 'pedrao021@gmail.com', '11967546253', '$2b$10$YNBDN1GXJFYAP1QJqJrrL.XkEICzVfYVCQC7d8j.e/1sabmI9CtIu');
+
+INSERT INTO paciente (name, email, phone, pwd) VALUES
+('Max Maya', 'maxm030@gmail.com', '11972635273', '$2b$10$pCXS9AEbSOrHCfBukalsZ.piyhilp9q7VfAVpB5I65NFutuWVe62.');
