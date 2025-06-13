@@ -21,39 +21,40 @@ CREATE TABLE paciente (
     FOREIGN KEY (id_nutricionista) REFERENCES nutricionista(id) ON DELETE CASCADE
 );
 
-CREATE TABLE planoalimentar (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    id_paciente INT,
-    data_inicio DATE,
-    data_fim DATE,
-    objetivo VARCHAR(255),
-    FOREIGN KEY (id_paciente) REFERENCES paciente(id)
-);
+-- CREATE TABLE planoalimentar (
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     id_paciente INT,
+--     data_inicio DATE,
+--     data_fim DATE,
+--     objetivo VARCHAR(255),
+--     FOREIGN KEY (id_paciente) REFERENCES paciente(id)
+-- );
 
 CREATE TABLE refeicao (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    id_plano_alimentar INT,
     tipo VARCHAR(50),
-    horario_sugerido TIME,
-    FOREIGN KEY (id_plano_alimentar) REFERENCES planoalimentar(id)
+    horario_sugerido VARCHAR(50),
+    id_paciente INT NOT NULL,
+    FOREIGN KEY (id_paciente) REFERENCES paciente(id) ON DELETE CASCADE
 );
 
 CREATE TABLE alimento (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100),
     tipo VARCHAR(50),
-    calorias_por_100g DECIMAL(6,2)
+    id_refeicao INT NOT NULL,
+    FOREIGN KEY (id_refeicao) REFERENCES refeicao(id)
 );
 
-CREATE TABLE composicaorefeicao (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    id_refeicao INT,
-    id_alimento INT,
-    quantidade DECIMAL(6,2),
-    unidade VARCHAR(20),
-    FOREIGN KEY (id_refeicao) REFERENCES refeicao(id),
-    FOREIGN KEY (id_alimento) REFERENCES alimento(id)
-);
+-- CREATE TABLE composicaorefeicao (
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     id_refeicao INT,
+--     id_alimento INT,
+--     quantidade DECIMAL(6,2),
+--     unidade VARCHAR(20),
+--     FOREIGN KEY (id_refeicao) REFERENCES refeicao(id),
+--     FOREIGN KEY (id_alimento) REFERENCES alimento(id)
+-- );
 
 CREATE TABLE avaliacao (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -70,6 +71,5 @@ CREATE TABLE avaliacao (
 INSERT INTO nutricionista (name, crm, email, phone, pwd) VALUES
 ('Carlos Freire', 'SP-688888', 'drcarlos@gmail.com', '11928375362', '$2b$10$UTcfi7DjKU0HnhPsly9hH.BWSx7b69hItMwO2kJK3zs4.q77iahde');
 
-UPDATE paciente
-SET id_nutricionista=NULL
-WHERE email="predrao@gmail.com"
+INSERT INTO paciente (name, email, phone, pwd) VALUES
+('Pedro da Costa', 'pedrao021@gmail.com', '11967546253', '$2b$10$YNBDN1GXJFYAP1QJqJrrL.XkEICzVfYVCQC7d8j.e/1sabmI9CtIu');

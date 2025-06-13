@@ -74,9 +74,26 @@ async function createMedico(req, res){
     }
 }
 
+async function removeRefeicaoById(req, res){
+    try{
+        const id = req.body.refeicaoId;
+        const affectedRows = await medicoService.removeRefeicaoById(id);
+
+        if(affectedRows == 0){
+            res.status(404).json({message: 'Nenhuma refeição com esse id encontrada: ', id: id})
+        }
+
+        res.status(200).json({message: 'Refeição deleteda com sucesso!'})
+    }catch(error){
+        console.error({ error: 'Erro no controller ao tentar excluir uma refeição: ', error});
+        res.status(500).json({error: 'Erro interno no servido', error});
+    }
+}
+
 module.exports = {
     findMedicoByCrm,
     getMedicoProfile,
     getAllPacientes,
-    createMedico
+    createMedico,
+    removeRefeicaoById
 }

@@ -15,6 +15,7 @@ router.post('/register/paciente', authController.pacienteRegister);
 
 //router.post('/fatsecret/token', fatsecretController.getFatSecretToken);
 router.post('/fatsecret/search', fatsecretController.searchFoods);
+router.post('/fatsecret/getFoodDetails', fatsecretController.getFoodDetails);
 
 //router.post('/forgot-password', authController.forgotPassword);
 //router.post('/reset-password', authController.resetPassword);
@@ -35,8 +36,7 @@ router.get('/paciente/profile', authMiddleware, pacienteController.getPacientePr
 router.get('/fatsecret/token', fatsecretController.getFatSecretToken);
 
 // -------- POST --------
-// router.post('/medico/:pacienteId/plano', authMiddleware, medicoController.createPlanoAlimentar);
-// router.post('/medico/adicionar-paciente', authMiddleware, medicoController.adicionarPaciente);
+router.post('/medico/pacientes/addRefeicao', authMiddleware, pacienteController.addRefeicao);
 
 // -------- PUT --------
 router.put('/medico/pacientes/assignPaciente', authMiddleware, pacienteController.assignExistingPatientToNutricionista);
@@ -45,8 +45,7 @@ router.put('/medico/pacientes/deassignPaciente', authMiddleware, pacienteControl
 
 
 // -------- DELETE --------
-// router.delete('/medico/plano/:planoId', authMiddleware, medicoController.deletePlanoAlimentar);
-// router.delete('/medico/:id', authMiddleware, medicoController.removePacienteById);
+router.delete('/medico/pacientes/removeRefeicao', authMiddleware, medicoController.removeRefeicaoById);
 
 
 

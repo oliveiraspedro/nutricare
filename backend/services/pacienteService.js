@@ -76,11 +76,24 @@ async function deassignPatientFromNutricionista(medicoId) {
     }
 }
 
+async function addRefeicao(pacienteEmail, newMeal){
+    console.log("Email passado no repository: ", pacienteEmail);
+    const paciente = await pacienteRepository.findPacienteByEmail(pacienteEmail);
+    const meal = await pacienteRepository.addRefeicao(paciente.id, newMeal);
+
+    return {
+        id: meal.id,
+        tipo: meal.tipo,
+        time: meal.time
+    };
+}
+
 module.exports = {
     getPacienteById,
     getPacienteProfile,
     getPacienteByEmail,
     getDietaById,
     assignExistingPatientToNutricionista,
-    deassignPatientFromNutricionista
+    deassignPatientFromNutricionista,
+    addRefeicao
 }

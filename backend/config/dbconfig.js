@@ -3,9 +3,9 @@ const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'Pedro021',
+    password: '',
     database: 'nutricare_db', // Definir nome do banco de dados
-    port: '3306', // Definir porta
+    port: '3307', // Definir porta
     connectionLimit: 10
 })
 

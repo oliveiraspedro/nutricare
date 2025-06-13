@@ -68,8 +68,29 @@ async function createMedico(newMedico) {
         }
 }
 
+async function removeRefeicaoById(id){
+    let connection = await pool.getConnection();
+    try {
+        const [affectedRows] = await connection.execute(
+            'DELETE FROM refeicao WHERE id=?',
+            [id]
+        );
+
+        return affectedRows;
+        
+        } catch (error) {
+            console.error('Erro no medicoRepository.createMedico (via pool):', error);
+            throw error;
+        } finally {
+            if (connection) {
+                connection.release();
+            }
+        }
+}
+
 module.exports = {
     findMedicoById,
     findMedicoByCrm,
-    createMedico
+    createMedico,
+    removeRefeicaoById
 }

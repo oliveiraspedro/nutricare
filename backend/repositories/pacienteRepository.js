@@ -49,18 +49,18 @@ async function createPaciente(newPaciente) {
             phone: newPaciente.phone
         }
         
-        } catch (error) {
-            // Verifica se o erro é de chave duplicada (email único)
-            if (error.code === 'ER_DUP_ENTRY') {
-                throw new Error('Este email já está registrado.');
-            }
-            console.error('Erro no pacienteRepository.createPaciente (via pool):', error);
-            throw error;
-        } finally {
-            if (connection) {
-                connection.release();
-            }
+    } catch (error) {
+        // Verifica se o erro é de chave duplicada (email único)
+        if (error.code === 'ER_DUP_ENTRY') {
+            throw new Error('Este email já está registrado.');
         }
+        console.error('Erro no pacienteRepository.createPaciente (via pool):', error);
+        throw error;
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
 }
 
 async function assignExistingPatientToNutricionista(paciente, medicoId) {
@@ -117,10 +117,40 @@ async function deassignPatientFromNutricionista(medicoId) {
     
 }
 
+async function addRefeicao(pacienteId, newMeal){
+    let connection = await pool.getConnection();
+    try {
+        
+        const [result] = await connection.execute(
+            'INSERT INTO refeicao (tipo, horario_sugerido, id_paciente) VALUES (?, ?, ?)',
+            [newMeal.food, newMeal.time, pacienteId]
+        );
+
+        return {
+            id: result.insertId,
+            tipo: newMeal.food,
+            time: newMeal.time,
+        }
+        
+        } catch (error) {
+            // Verifica se o erro é de chave duplicada (email único)
+            if (error.code === 'ER_DUP_ENTRY') {
+                throw new Error('Este email já está registrado.');
+            }
+            console.error('Erro no pacienteRepository.createPaciente (via pool):', error);
+            throw error;
+        } finally {
+            if (connection) {
+                connection.release();
+            }
+        }
+}
+
 module.exports = {
     findPacienteById,
     findPacienteByEmail,
     createPaciente,
     assignExistingPatientToNutricionista,
-    deassignPatientFromNutricionista
+    deassignPatientFromNutricionista,
+    addRefeicao
 }

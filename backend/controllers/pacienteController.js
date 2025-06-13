@@ -105,6 +105,19 @@ async function deassignPatientFromNutricionista(req, res){
     }
 }
 
+async function addRefeicao(req, res){
+    try{
+        const newMeal = req.body.newMeal;
+        const pacienteEmail = req.body.pacienteEmail;
+
+        const meal = await pacienteService.addRefeicao(pacienteEmail, newMeal);
+        res.status(201).json({message: "Refeição cadastrada com sucesso", meal: meal})
+    }catch(error){
+        console.error({error: 'Erro no controle ao tentar cadastrar refeição: ', error})
+        res.status(500).json({error: 'Erro interno no servido', error});
+    }
+}
+
 module.exports = {
     getPacienteById,
     getPacienteProfile,
@@ -112,5 +125,6 @@ module.exports = {
     getDietaById,
     createPaciente,
     assignExistingPatientToNutricionista,
-    deassignPatientFromNutricionista
+    deassignPatientFromNutricionista,
+    addRefeicao
 }

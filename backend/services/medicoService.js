@@ -1,4 +1,4 @@
-const medicoRepository = require('../repositories/medicoRepository')
+const medicoRepository = require('../repositories/medicoRepository');
 
 async function getMedicoById(id){
     const medico = await medicoRepository.getMedicoById(id);
@@ -59,9 +59,14 @@ async function getAllPacientes(){
     return pacientes;
 }
 
+async function removeRefeicaoById(id){
+    return medicoRepository.removeRefeicaoById(id);
+}
+
 module.exports = {
     findMedicoByCrm,
     getMedicoProfile,
     getAllPacientes,
-    createMedico
+    createMedico,
+    removeRefeicaoById
 }
