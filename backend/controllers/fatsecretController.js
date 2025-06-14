@@ -1,8 +1,8 @@
 const axios = require('axios');
 const qs = require('qs');
 
-const CLIENT_ID = process.env.FATSECRET_CLIENT_ID || '928d9adb4aae4da4be6b7aed139f2bb9';
-const CLIENT_SECRET = process.env.FATSECRET_CLIENT_SECRET || 'b75f5ba9c8e34f9f94796c9846a0a853';
+const CLIENT_ID = process.env.FATSECRET_CLIENT_ID;
+const CLIENT_SECRET = process.env.FATSECRET_CLIENT_SECRET;
 
 exports.getFatSecretToken = async (req, res) => {
   try {
