@@ -31,6 +31,11 @@ router.get('/paciente/profile', authMiddleware, pacienteController.getPacientePr
 // router.get('/paciente/:id', authMiddleware, pacienteController.findPacienteById);
 // router.get('/paciente/:id/plano', authMiddleware, pacienteController.findPlanoByPaciente);
 
+router.get('/paciente/meu-plano', authMiddleware, pacienteController.getMeuPlanoAlimentar);
+
+router.get('/pacientes/:email/plano-alimentar', authMiddleware, pacienteController.getPlanoAlimentar);
+router.get('/pacientes/:email/plano-existe', authMiddleware, pacienteController.checkPlanoExistencia);
+
 // FatSecret Token
 router.get('/fatsecret/token', fatsecretController.getFatSecretToken);
 
@@ -43,10 +48,12 @@ router.put('/medico/pacientes/assignPaciente', authMiddleware, pacienteControlle
 router.put('/medico/pacientes/deassignPaciente', authMiddleware, pacienteController.deassignPatientFromNutricionista);
 // router.put('/medico/:pacienteId/plano', authMiddleware, medicoController.updatePlanoAlimentar);
 
+router.put('/refeicoes/:refeicaoId', authMiddleware, pacienteController.updateRefeicao);
 
 // -------- DELETE --------
 router.delete('/medico/pacientes/removeRefeicao', authMiddleware, medicoController.removeRefeicaoById);
 
+router.delete('/alimentos/:alimentoId', authMiddleware, pacienteController.removeAlimento);
 
 
 module.exports = router;

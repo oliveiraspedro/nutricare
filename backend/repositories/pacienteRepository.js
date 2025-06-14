@@ -34,6 +34,45 @@ async function findPacienteByEmail(email){
     }
 }
 
+async function findPlanoByEmail(email) {
+    let connection;
+    try {
+        connection = await pool.getConnection();
+
+        // 1. Buscar o ID do paciente pelo email
+        const [pacienteRows] = await connection.execute(
+            'SELECT id FROM paciente WHERE email = ?',
+            [email]
+        );
+
+        const paciente = pacienteRows[0];
+        if (!paciente) {
+            // Se o paciente não for encontrado, não há plano para ele
+            return { exists: false }; 
+        }
+        const pacienteId = paciente.id;
+
+        // 2. Contar as refeições para este paciente
+        // COM OS NOMES CONFIRMADOS DO SEU BANCO DE DADOS
+        const [refeicaoRows] = await connection.execute(
+            'SELECT COUNT(*) as totalRefeicoes FROM refeicao WHERE id_paciente = ?', // <--- Estes nomes estão corretos AGORA
+            [pacienteId]
+        );
+
+        const totalRefeicoes = refeicaoRows[0].totalRefeicoes;
+
+        return { exists: totalRefeicoes > 0 };
+
+    } catch (error) {
+        console.error('Erro no pacienteRepository.findPlanoByEmail (via pool):', error);
+        throw error; // É importante relançar o erro
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+}
+
 async function createPaciente(newPaciente) {
     let connection = await pool.getConnection();
     try {
@@ -168,7 +207,7 @@ async function addAlimentoByRefeicaoId(refeicaoId, foodToAdd){
             [foodToAdd.api_food_id, 
             foodToAdd.name_alimento, 
             foodToAdd.quantity, 
-            foodToAdd.chosen_serving, 
+            foodToAdd.chosen_serving.serving_description, 
             foodToAdd.calculated_nutrition.calories, 
             foodToAdd.calculated_nutrition.protein, 
             foodToAdd.calculated_nutrition.carbohydrate, 
@@ -190,6 +229,112 @@ async function addAlimentoByRefeicaoId(refeicaoId, foodToAdd){
     }
 }
 
+async function getPlanoAlimentarCompleto(pacienteId) {
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        const query = `
+            SELECT 
+                r.id as refeicao_id, 
+                r.tipo, 
+                r.horario_sugerido,
+                a.id as alimento_id, 
+                a.api_food_id, 
+                a.name_alimento, 
+                a.quantidade, 
+                a.descricao_porcao, 
+                a.calorias, 
+                a.proteinas, 
+                a.carboidratos, 
+                a.gorduras
+            FROM refeicao r
+            LEFT JOIN alimento a ON r.id = a.id_refeicao
+            WHERE r.id_paciente = ?
+            ORDER BY r.horario_sugerido, r.id;
+        `;
+        const [rows] = await connection.execute(query, [pacienteId]);
+        
+        // Estrutura os dados para o formato que o frontend espera (Meal[])
+        const mealsMap = new Map();
+
+        rows.forEach(row => {
+            // Se a refeição ainda não está no nosso mapa, adiciona
+            if (!mealsMap.has(row.refeicao_id)) {
+                mealsMap.set(row.refeicao_id, {
+                    id: row.refeicao_id,
+                    time: row.horario_sugerido,
+                    food: row.tipo, // O nome da refeição (Café da manhã, etc)
+                    additionalAlimentos: "", // Pode ajustar se usar esse campo
+                    foods: [] // Inicia a lista de alimentos vazia
+                });
+            }
+
+            // Se a linha tem um alimento (não é um LEFT JOIN com resultado NULL)
+            if (row.alimento_id) {
+                const meal = mealsMap.get(row.refeicao_id);
+                meal.foods.push({
+                    id: row.alimento_id.toString(), // Garante que o ID é string
+                    api_food_id: row.api_food_id,
+                    name_alimento: row.name_alimento,
+                    quantity: row.quantidade,
+                    chosen_serving: { // Você precisa recriar essa estrutura
+                        serving_id: '', // O ID da porção não está no banco, pode ser um ID genérico
+                        serving_description: row.descricao_porcao,
+                        metric_serving_unit: '', // não salvo no banco
+                        metric_serving_amount: 0, // não salvo no banco
+                        // outros campos podem ser deixados vazios ou com valores padrão
+                    },
+                    calculated_nutrition: {
+                        calories: row.calorias,
+                        protein: row.proteinas,
+                        carbohydrate: row.carboidratos,
+                        fat: row.gorduras,
+                        fiber: 0 // não salvo no banco
+                    }
+                });
+            }
+        });
+
+        // Converte o mapa de volta para um array
+        return Array.from(mealsMap.values());
+
+    } catch (error) {
+        console.error('Erro no pacienteRepository.getPlanoAlimentarCompleto:', error);
+        throw error;
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+}
+
+async function updateRefeicao(refeicaoId, tipo, horario) {
+  const connection = await pool.getConnection();
+  try {
+    const query = `
+      UPDATE refeicao 
+      SET tipo = ?, horario_sugerido = ? 
+      WHERE id = ?;
+    `;
+    const [result] = await connection.execute(query, [tipo, horario, refeicaoId]);
+    return result.affectedRows;
+  } finally {
+    if (connection) connection.release();
+  }
+}
+
+async function removeAlimentoById(alimentoId) {
+  const connection = await pool.getConnection();
+  try {
+    const query = 'DELETE FROM alimento WHERE id = ?';
+    const [result] = await connection.execute(query, [alimentoId]);
+    return result.affectedRows; // Retorna 1 se deletou, 0 se não encontrou
+  } finally {
+    if (connection) connection.release();
+  }
+}
+
+
 module.exports = {
     findPacienteById,
     findPacienteByEmail,
@@ -197,5 +342,8 @@ module.exports = {
     assignExistingPatientToNutricionista,
     deassignPatientFromNutricionista,
     addRefeicao,
-    addAlimentoByRefeicaoId
+    addAlimentoByRefeicaoId,
+    getPlanoAlimentarCompleto,
+    updateRefeicao,
+    removeAlimentoById
 }

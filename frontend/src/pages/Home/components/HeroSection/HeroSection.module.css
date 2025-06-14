@@ -1,21 +1,19 @@
-/* HeroSection.module.css */
-
 .heroContainer {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 4rem 2rem;
+    flex-direction: column; /* Padrão mobile-first: elementos em coluna */
+    align-items: center; /* Centraliza horizontalmente no layout de coluna */
+    text-align: center; /* Centraliza o texto no layout de coluna */
+    padding: 3rem 1.5rem; /* Padding base para mobile e tablets menores */
     background-color: #eaf4fb;
     border-bottom-left-radius: 80px;
-    min-height: 80vh;
-    justify-content: center;
-    overflow: hidden;
+    min-height: 80vh; /* Mantém uma altura mínima para mobile */
+    justify-content: center; /* Centraliza verticalmente o conteúdo no mobile */
+    overflow: hidden; /* Evita barras de rolagem indesejadas */
 }
 
 .heroText {
     max-width: 600px;
-    margin-bottom: 2rem;
+    margin-bottom: 2rem; /* Espaço abaixo do texto no layout de coluna */
 }
 
 .heroText h1 {
@@ -28,11 +26,10 @@
 }
 
 .heroText p {
-    /* O parágrafo também está fluido. Excelente! */
     font-size: clamp(1.2rem, 2.5vw, 1.5rem);
     color: #1b2d4f;
     margin-bottom: 2rem;
-    max-width: 50ch; /* Limita a largura para melhor legibilidade */
+    max-width: 50ch;
     margin-left: auto;
     margin-right: auto;
 }
@@ -54,13 +51,13 @@
 }
 
 .heroImageContainer {
-    display: none;
+    display: none; /* Escondido por padrão (mobile) */
 }
 
 .rotatingSquare {
     position: relative;
-    width: clamp(280px, 30vw, 400px);
-    height: clamp(280px, 30vw, 400px);
+    width: clamp(250px, 30vw, 400px);
+    height: clamp(250px, 30vw, 400px);
     background-color: #008fd1;
     transform: rotate(45deg);
     border-radius: 40px;
@@ -87,27 +84,68 @@
     transform: translate(-50%, -50%) rotate(-405deg);
 }
 
+/* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
+
+/* Breakpoint para Tablets e Laptops Menores */
+@media (min-width: 768px) {
+    .heroContainer {
+        padding: 4rem 3rem;
+    }
+    .heroText {
+        max-width: 700px;
+    }
+}
+
+/* Breakpoint para Laptops Maiores e Desktops (inclui 1024x533) */
 @media (min-width: 992px) {
     .heroContainer {
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         text-align: left;
-        /* ALTERADO: Padding ajustado para telas grandes */
-        padding: 5rem 4rem;
+        min-height: 55vh;
+        padding: 2.5rem 4rem 3rem 4rem;
     }
     .heroText {
         margin-bottom: 0;
         max-width: 50%;
+        flex-shrink: 1;
+    }
+
+    .heroText h1{
+        margin-top: 0rem;
     }
     .heroText p {
         margin-left: 0;
         margin-right: 0;
+        margin-top: 0rem;
     }
     .heroImageContainer {
-        display: flex; /* Usamos flex para centralizar o quadrado */
+        display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         width: 45%;
+        flex-shrink: 0;
+        margin-top: 3rem; /* <<< ALTERAÇÃO CHAVE: Adiciona margem superior para a imagem */
     }
-}   
+    .rotatingSquare {
+        width: clamp(300px, 28vw, 400px);
+        height: clamp(300px, 28vw, 400px);
+    }
+}
+
+/* Breakpoint para Desktops Grandes */
+@media (min-width: 1200px) {
+    .heroContainer {
+        padding: 4rem 8rem 4rem 8rem;
+        min-height: 65vh;
+        align-items: center; /* Volta a centralizar em telas muito grandes, se preferir */
+    }
+    .heroImageContainer {
+        margin-top: 0; /* Remove a margem superior se em 1200px+ ela não for necessária */
+    }
+    .rotatingSquare {
+        width: clamp(350px, 25vw, 450px);
+        height: clamp(350px, 25vw, 450px);
+    }
+}

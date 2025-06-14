@@ -49,7 +49,7 @@ CREATE TABLE alimento (
     carboidratos DECIMAL(10,2),
     gorduras DECIMAL(10,2),
     id_refeicao INT NOT NULL,
-    FOREIGN KEY (id_refeicao) REFERENCES refeicao(id)
+    FOREIGN KEY (id_refeicao) REFERENCES refeicao(id) ON DELETE CASCADE
 );
 
 -- CREATE TABLE composicaorefeicao (

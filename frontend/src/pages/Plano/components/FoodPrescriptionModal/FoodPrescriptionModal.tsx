@@ -170,55 +170,40 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
     }
   };
 
-  const handleFinalAdd = async () => {
-    if (!selectedFoodDetails) return;
-    const chosenServing = selectedFoodDetails.servings.find(
-      (s) => s.serving_id === servingChoice.serving_id
-    );
-    if (!chosenServing) return;
+const handleFinalAdd = () => {
+  // 1. Verifica se há um alimento selecionado
+  if (!selectedFoodDetails) return;
 
-    const calculatedNutrition = {
-      calories: (Number(chosenServing.calories) || 0) * servingChoice.quantity,
-      protein: (Number(chosenServing.protein) || 0) * servingChoice.quantity,
-      carbohydrate:
-        (Number(chosenServing.carbohydrate) || 0) * servingChoice.quantity,
-      fat: (Number(chosenServing.fat) || 0) * servingChoice.quantity,
-      fiber: (Number(chosenServing.fiber) || 0) * servingChoice.quantity,
-    };
+  // 2. Encontra a porção escolhida pelo usuário
+  const chosenServing = selectedFoodDetails.servings.find(
+    (s) => s.serving_id === servingChoice.serving_id
+  );
+  if (!chosenServing) return;
 
-    const foodToAdd: Food = {
-      id: crypto.randomUUID(),
-      api_food_id: selectedFoodDetails.food_id,
-      name_alimento: selectedFoodDetails.food_name,
-      quantity: servingChoice.quantity,
-      chosen_serving: chosenServing,
-      calculated_nutrition: calculatedNutrition,
-    };
-
-    try {
-      const response = await fetch(
-        "http://localhost:8080/api/medico/plano-alimentar",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({ foodToAdd, pacienteEmail: email }),
-        }
-      );
-
-      const result = await response.json();
-
-      if (response.status == 201) {
-        console.log("Alimenteo adicionado com sucesso!");
-        console.log("result: ", result);
-        onAddFood(foodToAdd);
-        setSearchTerm("");
-        setSelectedFoodDetails(null);
-      }
-    } catch (error) {}
+  // 3. Calcula os valores nutricionais baseados na quantidade
+  const calculatedNutrition = {
+    calories: (Number(chosenServing.calories) || 0) * servingChoice.quantity,
+    protein: (Number(chosenServing.protein) || 0) * servingChoice.quantity,
+    carbohydrate:
+      (Number(chosenServing.carbohydrate) || 0) * servingChoice.quantity,
+    fat: (Number(chosenServing.fat) || 0) * servingChoice.quantity,
+    fiber: (Number(chosenServing.fiber) || 0) * servingChoice.quantity,
   };
+
+  // 4. Monta o objeto final do alimento a ser adicionado
+  const foodToAdd: Food = {
+    id: crypto.randomUUID(), // ID temporário para o React usar como 'key'
+    api_food_id: selectedFoodDetails.food_id,
+    name_alimento: selectedFoodDetails.food_name,
+    quantity: servingChoice.quantity,
+    chosen_serving: chosenServing,
+    calculated_nutrition: calculatedNutrition,
+  };
+
+  // 5. CHAMA A FUNÇÃO DO COMPONENTE PAI, PASSANDO O ALIMENTO.
+  //    NÃO HÁ FETCH AQUI.
+  onAddFood(foodToAdd);
+};
 
   const handleGoBackToSearch = () => {
     setSelectedFoodDetails(null);

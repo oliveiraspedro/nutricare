@@ -25,6 +25,17 @@ async function getDietaById(dietaId){
     return dieta;
 }
 
+async function checkPlanoExistencia(email) {
+    try {
+        const plano = await pacienteRepository.findPlanoByEmail(email);
+        // Não converta para booleano aqui, retorne o objeto diretamente
+        return plano; // Ele já será { exists: true } ou { exists: false }
+    } catch (error) {
+        console.error('Erro no service ao verificar existência do plano:', error);
+        throw error;
+    }
+}
+
 async function assignExistingPatientToNutricionista(email, medicoId){
     try {
         let paciente = await pacienteRepository.findPacienteByEmail(email);
@@ -88,19 +99,62 @@ async function addRefeicao(pacienteEmail, newMeal){
     };
 }
 
-async function addAlimento(pacienteEmail, foodToAdd){
-    const paciente = await pacienteRepository.findPacienteByEmail(pacienteEmail);
+async function addAlimento(refeicaoId, foodToAdd){
+    // Não precisamos mais buscar o paciente aqui
+    // A validação se a refeição pertence ao paciente certo pode ser feita, mas vamos simplificar por agora
 
-    console.log("refeição id: ", paciente.id_nutricionista);
+    // O controller já nos dará o ID da refeição correta
+    const result = await pacienteRepository.addAlimentoByRefeicaoId(refeicaoId, foodToAdd);
+    return result;
+}
 
-    if (!paciente.id_nutricionista) {
-        const error = new Error('Este paciente não tem nenhuma refeição associada a ele');
-        error.statusCode = 404;
-        throw error;
+async function getPlanoAlimentarCompleto(email) {
+  try {
+    // 1. Busca o paciente pelo email para obter o ID
+    const paciente = await pacienteRepository.findPacienteByEmail(email);
+    if (!paciente) {
+      // Lança um erro que o controller vai capturar como "Não Encontrado" (404)
+      const error = new Error('Paciente não encontrado.');
+      error.statusCode = 404;
+      throw error;
     }
 
-    const result = await pacienteRepository.addAlimentoByRefeicaoId(paciente.id_nutricionista, foodToAdd);
-    return result;
+    // 2. Busca o plano alimentar completo usando o ID do paciente
+    const plano = await pacienteRepository.getPlanoAlimentarCompleto(paciente.id);
+    
+    // Retorna o plano (pode ser uma lista vazia, o que é normal)
+    // e também os dados do paciente para o frontend usar
+    return {
+        pacienteInfo: {
+            id: paciente.id,
+            name: paciente.name,
+            email: paciente.email,
+            phone: paciente.phone
+        },
+        meals: plano
+    };
+
+  } catch (error) {
+    console.error('Erro no service ao buscar plano completo:', error);
+    // Relança o erro para o controller lidar com a resposta HTTP
+    throw error;
+  }
+}
+
+async function updateRefeicao(refeicaoId, tipo, horario) {
+  const affectedRows = await pacienteRepository.updateRefeicao(refeicaoId, tipo, horario);
+  if (affectedRows === 0) {
+    throw new Error('Refeição não encontrada ou nenhum dado foi alterado.');
+  }
+  return { message: 'Refeição atualizada com sucesso.' };
+}
+
+async function removeAlimento(alimentoId) {
+  const affectedRows = await pacienteRepository.removeAlimentoById(alimentoId);
+  if (affectedRows === 0) {
+    throw new Error('Alimento não encontrado.');
+  }
+  return { message: 'Alimento removido com sucesso.' };
 }
 
 module.exports = {
@@ -111,5 +165,9 @@ module.exports = {
     assignExistingPatientToNutricionista,
     deassignPatientFromNutricionista,
     addRefeicao,
-    addAlimento
+    addAlimento,
+    checkPlanoExistencia,
+    getPlanoAlimentarCompleto,
+    updateRefeicao,
+    removeAlimento
 }

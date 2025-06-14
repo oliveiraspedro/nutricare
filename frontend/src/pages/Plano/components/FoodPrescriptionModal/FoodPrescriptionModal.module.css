@@ -47,8 +47,36 @@
   flex-grow: 1; height: 2.75rem; font-size: 1rem;
 }
 .searchResults {
-  margin-top: 1rem; max-height: 20rem; overflow-y: auto;
-  display: flex; flex-direction: column;
+  margin-top: 1rem;
+  max-height: 20rem; /* Mantenha a altura máxima para que o scroll seja necessário */
+  overflow-y: auto; /* IMPORTANTE: Permite a rolagem vertical */
+
+  display: flex;
+  flex-direction: column;
+
+  /* Estilização da barra de rolagem para navegadores WebKit */
+  &::-webkit-scrollbar {
+    width: 8px; /* Largura da barra de rolagem */
+    background-color: var(--subtle-bg); /* Cor do fundo da trilha da barra de rolagem */
+    border-radius: 4px; /* Arredonda as bordas da trilha */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #1687C6; /* Cor do "polegar" (a parte que você arrasta) */
+    border-radius: 4px; /* Arredonda as bordas do polegar */
+    border: 2px solid var(--subtle-bg); /* Adiciona uma pequena borda para parecer que está "dentro" */
+  }
+
+  /* Opcional: Estilo do polegar ao passar o mouse */
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #319ed4; /* Uma cor um pouco mais clara para o hover (ajustado de #1687C6) */
+  }
+
+  /* Para Firefox: Infelizmente, a estilização é limitada. */
+  /* Você pode tentar mudar a cor, mas o formato e largura são mais difíceis de controlar. */
+  /* Se você quiser apenas um scroll mais fino ou automático, você pode usar: */
+  scrollbar-width: thin; /* 'auto' ou 'thin' */
+  scrollbar-color: #1687C6 var(--subtle-bg); /* thumb color / track color */
 }
 .searchItem {
   display: flex; justify-content: space-between; align-items: center;
@@ -96,7 +124,7 @@
 
 /* --- Elementos Comuns --- */
 .feedbackMessage {
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: center; justify-content: center; 
   gap: 0.75rem; padding: 2rem; color: var(--subtle-text);
 }
 .spinner {
@@ -214,4 +242,3 @@
     font-weight: 500;
     color: #4a5568;
 }
-

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Pacientes.css";
 
-import ModalAdicionarPaciente from "../../components/Modais/ModalAdicionarPaciente/ModalAdicionarPaciente";
-import ModalConfirmarExclusao from "../../components/Modais/ModalConfirmarExclusao/ModalConfirmarExclusao";
-import ModalPerfilPaciente from "../../components/Modais/ModalPerfilPaciente/ModalPerfilPaciente";
+import ModalAdicionarPaciente from "./components/ModalAdicionarPaciente/ModalAdicionarPaciente";
+import ModalConfirmarExclusao from "./components/ModalConfirmarExclusao/ModalConfirmarExclusao";
+import ModalPerfilPaciente from "./components/ModalPerfilPaciente/ModalPerfilPaciente";
 
 import Button from "../../components/Button/Button";
 import { ModuleResolutionKind } from "typescript";

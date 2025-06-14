@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./ModalAdicionarPaciente.module.css";
-import Button from "../../Button/Button";
+import Button from "../../../../components/Button/Button";
 import { UserPlus, X } from "lucide-react";
 
 interface ModalAdicionarPacienteProps {

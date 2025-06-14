@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./ModalPerfilPaciente.module.css";
-import Button from "../../Button/Button";
-import { User, X, Edit, Save, Plus, BarChart4, Eye } from "lucide-react";
+import Button from "../../../../components/Button/Button";
+import { User, X, Edit, Save, Utensils, BarChart4, Eye } from "lucide-react";
 
 interface DadosAntropometricos {
   peso: number | "";
@@ -89,9 +89,31 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
 
   const handleSalvarAvaliacao = () => {
     console.log("Salvando avaliação:", dadosAntropometricos);
+    // Aqui você faria a chamada à API para salvar os dados
     alert("Avaliação salva com sucesso!");
     setModoEdicao(false);
   };
+
+  // Ajuste a URL base da sua API aqui!
+// Pelo seu último console, seu backend está na porta 8080.
+// Se você mudar, ajuste aqui também.
+const API_BASE_URL = 'http://localhost:8080'; // <--- Confirme que esta é a porta correta do seu backend!
+
+// ...
+
+// Função para lidar com o clique do botão "Planejamento Alimentar"
+const handleAddOrManagePlan = () => { // Removido o 'async'
+    if (!paciente || !paciente.email) {
+      alert("Erro: Dados do paciente não disponíveis.");
+      return;
+    }
+    
+    // SIMPLESMENTE NAVEGA. A página de destino fará o trabalho.
+    navigate(`/plano-alimentar/${paciente.email}`);
+    
+    // Opcional: fechar o modal após a navegação
+    onClose(); 
+};
 
   const imc = calcularIMC();
 
@@ -219,26 +241,15 @@ const ModalPerfilPaciente: React.FC<ModalPerfilPacienteProps> = ({
               onClick={handleSalvarAvaliacao}
             />
           ) : (
-            <>
-              <Button
-                label="Adicionar Planejamento"
-                variant="primary"
-                size="medium"
-                icon={<Plus size={16} />}
-                onClick={() => {
-                  navigate(`/plano-alimentar/${paciente.email}`);
-                }}
-              />
-              <Button
-                label="Gerenciar Planejamento"
-                variant="secondary"
-                size="medium"
-                icon={<Edit size={16} />}
-                onClick={() => {
-                  navigate("/plano-alimentar");
-                }}
-              />
-            </>
+            // --- AQUI ESTÁ A MUDANÇA PRINCIPAL NO BOTÃO DE PLANEJAMENTO ---
+            <Button
+              label="Planejamento Alimentar" // Alterado o rótulo
+              variant="primary"
+              size="medium"
+              icon={<Utensils size={16} />}
+              onClick={handleAddOrManagePlan} // Agora chama a nova função que verifica o plano
+            />
+            // O botão "Gerenciar Planejamento" foi REMOVIDO daqui.
           )}
         </footer>
       </div>
