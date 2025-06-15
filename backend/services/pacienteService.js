@@ -100,10 +100,6 @@ async function addRefeicao(pacienteEmail, newMeal){
 }
 
 async function addAlimento(refeicaoId, foodToAdd){
-    // Não precisamos mais buscar o paciente aqui
-    // A validação se a refeição pertence ao paciente certo pode ser feita, mas vamos simplificar por agora
-
-    // O controller já nos dará o ID da refeição correta
     const result = await pacienteRepository.addAlimentoByRefeicaoId(refeicaoId, foodToAdd);
     return result;
 }
@@ -122,8 +118,6 @@ async function getPlanoAlimentarCompleto(email) {
     // 2. Busca o plano alimentar completo usando o ID do paciente
     const plano = await pacienteRepository.getPlanoAlimentarCompleto(paciente.id);
     
-    // Retorna o plano (pode ser uma lista vazia, o que é normal)
-    // e também os dados do paciente para o frontend usar
     return {
         pacienteInfo: {
             id: paciente.id,
