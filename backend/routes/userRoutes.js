@@ -32,9 +32,11 @@ router.get('/paciente/profile', authMiddleware, pacienteController.getPacientePr
 // router.get('/paciente/:id/plano', authMiddleware, pacienteController.findPlanoByPaciente);
 
 router.get('/paciente/meu-plano', authMiddleware, pacienteController.getMeuPlanoAlimentar);
-
+router.get('/paciente/minha-avaliacao-recente', authMiddleware, pacienteController.getMinhaAvaliacaoRecente);
 router.get('/pacientes/:email/plano-alimentar', authMiddleware, pacienteController.getPlanoAlimentar);
 router.get('/pacientes/:email/plano-existe', authMiddleware, pacienteController.checkPlanoExistencia);
+
+router.get('/avaliacoes/:pacienteId', authMiddleware, pacienteController.getAvaliacaoRecentePorMedico);
 
 // FatSecret Token
 router.get('/fatsecret/token', fatsecretController.getFatSecretToken);
@@ -43,10 +45,14 @@ router.get('/fatsecret/token', fatsecretController.getFatSecretToken);
 router.post('/medico/pacientes/addRefeicao', authMiddleware, pacienteController.addRefeicao);
 router.post('/medico/plano-alimentar', authMiddleware, pacienteController.addAlimento);
 
+router.post('/paciente/diario/concluir', authMiddleware, pacienteController.marcarRefeicaoComoConcluida);
+
 // -------- PUT --------
 router.put('/medico/pacientes/assignPaciente', authMiddleware, pacienteController.assignExistingPatientToNutricionista);
 router.put('/medico/pacientes/deassignPaciente', authMiddleware, pacienteController.deassignPatientFromNutricionista);
 // router.put('/medico/:pacienteId/plano', authMiddleware, medicoController.updatePlanoAlimentar);
+
+router.put('/avaliacoes/:pacienteId', authMiddleware, pacienteController.salvarAvaliacao);
 
 router.put('/refeicoes/:refeicaoId', authMiddleware, pacienteController.updateRefeicao);
 

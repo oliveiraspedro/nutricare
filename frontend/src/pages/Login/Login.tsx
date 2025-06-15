@@ -76,6 +76,8 @@ const LoginPage = () => {
     setCrm(formattedValue);
   };
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -86,7 +88,7 @@ const LoginPage = () => {
       };
 
       try {
-        const response = await fetch("http://localhost:8080/api/login/medico", {
+        const response = await fetch(`${API_BASE_URL}/api/login/medico`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -138,7 +140,7 @@ const LoginPage = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:8080/api/login/paciente",
+          `${API_BASE_URL}/api/login/paciente`,
           {
             method: "POST",
             headers: {

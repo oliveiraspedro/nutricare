@@ -108,7 +108,7 @@
     color: var(--subtle-text);
 }
 .selectInput, .numberInput {
-    background-color: var(--subtle-bg);
+    background-color: #1b2d4f;
     border: 1px solid var(--border);
     color: var(--foreground);
     border-radius: 0.5rem;

@@ -4,11 +4,7 @@ import "./Pacientes.css";
 import ModalAdicionarPaciente from "./components/ModalAdicionarPaciente/ModalAdicionarPaciente";
 import ModalConfirmarExclusao from "./components/ModalConfirmarExclusao/ModalConfirmarExclusao";
 import ModalPerfilPaciente from "./components/ModalPerfilPaciente/ModalPerfilPaciente";
-
 import Button from "../../components/Button/Button";
-import { ModuleResolutionKind } from "typescript";
-import { resourceLimits } from "worker_threads";
-import { PackageIcon } from "lucide-react";
 
 interface Paciente {
   id: number;
@@ -16,56 +12,27 @@ interface Paciente {
   email: string;
   phone: string;
   dataNascimento: string;
+  // Opcional, para que possamos adicionar os dados da avaliação aqui
+  avaliacaoAtual?: any; 
 }
 
 const Pacientes: React.FC = () => {
-  const [pacientes, setPacientes] = useState<Paciente[]>([
-    // {
-    //   id: 1,
-    //   nome: "Max Maya",
-    //   email: "max@example.com",
-    //   telefone: "11 91234-5678",
-    //   dataNascimento: "1990-01-15",
-    // },
-    // {
-    //   id: 2,
-    //   nome: "Pedro Silva",
-    //   email: "pedro@example.com",
-    //   telefone: "21 99876-5432",
-    //   dataNascimento: "1985-07-08",
-    // },
-    // {
-    //   id: 3,
-    //   nome: "Carlos Mendes",
-    //   email: "carlos@example.com",
-    //   telefone: "31 98765-4321",
-    //   dataNascimento: "1978-05-23",
-    // },
-    // {
-    //   id: 4,
-    //   nome: "Márcio Almeida",
-    //   email: "marcio@example.com",
-    //   telefone: "41 99999-0000",
-    //   dataNascimento: "1992-12-02",
-    // },
-  ]);
-
+  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const [modalAdicionarAberto, setModalAdicionarAberto] = useState(false);
   const [modalExcluirAberto, setModalExcluirAberto] = useState(false);
-  const [pacienteSelecionado, setPacienteSelecionado] =
-    useState<Paciente | null>(null);
+  const [pacienteSelecionado, setPacienteSelecionado] = useState<Paciente | null>(null);
   const [modalPerfilAberto, setModalPerfilAberto] = useState(false);
 
   const handleAbrirModalAdicionar = () => setModalAdicionarAberto(true);
   const handleFecharModalAdicionar = () => setModalAdicionarAberto(false);
 
+  // Busca a lista de pacientes do médico quando o componente é montado
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/medico/pacientes/${localStorage.getItem(
-            "userId"
-          )}`,
+          `${API_BASE_URL}/api/medico/pacientes/${localStorage.getItem("userId")}`,
           {
             method: "GET",
             headers: {
@@ -74,30 +41,23 @@ const Pacientes: React.FC = () => {
             },
           }
         );
-
         const result = await response.json();
-
         if (!response.ok) {
-          throw new Error(result.message || "Erro ao adicionar paciente");
-        }   
-
+          throw new Error(result.message || "Erro ao buscar pacientes");
+        }  
+        // Mapeia os dados, garantindo que os campos correspondem à interface
         const fetchedPacientes: Paciente[] = result.pacientes.map(
-          (paciente: Paciente) => {
-            return {
-              id: paciente.id,
-              name: paciente.name,
-              email: paciente.email,
-              phone: paciente.phone,
-              dataNascimento: "Não informado",
-            };
-          }
+          (paciente: any) => ({
+            id: paciente.id,
+            name: paciente.name,
+            email: paciente.email,
+            phone: paciente.phone,
+            dataNascimento: paciente.dataNascimento || "Não informado", // Adiciona um fallback
+          })
         );
         setPacientes(fetchedPacientes);
       } catch (error) {
-        console.error(
-          "Erro ao buscar todos os pacientes associados com nutricionista:",
-          error
-        );
+        console.error("Erro ao buscar todos os pacientes associados com nutricionista:", error);
       }
     };
     fetchData();
@@ -107,7 +67,7 @@ const Pacientes: React.FC = () => {
     try {
       console.log("Adicionando paciente com email:", email);
       const response = await fetch(
-        `http://localhost:8080/api/medico/pacientes/assignPaciente`,
+        `${API_BASE_URL}/api/medico/pacientes/assignPaciente`,
         {
           method: "PUT",
           headers: {
@@ -127,16 +87,19 @@ const Pacientes: React.FC = () => {
         throw new Error(result.message || "Erro ao adicionar paciente");
       }
 
+      // Atualiza a lista de pacientes após adicionar um novo
       const novoPaciente: Paciente = {
-        id: pacientes.length + 1,
+        id: result.paciente.id, // Usa o ID real vindo do backend
         name: result.paciente.name,
         email: result.paciente.email,
         phone: result.paciente.phone,
-        dataNascimento: "Não informado",
+        dataNascimento: result.paciente.dataNascimento || "Não informado",
       };
       setPacientes([...pacientes, novoPaciente]);
+      handleFecharModalAdicionar(); // Fecha o modal após o sucesso
     } catch (error) {
       console.error("Erro ao adicionar paciente:", error);
+      alert((error as Error).message);
     }
   };
 
@@ -146,9 +109,10 @@ const Pacientes: React.FC = () => {
   };
 
   const handleConfirmarExclusao = async () => {
+    if (!pacienteSelecionado) return;
     try {
       const response = await fetch(
-        `http://localhost:8080/api/medico/pacientes/deassignPaciente`,
+        `${API_BASE_URL}/api/medico/pacientes/deassignPaciente`,
         {
           method: "PUT",
           headers: {
@@ -157,30 +121,59 @@ const Pacientes: React.FC = () => {
           },
           body: JSON.stringify({
             medicoId: localStorage.getItem("userId"),
+            pacienteId: pacienteSelecionado.id, // Enviar o ID do paciente a ser desvinculado
           }),
         }
       );
 
-      const result = await response.json();
-
       if (!response.ok) {
+        const result = await response.json();
         throw new Error(result.message || "Erro ao desassociar paciente");
       }
 
-      console.log("Paciente desassociado com sucesso:", result.message);
+      setPacientes(pacientes.filter((p) => p.id !== pacienteSelecionado.id));
+      console.log("Paciente desassociado com sucesso");
     } catch (error) {
       console.error("Erro ao excluir paciente:", error);
-    }
-    if (pacienteSelecionado) {
-      setPacientes(pacientes.filter((p) => p.id !== pacienteSelecionado.id));
+      alert((error as Error).message);
     }
     setModalExcluirAberto(false);
     setPacienteSelecionado(null);
   };
 
-  const handleAbrirPerfilPaciente = (paciente: Paciente) => {
-    setPacienteSelecionado(paciente);
-    setModalPerfilAberto(true);
+  // Lógica atualizada para buscar a avaliação antes de abrir o modal
+  const handleAbrirPerfilPaciente = async (paciente: Paciente) => {
+    try {
+        console.log(`A buscar avaliação para ${paciente.name}...`);
+        
+        setPacienteSelecionado(paciente);
+        setModalPerfilAberto(true); 
+
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_BASE_URL}/api/avaliacoes/${paciente.id}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+            console.warn(`Nenhuma avaliação encontrada para o paciente com ID: ${paciente.id}`);
+            // Neste caso, o modal já está aberto com os dados básicos, não há problema.
+            return; 
+        }
+
+        const dadosAvaliacao = await response.json();
+
+        // Combina os dados básicos do paciente com a avaliação
+        const pacienteCompleto = {
+            ...paciente,
+            avaliacaoAtual: dadosAvaliacao
+        };
+
+        // Atualiza o estado, o que irá re-renderizar o modal com a avaliação
+        setPacienteSelecionado(pacienteCompleto);
+
+    } catch (error) {
+        console.error("Erro ao buscar avaliação do paciente:", error);
+    }
   };
 
   const handleFecharModalPerfil = () => {
@@ -192,16 +185,8 @@ const Pacientes: React.FC = () => {
     <div className="seus-pacientes-container">
       <div className="seus-pacientes-header">
         <p>Seus Pacientes</p>
-        <button
-          className="add-paciente-button"
-          onClick={handleAbrirModalAdicionar}
-        >
-          <span
-            className="material-symbols-outlined"
-            style={{ color: "white" }}
-          >
-            person_add{" "}
-          </span>
+        <button className="add-paciente-button" onClick={handleAbrirModalAdicionar}>
+          <span className="material-symbols-outlined" style={{ color: "white" }}>person_add</span>
           Adicionar Paciente
         </button>
       </div>
@@ -214,15 +199,9 @@ const Pacientes: React.FC = () => {
             onClick={() => handleAbrirPerfilPaciente(paciente)}
           >
             <div className="paciente-info">
-              <span
-                className="material-symbols-outlined"
-                style={{ color: "white" }}
-              >
-                account_circle
-              </span>
+              <span className="material-symbols-outlined" style={{ color: "white" }}>account_circle</span>
               <span className="paciente-nome">{paciente.name}</span>
             </div>
-
             <Button
               label=""
               variant="danger"
@@ -236,22 +215,17 @@ const Pacientes: React.FC = () => {
         ))}
       </div>
 
-      {/* Modal: Adicionar Paciente */}
       <ModalAdicionarPaciente
         isOpen={modalAdicionarAberto}
         onClose={handleFecharModalAdicionar}
         onAdd={handleAdicionarPaciente}
       />
-
-      {/* Modal: Confirmar Exclusão */}
       <ModalConfirmarExclusao
         isOpen={modalExcluirAberto}
         onClose={() => setModalExcluirAberto(false)}
         onConfirm={handleConfirmarExclusao}
         nome={pacienteSelecionado?.name}
       />
-
-      {/* Modal: Perfil do Paciente */}
       <ModalPerfilPaciente
         isOpen={modalPerfilAberto}
         onClose={handleFecharModalPerfil}

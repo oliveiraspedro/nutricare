@@ -16,18 +16,20 @@ async function getPacienteById(req, res){
     }
 }
 
-async function getPacienteProfile(req, res){
+async function getPacienteProfile(req, res) {
     try {
-        const { id } = req.user.paciente.id;
-        const pacienteProfile = await pacienteService.getPacienteProfile(id);
-
-        if (!pacienteProfile){
-            res.status(404).json({error: 'Paciente não encontrado'});
+        const id = req.user?.paciente?.id;
+        if (!id) {
+            return res.status(403).json({ message: 'Acesso negado. Rota exclusiva para pacientes.' });
         }
-        res.status(200).json({message: 'Perfil do paciente encontrado: ', pacienteProfile: pacienteProfile});
-    } catch (error){
-        console.error('Erro no controller ao buscar perfil do paciente', error.message);
-        res.status(500).json({error: 'Erro interno no servidor', error: message});
+        const pacienteProfile = await pacienteService.getPacienteProfile(id);
+        if (!pacienteProfile) {
+            return res.status(404).json({ error: 'Perfil do paciente não encontrado' });
+        }
+        res.status(200).json({ pacienteProfile: pacienteProfile });
+    } catch (error) {
+        console.error('Erro no controller ao buscar perfil do paciente:', error.message);
+        res.status(500).json({ error: 'Erro interno no servidor', message: error.message });
     }
 }
 
@@ -212,31 +214,85 @@ async function removeAlimento(req, res) {
 }
 
 async function getMeuPlanoAlimentar(req, res) {
-  try {
-    // O ID do paciente vem do token JWT, injetado pelo authMiddleware
-    // Verifique no seu auth.middleware.js como o usuário é salvo em `req`.
-    // Geralmente é `req.user.id` ou `req.user.paciente.id`. Vou usar uma opção segura.
-    const pacienteId = req.user?.id || req.user?.paciente?.id;
-
-    if (!pacienteId) {
-      return res.status(401).json({ message: 'Token inválido ou ID do paciente não encontrado.' });
+    try {
+        const id = req.user?.paciente?.id;
+        if (!id) {
+            return res.status(403).json({ message: 'Acesso negado. Rota exclusiva para pacientes.' });
+        }
+        const paciente = await pacienteService.getPacienteById(id);
+        if (!paciente) {
+            return res.status(404).json({ message: 'Paciente não encontrado.' });
+        }
+        const planoCompleto = await pacienteService.getPlanoAlimentarCompleto(paciente.email);
+        res.status(200).json(planoCompleto);
+    } catch (error) {
+        console.error('Erro no controller ao buscar plano do próprio paciente:', error);
+        res.status(500).json({ message: error.message || 'Erro interno no servidor.' });
     }
-    
-    // O service já busca pelo email, então primeiro pegamos o email a partir do ID
-    const paciente = await pacienteService.getPacienteById(pacienteId);
-    if (!paciente) {
-        return res.status(404).json({ message: 'Paciente não encontrado.' });
+}
+
+async function getMinhaAvaliacaoRecente(req, res) {
+    try {
+        const id = req.user?.paciente?.id;
+        if (!id) {
+            return res.status(403).json({ message: 'Acesso negado. Rota exclusiva para pacientes.' });
+        }
+        const avaliacao = await pacienteService.getAvaliacaoRecente(id);
+        res.status(200).json(avaliacao || {});
+    } catch (error) {
+        console.error('Erro no controller ao buscar avaliação recente:', error);
+        res.status(500).json({ message: error.message || 'Erro interno no servidor.' });
     }
+}
 
-    // Agora usamos a função que já existe para buscar o plano completo pelo email
-    const planoCompleto = await pacienteService.getPlanoAlimentarCompleto(paciente.email);
-    
-    res.status(200).json(planoCompleto);
+async function marcarRefeicaoComoConcluida(req, res) {
+    try {
+        const pacienteId = req.user?.paciente?.id;
+        const { refeicaoId } = req.body;
+        if (!pacienteId || !refeicaoId) {
+            return res.status(400).json({ message: 'ID do paciente e da refeição são obrigatórios.' });
+        }
+        await pacienteService.marcarRefeicaoComoConcluida(pacienteId, refeicaoId);
+        res.status(200).json({ message: 'Refeição marcada como concluída.' });
+    } catch (error) {
+        console.error('Erro no controller ao marcar refeição:', error);
+        res.status(500).json({ message: error.message || 'Erro interno no servidor.' });
+    }
+}
 
-  } catch (error) {
-    console.error('Erro no controller ao buscar plano do próprio paciente:', error);
-    res.status(500).json({ message: error.message || 'Erro interno no servidor.' });
-  }
+async function salvarAvaliacao(req, res) {
+    try {
+        const { pacienteId } = req.params;
+        const dadosAvaliacao = req.body;
+
+        if (!pacienteId || !dadosAvaliacao) {
+            return res.status(400).json({ message: 'ID do paciente e dados da avaliação são obrigatórios.' });
+        }
+        await pacienteService.salvarAvaliacao(pacienteId, dadosAvaliacao);
+        res.status(200).json({ message: 'Avaliação guardada com sucesso.' });
+    } catch (error) {
+        console.error('Erro no controller ao guardar avaliação:', error);
+        res.status(500).json({ message: 'Erro interno ao guardar avaliação.', error: error.message });
+    }
+}
+
+async function getAvaliacaoRecentePorMedico(req, res) {
+    try {
+        const { pacienteId } = req.params; // O ID do paciente vem da URL
+
+        if (!pacienteId) {
+            return res.status(400).json({ message: 'O ID do paciente é obrigatório.' });
+        }
+        
+        const avaliacao = await pacienteService.getAvaliacaoRecente(pacienteId);
+        
+        // Retorna a avaliação ou um objeto vazio se não houver nenhuma
+        res.status(200).json(avaliacao || {});
+
+    } catch (error) {
+        console.error('Erro no controller ao buscar avaliação pelo médico:', error);
+        res.status(500).json({ message: error.message || 'Erro interno no servidor.' });
+    }
 }
 
 module.exports = {
@@ -253,5 +309,9 @@ module.exports = {
     getPlanoAlimentar,
     updateRefeicao,
     removeAlimento,
-    getMeuPlanoAlimentar
+    getMeuPlanoAlimentar,
+    getMinhaAvaliacaoRecente,
+    marcarRefeicaoComoConcluida,
+    salvarAvaliacao,
+    getAvaliacaoRecentePorMedico
 }

@@ -1,0 +1,53 @@
+.skeletonCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* Importante para a animação não vazar */
+}
+
+/* Base para todos os elementos do esqueleto */
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+/* Animação que move o gradiente */
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.skeletonHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.skeletonAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+.skeletonUserInfo {
+  flex-grow: 1;
+}
+
+.skeletonContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Espaço entre as linhas */
+}
+
+.skeletonLine {
+  height: 20px;
+  border-radius: 4px;
+}

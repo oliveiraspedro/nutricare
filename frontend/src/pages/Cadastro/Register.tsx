@@ -220,6 +220,8 @@ const Register: React.FC = () => {
     // Remove formatação do telefone antes de enviar
     const cleanPhone = phone.replace(/\D/g, "");
 
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
     if (accountType === "paciente") {
       const newPaciente = {
         name: fullName,
@@ -230,7 +232,7 @@ const Register: React.FC = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:8080/api/register/paciente",
+          `${API_BASE_URL}/api/register/paciente`,
           {
             method: "POST",
             headers: {
@@ -277,7 +279,7 @@ const Register: React.FC = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:8080/api/register/medico",
+          `${API_BASE_URL}/api/register/medico`,
           {
             method: "POST",
             headers: {

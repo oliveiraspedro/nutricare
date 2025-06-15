@@ -82,7 +82,7 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
     const fetchToken = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/fatsecret/token"
+          `${API_BASE_URL}/api/fatsecret/token`
         );
         setAccessToken(response.data.access_token);
       } catch (error) {
@@ -92,6 +92,7 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
     fetchToken();
   }, []);
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   useEffect(() => {
     const searchFood = async () => {
       if (debouncedSearchTerm.length < 3 || !accessToken) {
@@ -101,7 +102,7 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
       setLoading(true);
       try {
         const response = await axios.post(
-          "http://localhost:8080/api/fatsecret/search",
+          `${API_BASE_URL}/api/fatsecret/search`,
           {
             query: debouncedSearchTerm,
             token: accessToken,
@@ -136,7 +137,7 @@ const FoodPrescriptionModal: React.FC<FoodPrescriptionModalProps> = ({
     setSearchTerm(food.name);
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/fatsecret/getFoodDetails",
+        `${API_BASE_URL}/api/fatsecret/getFoodDetails`,
         {
           food_id: food.id,
           token: accessToken,

@@ -1,7 +1,7 @@
 const pacienteRepository = require('../repositories/pacienteRepository')
 
 async function getPacienteById(id){
-    const paciente = await pacienteRepository.getPacienteById(id);
+    const paciente = await pacienteRepository.findPacienteById(id);
     return paciente;
 }
 
@@ -157,6 +157,20 @@ async function removeAlimento(alimentoId) {
   return { message: 'Alimento removido com sucesso.' };
 }
 
+async function getAvaliacaoRecente(pacienteId) {
+  const avaliacao = await pacienteRepository.findAvaliacaoRecenteByPacienteId(pacienteId);
+  return avaliacao;
+}
+
+async function marcarRefeicaoComoConcluida(pacienteId, refeicaoId) {
+  return await pacienteRepository.criarRegistroDiario(pacienteId, refeicaoId);
+}
+
+async function salvarAvaliacao(pacienteId, dados) {
+  // Poderíamos adicionar validações de negócio aqui no futuro
+  return await pacienteRepository.salvarAvaliacao(pacienteId, dados);
+}
+
 module.exports = {
     getPacienteById,
     getPacienteProfile,
@@ -169,5 +183,8 @@ module.exports = {
     checkPlanoExistencia,
     getPlanoAlimentarCompleto,
     updateRefeicao,
-    removeAlimento
+    removeAlimento,
+    getAvaliacaoRecente,
+    marcarRefeicaoComoConcluida,
+    salvarAvaliacao
 }

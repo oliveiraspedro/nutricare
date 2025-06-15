@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS nutricare_db;
-CREATE DATABASE nutricare_db;
-USE nutricare_db;
+DROP DATABASE IF EXISTS railway;
+CREATE DATABASE railway;
+USE railway;
 
 CREATE TABLE nutricionista (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -67,12 +67,21 @@ CREATE TABLE avaliacao (
     id_paciente INT,
     data_avaliacao DATE,
     peso DECIMAL(5,2),
-    altura DECIMAL(4,2),
+    altura DECIMAL(5,2),
     circunferencia DECIMAL(5,2),
     observacoes TEXT,
     FOREIGN KEY (id_paciente) REFERENCES paciente(id)
 );
 
+CREATE TABLE diario_refeicao (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_paciente INT NOT NULL,
+    id_refeicao INT NOT NULL,
+    data_conclusao DATE NOT NULL,
+    FOREIGN KEY (id_paciente) REFERENCES paciente(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_refeicao) REFERENCES refeicao(id) ON DELETE CASCADE,
+    UNIQUE KEY `progresso_diario` (`id_paciente`, `id_refeicao`, `data_conclusao`)
+);
 
 INSERT INTO nutricionista (name, crm, email, phone, pwd) VALUES
 ('Carlos Freire', 'SP-688888', 'drcarlos@gmail.com', '11928375362', '$2b$10$UTcfi7DjKU0HnhPsly9hH.BWSx7b69hItMwO2kJK3zs4.q77iahde');

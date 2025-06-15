@@ -18,16 +18,26 @@ async function findMedicoByCrm(req, res){
 
 async function getMedicoProfile(req, res){
     try {
-        const { id } = req.user.medico.id;
-        const medicoProfile = await medicoService.getMedicoProfile(id);
+        // LÓGICA CORRETA: Este controller SÓ se importa com o ID do médico.
+        const id = req.user?.medico?.id;
+
+        // Se não houver um ID de médico no token, o acesso é não autorizado.
+        if (!id) {
+            return res.status(401).json({ error: 'Acesso negado. Token de médico inválido.' });
+        }
+
+        const medicoProfile = await medicoService.getMedicoProfile(id); // Supondo que você tenha essa função no service
 
         if (!medicoProfile){
-            res.status(404).json({error: 'Médico não encontrado'});
+            return res.status(404).json({error: 'Médico não encontrado'});
         }
-        res.status(200).json({message: 'Perfil do médico encontrado: ', medicoProfile: medicoProfile});
+        
+        // Retorna os dados do perfil do médico
+        res.status(200).json({ profile: medicoProfile });
+
     } catch (error){
-        console.error('Erro no controller ao buscar perfil do médico', error.message);
-        res.status(500).json({error: 'Erro interno no servidor', error: message});
+        console.error('Erro no controller ao buscar perfil do médico:', error.message);
+        res.status(500).json({error: 'Erro interno no servidor', message: error.message});
     }
 }
 

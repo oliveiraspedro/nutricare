@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Perfil.module.css';
 import { FaAppleAlt } from 'react-icons/fa';
-
-import { PersonalDataCard } from './components/PersonalDataCard/PersonalDataCard';
+import { PersonalDataCard, UserData } from './components/PersonalDataCard/PersonalDataCard';
 import { AnthropometricDataCard } from './components/AnthropometricDataCard/AnthropometricDataCard';
+import { SkeletonCard } from './components/SkeletonCard/SkeletonCard';
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 interface DadosAntropometricos {
     peso: number | "";
@@ -13,41 +15,83 @@ interface DadosAntropometricos {
     observacoes: string;
 }
 
-const mockAntropometricData: DadosAntropometricos = {
-    peso: 61.0,
-    altura: 161,
-    circunferencia: 60,
-    dataAvaliacao: "2025-06-03",
-    observacoes: "Paciente apresenta boa evolução no programa nutricional.",
-};
-
 const Perfil = () => {
-    const [userType, setUserType] = useState<string | null>(null);
+    const [personalData, setPersonalData] = useState<UserData | null>(null);
     const [antropometricData, setAntropometricData] = useState<DadosAntropometricos | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [userType] = useState<string | null>(() => localStorage.getItem("userType"));
 
     useEffect(() => {
-        const type = localStorage.getItem("userType");
-        setUserType(type);
+        let isMounted = true;
+        const loadProfileData = async () => {
+            const token = localStorage.getItem('token');
+            if (!token || !userType) {
+                if(isMounted) setIsLoading(false);
+                return;
+            }
 
-        if (type === 'paciente') {
-            setAntropometricData(mockAntropometricData);
-        }
-    }, []);
+            const personalDataPromise = fetch(`${API_BASE_URL}/api/${userType}/profile`, { headers: { 'Authorization': `Bearer ${token}` } }).then(res => res.json());
+            
+            const antropometricDataPromise = userType === 'paciente' 
+                ? fetch(`${API_BASE_URL}/api/paciente/minha-avaliacao-recente`, { headers: { 'Authorization': `Bearer ${token}` } }).then(res => res.ok ? res.json() : null)
+                : Promise.resolve(null);
+
+            try {
+                const [personalResult, antropometricResult] = await Promise.all([personalDataPromise, antropometricDataPromise]);
+
+                if (isMounted) {
+                    const profileData = userType === 'medico' ? personalResult.profile : personalResult.pacienteProfile;
+                    setPersonalData(profileData);
+
+                    // A verificação correta: se o resultado da API não for nulo
+                    if (antropometricResult) {
+                        setAntropometricData(antropometricResult);
+                    }
+                    
+                    setIsLoading(false);
+                }
+            } catch (error) {
+                if (isMounted) {
+                    console.error("Falha ao carregar dados do perfil:", error);
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        loadProfileData();
+        return () => { isMounted = false; };
+    }, [userType]);
+
+    if (isLoading) {
+        return (
+            <div className={styles.profileContainer}>
+                <div className={styles.profileContent}>
+                    <header className={styles.profileHeader}>
+                        <FaAppleAlt className={styles.headerIcon} />
+                        <div>
+                            <h1>O Meu Perfil</h1>
+                            <p>Faça a gestão das suas informações pessoais e de saúde</p>
+                        </div>
+                    </header>
+                    <SkeletonCard hasAvatar={true} lines={4} />
+                    {userType === 'paciente' && <SkeletonCard lines={5} />}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.profileContainer}>
-            {/* ▼▼▼ NOVO WRAPPER PARA ALINHAMENTO ▼▼▼ */}
             <div className={styles.profileContent}>
                 <header className={styles.profileHeader}>
                     <FaAppleAlt className={styles.headerIcon} />
                     <div>
-                        <h1>Meu Perfil</h1>
-                        <p>Gerencie suas informações pessoais e de saúde</p>
+                        <h1>O Meu Perfil</h1>
+                        <p>Faça a gestão das suas informações pessoais e de saúde</p>
                     </div>
                 </header>
-
-                {/* Passando userType para o componente filho */}
-                <PersonalDataCard userType={userType} />
+                
+                <PersonalDataCard userData={personalData} />
 
                 {userType === 'paciente' && (
                     <AnthropometricDataCard data={antropometricData} />
