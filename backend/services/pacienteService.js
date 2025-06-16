@@ -42,38 +42,36 @@ async function assignExistingPatientToNutricionista(email, medicoId){
 
         if (!paciente) {
             const error = new Error('Paciente com este email não encontrado.');
-            error.statusCode = 404;
+            error.statusCode = 404; // <--- Certo
             throw error;
         }
 
         if (paciente.id_nutricionista !== null) {
             if (paciente.id_nutricionista === medicoId) {
                 const error = new Error('Este paciente já está vinculado à sua lista.');
-                    error.statusCode = 409; // Conflict
-                    throw error;
-                } else {
-                    const error = new Error('Este paciente já está vinculado a outro nutricionista.');
-                    error.statusCode = 409; // Conflict
-                    throw error;
-                }
+                error.statusCode = 409; // Conflict <--- Certo
+                throw error;
+            } else {
+                const error = new Error('Este paciente já está vinculado a outro nutricionista.');
+                error.statusCode = 409; // Conflict <--- Certo
+                throw error;
             }
+        }
 
-        // Atualiza o paciente usando o repositório
         const affectedRows = await pacienteRepository.assignExistingPatientToNutricionista(paciente, medicoId);
 
         if (affectedRows === 0) {
             const error = new Error('Falha ao atualizar o paciente. Nenhuma linha afetada.');
-            error.statusCode = 500;
+            error.statusCode = 500; // <--- Certo
             throw error;
         }
 
-        // Busca e retorna os dados completos do paciente atualizado
         const updatedPatient = await pacienteRepository.findPacienteByEmail(paciente.email);
         return updatedPatient;
 
     } catch (error) {
         console.error('Erro em PatientService.assignExistingPatientByEmail:', error);
-        throw error;
+        throw error; // <--- Propagando o erro (com statusCode, se existir) para o controller
     }
 }
 

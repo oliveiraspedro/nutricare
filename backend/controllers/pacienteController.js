@@ -79,17 +79,18 @@ async function assignExistingPatientToNutricionista(req, res){
         const email = req.body.email;
         const medicoId = req.body.medicoId;
         if (!email || !medicoId) {
-            return res.status(400).json({error: 'Email e ID do médico são obrigatórios.'});
+            return res.status(400).json({message: 'Email e ID do médico são obrigatórios.'});
         }
-        
+
         const paciente = await pacienteService.assignExistingPatientToNutricionista(email, medicoId);
         if (!paciente){
-            res.status(404).json({message: 'Paciente não encontrado'});
+             return res.status(404).json({message: 'Paciente não encontrado'});
         }
-        res.status(200).json({message: 'Paciente encontrado: ', paciente});
+        res.status(200).json({message: 'Paciente atribuído com sucesso!', paciente: paciente});
     } catch (error) {
-        console.error('Erro no controller ao buscar paciente por email', error.message);
-        res.status(500).json({error: 'Erro interno no servidor', error: error.message});
+        console.error('Erro no controller ao atribuir paciente:', error.message);
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).json({message: error.message || 'Erro interno no servidor.'});
     }
 }
 
