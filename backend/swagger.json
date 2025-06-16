@@ -1,238 +1,1321 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "API Nutricare",
-        "description": "API documentação para o sistema Nutricare",
-        "contact": {
-            "email": "pedro.santosdeoliveira13@gmail.com"
-        },
-        "version": "1.0.0"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "NutriCare API - Documentação",
+    "description": "API para gerenciamento de planos alimentares, pacientes e nutricionistas, incluindo integração com FatSecret.",
+    "contact": {
+      "name": "Equipe NutriCare",
+      "url": "http://localhost:8080",
+      "email": "contato@nutricare.com"
     },
-
-    "servers": [
-        {
-            "url": "http://localhost:8080",
-            "description": "Servidor de desenvolvimento"
-        }
-    ],
-    "paths": {
-        "/api/register/medico": {
-            "post": {
-                "summary": "Registrar médico",
-                "description": "Endpoint para registrar um novo médico.",
-                "tags": ["Médico"],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema":{
-                                "$ref": "#/components/schemas/Médico"
-                            },
-                            "example": {
-                                "name": "Dr. João Silva",
-                                "email": "dr.joao.silva@example.com",
-                                "phone": 123456789,
-                                "crm": 123456,
-                                "password": "senha123"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Created!",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "$ref": "#/components/schemas/Médico"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Médico already exist!"
-                    }
-                }
-            }
-        },
-        "/api/register/paciente": {
-            "post": {
-                "summary": "Registrar paciente",
-                "description": "Endpoint para registrar um novo paciente.",
-                "tags": ["Paciente"],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Paciente"
-                            },
-                            "example": {
-                                "name": "José Carmino",
-                                "email": "carmino01@example.com",
-                                "phone": 987563546,
-                                "password": "senha123"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                "201": {
-                    "description": "Created!",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "$ref": "#/components/schemas/Paciente"
-                            }
-                        }
-                    }
-                },
-                "400": {
-                    "description": "Paciente already exist!"
-                }
-            }
-            }
-        },
-        "/api/login/medico": {
-            "post": {
-                "summary": "Login médico",
-                "description": "Endpoint para realizar o login de um médico.",
-                "tags": ["Médico"],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Médico"
-                            },
-                            "example": {
-                                "crm": "987653",
-                                "password": "senha123"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "400": {
-                        "description": "CRM e senha são obrigatórios."
-                    },
-                    "401": {
-                        "description": "CRM ou senha inválidos."
-                    },
-                    "200": {
-                        "description": "Login bem-sucedido!",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "$ref": "#/components/schemas/Médico",
-                                    "properties": {
-                                        "token": {
-                                            "type": "string",
-                                            "description": "Token JWT para autenticação"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/login/paciente": {
-            "post": {
-                "summary": "Login paciente",
-                "description": "Endpoint para realizar o login de um paciente.",
-                "tags": ["Paciente"],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Paciente"
-                            },
-                            "example": {
-                                "email": "carmino01@example.com",
-                                "password": "senha123"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "400": {
-                        "description": "Email e senha são obrigatórios."
-                    },
-                    "401": {
-                        "description": "Email ou senha inválidos."
-                    },
-                    "200": {
-                        "description": "Login bem-sucedido!",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "token": {
-                                            "type": "string",
-                                            "description": "Token JWT para autenticação"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "Médico": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "phone": {
-                        "type": "number"
-                    }, 
-                    "crm": {
-                        "type": "number"
-                    },
-                    "password": {
-                        "type": "string",
-                        "format": "password"
-                    }
-                }
-            },
-            "Paciente": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "phone": {
-                        "type": "number"
-                    },
-                    "password": {
-                        "type": "string",
-                        "format": "password"
-                    }
-                }
-            }
-        },
-        "securitySchemes": {
-            "BearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        }
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api",
+      "description": "Servidor de Desenvolvimento Local"
     }
+  ],
+  "tags": [
+    {
+      "name": "Autenticação",
+      "description": "Endpoints para registro e login de médicos e pacientes."
+    },
+    {
+      "name": "Médico",
+      "description": "Operações relacionadas a nutricionistas (médicos)."
+    },
+    {
+      "name": "Paciente",
+      "description": "Operações relacionadas a pacientes e seus planos alimentares."
+    },
+    {
+      "name": "FatSecret",
+      "description": "Integração com a API FatSecret para busca de alimentos e detalhes nutricionais."
+    }
+  ],
+  "paths": {
+    "/login/medico": {
+      "post": {
+        "summary": "Realiza o login de um nutricionista.",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              },
+              "example": {
+                "credential": "SP123456",
+                "password": "minhaSenhaForte"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido. Retorna o token JWT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthPayload"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "CRM ou senha ausentes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "CRM e senha são obrigatórios." }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "CRM ou senha inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "CRM ou senha inválidos." }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/login/paciente": {
+      "post": {
+        "summary": "Realiza o login de um paciente.",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              },
+              "example": {
+                "credential": "paciente@example.com",
+                "password": "minhaSenhaSecreta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido. Retorna o token JWT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthPayload"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email ou senha ausentes."
+          },
+          "401": {
+            "description": "Email ou senha inválidos."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/register/medico": {
+      "post": {
+        "summary": "Registra um novo nutricionista (médico).",
+        "description": "Endpoint para registrar um novo médico.",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicoRegister"
+              },
+              "example": {
+                "name": "Dr. João Silva",
+                "email": "dr.joao.silva@example.com",
+                "phone": "(11)98765-4321",
+                "crm": "SP123456",
+                "password": "senha123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Médico registrado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Médico registrado com sucesso!" },
+                    "user": { "$ref": "#/components/schemas/MedicoProfile" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Campos obrigatórios ausentes ou email/CRM já cadastrado."
+          },
+          "500": {
+            "description": "Erro ao registrar médico."
+          }
+        }
+      }
+    },
+    "/register/paciente": {
+      "post": {
+        "summary": "Registra um novo paciente.",
+        "description": "Endpoint para registrar um novo paciente.",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PacienteRegister"
+              },
+              "example": {
+                "name": "Ana Paciente",
+                "email": "ana.paciente@example.com",
+                "phone": "(11)99887-7665",
+                "password": "senhaPaciente123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Paciente registrado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Paciente registrado com sucesso!" },
+                    "user": { "$ref": "#/components/schemas/PacienteProfile" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Campos obrigatórios ausentes ou email já cadastrado."
+          },
+          "500": {
+            "description": "Erro ao registrar paciente."
+          }
+        }
+      }
+    },
+    "/fatsecret/search": {
+      "post": {
+        "summary": "Pesquisa alimentos na API FatSecret.",
+        "tags": ["FatSecret"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": { "type": "string", "description": "Termo de busca para alimentos (ex: 'apple', 'chicken').", "example": "banana" },
+                  "token": { "type": "string", "description": "Token de acesso da FatSecret API (obtido via /fatsecret/token).", "example": "seu_fatsecret_api_token" }
+                },
+                "required": ["query", "token"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultados da busca de alimentos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "foods": {
+                      "type": "object",
+                      "properties": {
+                        "food": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "food_id": { "type": "string", "example": "5388" },
+                              "food_name": { "type": "string", "example": "Banana" },
+                              "food_type": { "type": "string", "example": "Generic" },
+                              "food_url": { "type": "string", "example": "http://www.fatsecret.com/calories-nutrition/usda/banana" },
+                              "food_description": { "type": "string", "example": "1 medium (118g) - Calories: 105kcal | Fat: 0.39g | Carbs: 26.95g | Protein: 1.29g" }
+                            }
+                          }
+                        },
+                        "max_results": { "type": "integer", "example": 50 },
+                        "page_number": { "type": "integer", "example": 0 },
+                        "total_results": { "type": "integer", "example": 123 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Query ou token da FatSecret ausentes."
+          },
+          "401": {
+            "description": "Token JWT ou token da FatSecret inválido."
+          },
+          "500": {
+            "description": "Erro ao buscar alimentos na FatSecret."
+          }
+        }
+      }
+    },
+    "/fatsecret/getFoodDetails": {
+      "post": {
+        "summary": "Obtém detalhes nutricionais de um alimento específico da API FatSecret.",
+        "tags": ["FatSecret"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "food_id": { "type": "string", "description": "ID do alimento obtido da busca (FatSecret food_id).", "example": "5388" },
+                  "token": { "type": "string", "description": "Token de acesso da FatSecret API.", "example": "seu_fatsecret_api_token" }
+                },
+                "required": ["food_id", "token"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Detalhes nutricionais do alimento.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "food_id": { "type": "string", "example": "5388" },
+                    "food_name": { "type": "string", "example": "Banana" },
+                    "food_type": { "type": "string", "example": "Generic" },
+                    "food_url": { "type": "string", "example": "http://www.fatsecret.com/calories-nutrition/usda/banana" },
+                    "servings": {
+                      "type": "object",
+                      "properties": {
+                        "serving": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "serving_id": { "type": "string", "example": "123" },
+                              "serving_description": { "type": "string", "example": "1 medium (7\" to 7-7/8\" long)" },
+                              "metric_serving_amount": { "type": "string", "example": "118.0" },
+                              "metric_serving_unit": { "type": "string", "example": "g" },
+                              "calories": { "type": "string", "example": "105" },
+                              "carbohydrate": { "type": "string", "example": "26.95" },
+                              "protein": { "type": "string", "example": "1.29" },
+                              "fat": { "type": "string", "example": "0.39" },
+                              "saturated_fat": { "type": "string", "example": "0.147" },
+                              "polyunsaturated_fat": { "type": "string", "example": "0.096" },
+                              "monounsaturated_fat": { "type": "string", "example": "0.033" },
+                              "cholesterol": { "type": "string", "example": "0" },
+                              "sodium": { "type": "string", "example": "1" },
+                              "potassium": { "type": "string", "example": "422" },
+                              "fiber": { "type": "string", "example": "3.1" },
+                              "sugar": { "type": "string", "example": "14.43" },
+                              "vitamin_a": { "type": "string", "example": "2" },
+                              "vitamin_c": { "type": "string", "example": "17" },
+                              "calcium": { "type": "string", "example": "1" },
+                              "iron": { "type": "string", "example": "2" }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Food ID ou token da FatSecret ausentes."
+          },
+          "401": {
+            "description": "Token JWT ou token da FatSecret inválido."
+          },
+          "500": {
+            "description": "Erro ao buscar detalhes do alimento na FatSecret."
+          }
+        }
+      }
+    },
+    "/medico/profile": {
+      "get": {
+        "summary": "Obtém o perfil do nutricionista logado.",
+        "tags": ["Médico"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Perfil do nutricionista.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "profile": { "$ref": "#/components/schemas/MedicoProfile" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de médico inválido ou não fornecido."
+          },
+          "404": {
+            "description": "Médico não encontrado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/medico/pacientes/{medicoId}": {
+      "get": {
+        "summary": "Retorna todos os pacientes associados a um nutricionista específico.",
+        "tags": ["Médico"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "medicoId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do nutricionista para buscar os pacientes.",
+            "example": "123"
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Uma lista de pacientes associados.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Usuários encontrados:" },
+                    "pacientes": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/PacienteAssociado" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID do nutricionista não fornecido."
+          },
+          "401": {
+            "description": "Não autorizado (token ausente ou inválido)."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        }
+      }
+    },
+    "/paciente/profile": {
+      "get": {
+        "summary": "Obtém o perfil do paciente logado.",
+        "tags": ["Paciente"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Perfil do paciente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pacienteProfile": { "$ref": "#/components/schemas/PacienteProfile" }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado. Rota exclusiva para pacientes."
+          },
+          "404": {
+            "description": "Paciente não encontrado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/paciente/meu-plano": {
+      "get": {
+        "summary": "Obtém o plano alimentar completo do paciente logado.",
+        "tags": ["Paciente"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Plano alimentar completo do paciente.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PlanoAlimentarCompleto" }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado. Rota exclusiva para pacientes."
+          },
+          "404": {
+            "description": "Paciente não encontrado ou plano não existente."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/paciente/minha-avaliacao-recente": {
+      "get": {
+        "summary": "Obtém a avaliação mais recente do paciente logado.",
+        "tags": ["Paciente"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Avaliação recente do paciente. Pode retornar um objeto vazio se não houver avaliações.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AvaliacaoRecente" }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado. Rota exclusiva para pacientes."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/pacientes/{email}/plano-alimentar": {
+      "get": {
+        "summary": "Obtém o plano alimentar completo de um paciente pelo email (para médicos).",
+        "tags": ["Paciente"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "description": "Email do paciente para buscar o plano alimentar.",
+            "example": "paciente@example.com"
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Plano alimentar completo do paciente.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PlanoAlimentarCompleto" }
+              }
+            }
+          },
+          "400": {
+            "description": "Email do paciente não fornecido."
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "404": {
+            "description": "Paciente ou plano alimentar não encontrado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/pacientes/{email}/plano-existe": {
+      "get": {
+        "summary": "Verifica a existência de um plano alimentar para um paciente pelo email.",
+        "tags": ["Paciente"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "description": "Email do paciente para verificar a existência do plano.",
+            "example": "paciente@example.com"
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Indica se o plano alimentar existe.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "exists": { "type": "boolean", "example": true }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/avaliacoes/{pacienteId}": {
+      "get": {
+        "summary": "Obtém a avaliação mais recente de um paciente pelo ID (para médicos).",
+        "tags": ["Paciente"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pacienteId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do paciente para buscar a avaliação.",
+            "example": "123"
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Avaliação recente do paciente. Pode retornar um objeto vazio se não houver avaliações.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AvaliacaoRecente" }
+              }
+            }
+          },
+          "400": {
+            "description": "ID do paciente não fornecido."
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      },
+      "put": {
+        "summary": "Salva uma nova avaliação para um paciente.",
+        "tags": ["Paciente", "Médico"],
+        "description": "Permite ao nutricionista salvar uma nova avaliação para um paciente existente.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pacienteId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do paciente.",
+            "example": "123"
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AvaliacaoRecente" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Avaliação guardada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Avaliação guardada com sucesso." }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID do paciente ou dados da avaliação são obrigatórios."
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "500": {
+            "description": "Erro interno ao guardar avaliação."
+          }
+        }
+      }
+    },
+    "/fatsecret/token": {
+      "get": {
+        "summary": "Obtém um token de acesso para a API FatSecret.",
+        "tags": ["FatSecret"],
+        "description": "Este endpoint é usado internamente ou pelo frontend para obter um token de acesso para interagir com a API FatSecret para busca e detalhes de alimentos.",
+        "responses": {
+          "200": {
+            "description": "Token de acesso da FatSecret.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": { "type": "string", "example": "seu_token_fatsecret_gerado" },
+                    "expires_in": { "type": "integer", "example": 3600 },
+                    "token_type": { "type": "string", "example": "Bearer" }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao obter token FatSecret (problemas de configuração de variáveis de ambiente, etc.)."
+          }
+        }
+      }
+    },
+    "/medico/pacientes/addRefeicao": {
+      "post": {
+        "summary": "Adiciona uma nova refeição ao plano alimentar de um paciente.",
+        "tags": ["Médico", "Paciente"],
+        "description": "Permite ao nutricionista adicionar uma refeição completa (com alimentos) para um paciente específico.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "newMeal": { "$ref": "#/components/schemas/NewMealRequest" },
+                  "pacienteEmail": { "type": "string", "format": "email", "description": "Email do paciente ao qual a refeição será adicionada.", "example": "paciente@example.com" }
+                },
+                "required": ["newMeal", "pacienteEmail"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Refeição cadastrada com sucesso e plano alimentar atualizado.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PlanoAlimentarCompleto" }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados ausentes ou inválidos."
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/medico/plano-alimentar": {
+      "post": {
+        "summary": "Adiciona um alimento a uma refeição existente de um paciente.",
+        "tags": ["Médico", "Paciente"],
+        "description": "Permite ao nutricionista adicionar um alimento específico a uma refeição já criada no plano alimentar de um paciente.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddAlimentoRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alimento adicionado com sucesso e plano alimentar atualizado.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PlanoAlimentarCompleto" }
+              }
+            }
+          },
+          "400": {
+            "description": "ID da refeição, dados do alimento ou email do paciente são obrigatórios."
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/paciente/diario/concluir": {
+      "post": {
+        "summary": "Marca uma refeição como concluída no diário do paciente.",
+        "tags": ["Paciente"],
+        "description": "Permite ao paciente marcar uma refeição específica de seu plano alimentar como concluída.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refeicaoId": { "type": "integer", "description": "ID da refeição a ser marcada como concluída.", "example": 5 }
+                },
+                "required": ["refeicaoId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Refeição marcada como concluída com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Refeição marcada como concluída." }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID do paciente ou da refeição ausentes."
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/medico/pacientes/assignPaciente": {
+      "put": {
+        "summary": "Atribui um paciente existente a um nutricionista.",
+        "tags": ["Médico"],
+        "description": "Permite a um nutricionista vincular um paciente já cadastrado à sua gestão.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "format": "email", "description": "Email do paciente a ser atribuído.", "example": "novo.paciente@example.com" },
+                  "medicoId": { "type": "integer", "description": "ID do nutricionista que atribuirá o paciente.", "example": 123 }
+                },
+                "required": ["email", "medicoId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Paciente atribuído com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Paciente encontrado:" },
+                    "paciente": { "$ref": "#/components/schemas/PacienteAssociado" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email e ID do médico são obrigatórios."
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "404": {
+            "description": "Paciente não encontrado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/medico/pacientes/deassignPaciente": {
+      "put": {
+        "summary": "Desvincula um paciente de um nutricionista.",
+        "tags": ["Médico"],
+        "description": "Remove a associação de um paciente com um nutricionista.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "medicoId": { "type": "integer", "description": "ID do nutricionista do qual o paciente será desvinculado.", "example": 123 }
+                },
+                "required": ["medicoId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Paciente desvinculado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Paciente desvinculado com sucesso." },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "affectedRows": { "type": "integer", "example": 1 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID do médico é obrigatório."
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/refeicoes/{refeicaoId}": {
+      "put": {
+        "summary": "Atualiza os detalhes de uma refeição existente.",
+        "tags": ["Paciente", "Médico"],
+        "description": "Atualiza o tipo e horário de uma refeição específica.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "refeicaoId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da refeição a ser atualizada.",
+            "example": "10"
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tipo": { "type": "string", "description": "Novo tipo da refeição (ex: 'Almoço').", "example": "Almoço" },
+                  "horario": { "type": "string", "description": "Novo horário da refeição (ex: '12:30').", "example": "12:30" }
+                },
+                "required": ["tipo", "horario"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Refeição atualizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Refeição atualizada com sucesso." },
+                    "affectedRows": { "type": "integer", "example": 1 }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Tipo e horário são obrigatórios."
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/medico/pacientes/removeRefeicao": {
+      "delete": {
+        "summary": "Remove uma refeição do plano alimentar de um paciente.",
+        "tags": ["Médico"],
+        "description": "Permite ao nutricionista remover uma refeição específica do plano de um paciente.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refeicaoId": { "type": "integer", "description": "ID da refeição a ser removida.", "example": 5 }
+                },
+                "required": ["refeicaoId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Refeição deletada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Refeição deletada com sucesso!" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "404": {
+            "description": "Nenhuma refeição com esse ID encontrada."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/alimentos/{alimentoId}": {
+      "delete": {
+        "summary": "Remove um alimento de uma refeição específica.",
+        "tags": ["Paciente", "Médico"],
+        "description": "Permite remover um alimento específico de uma refeição no plano alimentar.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "alimentoId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do alimento a ser removido.",
+            "example": "20"
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Alimento removido com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Alimento removido com sucesso." },
+                    "affectedRows": { "type": "integer", "example": 1 }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado."
+          },
+          "404": {
+            "description": "Alimento não encontrado."
+          },
+          "500": {
+            "description": "Erro interno no servidor."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuthPayload": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Mensagem de sucesso.",
+            "example": "Login bem-sucedido!"
+          },
+          "token": {
+            "type": "string",
+            "description": "Token de autenticação JWT.",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNNZWRpY28iOnRydWV9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "credential": {
+            "type": "string",
+            "description": "CRM para médico ou Email para paciente.",
+            "example": "SP123456"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "SenhaSegura123"
+          }
+        },
+        "required": ["credential", "password"]
+      },
+      "UserRegister": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "example": "Usuário Exemplo" },
+          "email": { "type": "string", "format": "email", "example": "usuario@example.com" },
+          "phone": { "type": "string", "example": "(11) 98765-4321" },
+          "password": { "type": "string", "format": "password", "example": "SenhaSegura123" }
+        },
+        "required": ["name", "email", "phone", "password"]
+      },
+      "MedicoRegister": {
+        "allOf": [
+          { "$ref": "#/components/schemas/UserRegister" },
+          {
+            "type": "object",
+            "properties": {
+              "crm": { "type": "string", "example": "SP123456" }
+            },
+            "required": ["crm"]
+          }
+        ]
+      },
+      "PacienteRegister": {
+        "allOf": [
+          { "$ref": "#/components/schemas/UserRegister" }
+        ]
+      },
+      "PacienteProfile": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Maria Paciente" },
+          "email": { "type": "string", "example": "maria.paciente@example.com" },
+          "phone": { "type": "string", "example": "(11) 99887-7665" }
+        }
+      },
+      "MedicoProfile": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Dr. Carlos Medico" },
+          "email": { "type": "string", "example": "carlos.medico@example.com" },
+          "phone": { "type": "string", "example": "(11) 95544-3322" },
+          "crm": { "type": "string", "example": "SP987654" }
+        }
+      },
+      "PacienteAssociado": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 101 },
+          "name": { "type": "string", "example": "Ana Paciente" },
+          "email": { "type": "string", "format": "email", "example": "ana.paciente@example.com" },
+          "phone": { "type": "string", "example": "(11) 91234-5678" }
+        }
+      },
+      "Refeicao": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "tipo": { "type": "string", "example": "Café da manhã" },
+          "horario": { "type": "string", "example": "08:00" },
+          "additionalAlimentos": { "type": "string", "example": "Suco de laranja, sem açúcar" },
+          "foods": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Alimento" }
+          }
+        }
+      },
+      "Alimento": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "api_food_id": { "type": "string", "example": "5388" },
+          "name_alimento": { "type": "string", "example": "Banana" },
+          "quantidade": { "type": "integer", "example": 1 },
+          "descricao_porcao": { "type": "string", "example": "medium (7\" to 7-7/8\" long)" },
+          "calorias": { "type": "number", "format": "float", "example": 105.0 },
+          "proteinas": { "type": "number", "format": "float", "example": 1.29 },
+          "carboidratos": { "type": "number", "format": "float", "example": 26.95 },
+          "gorduras": { "type": "number", "format": "float", "example": 0.39 }
+        }
+      },
+      "PlanoAlimentarCompleto": {
+        "type": "object",
+        "properties": {
+          "paciente": { "$ref": "#/components/schemas/PacienteProfile" },
+          "refeicoes": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Refeicao" }
+          }
+        }
+      },
+      "AvaliacaoRecente": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "data": { "type": "string", "format": "date", "example": "2024-06-15" },
+          "peso": { "type": "number", "format": "float", "example": 70.5 },
+          "altura": { "type": "number", "format": "float", "example": 1.70 },
+          "circunferenciaCintura": { "type": "number", "format": "float", "example": 80.0 },
+          "observacoes": { "type": "string", "example": "Paciente bem disposto, seguindo o plano." }
+        }
+      },
+      "NewMealRequest": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "description": "ID temporário da refeição (timestamp).", "example": 1678886400000 },
+          "time": { "type": "string", "description": "Horário sugerido da refeição (ex: '08:00').", "example": "08:00" },
+          "food": { "type": "string", "description": "Tipo da refeição (ex: 'Café da manhã').", "example": "Café da manhã" },
+          "additionalAlimentos": { "type": "string", "description": "Alimentos adicionais ou observações.", "example": "Suco de laranja, sem açúcar" },
+          "foods": {
+            "type": "array",
+            "description": "Lista de alimentos específicos dentro da refeição.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "api_food_id": { "type": "string", "example": "5388" },
+                "name_alimento": { "type": "string", "example": "Banana" },
+                "quantity": { "type": "number", "example": 1 },
+                "chosen_serving": { "type": "string", "example": "medium (7\" to 7-7/8\" long)" },
+                "calculated_nutrition": {
+                  "type": "object",
+                  "properties": {
+                    "calories": { "type": "number", "format": "float", "example": 105.0 },
+                    "protein": { "type": "number", "format": "float", "example": 1.29 },
+                    "carbohydrate": { "type": "number", "format": "float", "example": 26.95 },
+                    "fat": { "type": "number", "format": "float", "example": 0.39 }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": ["id", "time", "food"]
+      },
+      "AddAlimentoRequest": {
+        "type": "object",
+        "properties": {
+          "refeicaoId": { "type": "integer", "description": "ID da refeição a qual o alimento será adicionado.", "example": 10 },
+          "foodToAdd": {
+            "type": "object",
+            "properties": {
+              "api_food_id": { "type": "string", "example": "5388" },
+              "name_alimento": { "type": "string", "example": "Banana" },
+              "quantity": { "type": "number", "example": 1 },
+              "chosen_serving": { "type": "string", "example": "medium (7\" to 7-7/8\" long)" },
+              "calculated_nutrition": {
+                "type": "object",
+                "properties": {
+                  "calories": { "type": "number", "format": "float", "example": 105.0 },
+                  "protein": { "type": "number", "format": "float", "example": 1.29 },
+                  "carbohydrate": { "type": "number", "format": "float", "example": 26.95 },
+                  "fat": { "type": "number", "format": "float", "example": 0.39 }
+                }
+              }
+            },
+            "required": ["api_food_id", "name_alimento", "quantity", "chosen_serving", "calculated_nutrition"]
+          },
+          "pacienteEmail": { "type": "string", "format": "email", "example": "paciente@example.com" }
+        },
+        "required": ["refeicaoId", "foodToAdd", "pacienteEmail"]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Autenticação JWT (adicione seu token no formato: `Bearer SEU_TOKEN_AQUI`)"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }
