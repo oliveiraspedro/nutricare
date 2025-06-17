@@ -46,12 +46,19 @@
   text-align: center;
   margin-bottom: 1rem;
   font-size: 18px;
+  color: #ffffff;
 }
 
 .mealsContainer {
   background-color: #ffffff;
   padding: 1rem;
   border-radius: 8px;
+}
+
+.mealTotals{
+  display: flex;
+  gap: 10px;
+  padding-right: 10px;
 }
 
 .mealRow {
@@ -80,6 +87,10 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
+}
+
+.foodNutrition{
+  padding-right: 10px;
 }
 
 .foodSelect {
