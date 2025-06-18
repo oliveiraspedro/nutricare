@@ -132,5 +132,6 @@ Este projeto foi desenvolvido com dedicação por estudantes da USJT.
 * **Pedro da Costa** - *Designer e Desenvolvedor Front-end* - [GitHub](https://github.com/seu-usuario) | [LinkedIn](https://linkedin.com/in/seu-usuario)
 * **Márcio** - *Designer e Desenvolvedor Front-end* - [GitHub](https://github.com/seu-usuario) | [LinkedIn](https://linkedin.com/in/seu-usuario)
 * **Gabriela Danielly** - *Desenvolvedora Front-end* - [GitHub](https://github.com/seu-usuario) | [LinkedIn](https://linkedin.com/in/seu-usuario)
+* **Max Maya** - *Desenvolvedor Front-end* - [GitHub](https://github.com/seu-usuario) | [LinkedIn](https://linkedin.com/in/seu-usuario)
 * **Vitor Martins** - *Desenvolvedor Front-end* - [GitHub](https://github.com/seu-usuario) | [LinkedIn](https://linkedin.com/in/seu-usuario)
 * **Carlos Freire** - *Desenvolvedor Full-Stack* - [GitHub](https://github.com/seu-usuario) | [LinkedIn](https://linkedin.com/in/seu-usuario)
